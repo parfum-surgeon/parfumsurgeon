@@ -5,7 +5,7 @@
 let currentFilter = "all";
 let currentSearch = "";
 let modalQty = 1;
-let activeModalProduct = null;
+let activeModalProduct = null;\n\nasync function loadStoreProducts() {\n  try {\n    const cfg = STORE_CONFIG.backend;\n    if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;\n    const response = await fetch(`${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`, { headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } });\n    if (!response.ok) throw new Error("Could not load products");\n    const rows = await response.json();\n    if (rows.length) STORE_CONFIG.products = rows.map(p => ({ ...p, shortDescription: p.short_description || "", fragranceFamily: p.fragrance_family || "", image: p.image || "" }));\n  } catch (e) { console.error("Using local product catalogue:", e); }\n  renderProductGrid();\n}
 
 function productCardHTML(p) {
   return `
