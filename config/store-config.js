@@ -84,8 +84,8 @@ const STORE_CONFIG = {
   // must never be placed here — see README.md.
   // ---------------------------------------------------------------
   backend: {
-    supabaseUrl: "",          // e.g. "https://xxxxxxxx.supabase.co"
-    supabaseAnonKey: "",      // Supabase "anon public" key
+    supabaseUrl: "https://shtksedfchykyfbwjuoo.supabase.co",          // Supabase project URL
+    supabaseAnonKey: "sb_publishable_1p3o7U50k5ycXj9NIkwhEw_f5hLtgQZ",      // public publishable key
     emailjsPublicKey: "",     // EmailJS public key
     emailjsServiceId: "",     // EmailJS service ID
     emailjsCustomerTemplateId: "",  // EmailJS template ID for customer confirmation
