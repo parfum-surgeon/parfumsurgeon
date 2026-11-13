@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Information | Parfum Surgeon</title>
+<meta name="description" content="Nationwide delivery across Pakistan from Parfum Surgeon — delivery charges and coverage.">
+<link rel="icon" href="../assets/logo/parfum-surgeon-logo.jpg">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="logo-link"><img src="../assets/logo/parfum-surgeon-logo.jpg" alt="Parfum Surgeon logo"></a>
+    <nav class="main-nav" id="mainNav">
+      <a href="../index.html">Home</a>
+      <a href="../index.html?filter=all#shop">Shop All</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="cart-btn" aria-label="Open cart">&#128722;<span class="cart-count">0</span></button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container prose">
+      <div class="section-header">
+        <span class="eyebrow">Shipping</span>
+        <h2>Delivery Information</h2>
+      </div>
+      <div class="policy-card">
+        <h2>Coverage</h2>
+        <p>Parfum Surgeon delivers nationwide across Pakistan — every province and major city.</p>
+
+        <h2>Delivery Charges</h2>
+        <p>A flat delivery charge of PKR 250 is added to every order at checkout.</p>
+
+        <h2>Delivery Time</h2>
+        <!-- EDITABLE SETTING: no confirmed delivery estimate was provided by the
+             business owner. Update config/store-config.js → estimatedDeliveryTime
+             once a real timeframe is confirmed; this text will reflect it automatically
+             once the site is wired up to read that value, or edit this paragraph directly. -->
+        <p>Estimated delivery times will be confirmed here once finalized. For an estimate on your specific order, please contact us at <a href="mailto:parfumsurgeon@gmail.com" style="color:var(--color-gold);">parfumsurgeon@gmail.com</a>.</p>
+
+        <h2>Order Tracking</h2>
+        <p>After placing an order, you'll receive a confirmation with your order reference. Our team will be in touch regarding dispatch and delivery status.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-header"><h3>Your Cart</h3><button id="closeCartBtn" style="background:none;border:none;font-size:1.3rem;cursor:pointer;">&times;</button></div>
+  <div class="cart-items" id="cartItemsContainer"></div>
+  <div class="cart-summary" id="cartSummaryContainer"></div>
+</aside>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo-text">PARFUM SURGEON</div><p>The Science of Signature Scents.</p></div>
+      <div><h4>Shop</h4><ul><li><a href="../index.html">Home</a></li><li><a href="../index.html?filter=all#shop">Shop All</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="return-policy.html">Return Policy</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms and Conditions</a></li>
+        <li><a href="delivery-info.html">Delivery Information</a></li>
+      </ul></div>
+      <div><h4>Contact</h4><ul><li>Lahore, Pakistan</li><li><a href="mailto:parfumsurgeon@gmail.com">parfumsurgeon@gmail.com</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<script src="../config/store-config.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

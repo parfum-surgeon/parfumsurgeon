@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750">
+  <defs>
+    <linearGradient id="bgM" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1a1a"/>
+      <stop offset="1" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="goldLineM" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d4af37" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#d4af37"/>
+      <stop offset="1" stop-color="#d4af37" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="750" fill="url(#bgM)"/>
+  <!-- bottle silhouette -->
+  <rect x="245" y="260" width="110" height="280" rx="10" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+  <rect x="270" y="210" width="60" height="55" rx="6" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+  <rect x="258" y="185" width="84" height="30" rx="6" fill="#111" stroke="#2a2a2a" stroke-width="3"/>
+  <rect x="265" y="320" width="70" height="150" rx="3" fill="none" stroke="#2a2a2a" stroke-width="2"/>
+  <line x1="150" y1="620" x2="450" y2="620" stroke="url(#goldLineM)" stroke-width="1.5"/>
+  <text x="300" y="600" text-anchor="middle" font-family="Georgia, serif" font-size="22" letter-spacing="3" fill="#d4af37">PARFUM SURGEON</text>
+  <text x="300" y="660" text-anchor="middle" font-family="Georgia, serif" font-size="17" letter-spacing="2" fill="#8a8a8a">MEN'S COLLECTION</text>
+  <text x="300" y="690" text-anchor="middle" font-family="Georgia, serif" font-size="13" letter-spacing="2" fill="#5a5a5a">PRODUCT PHOTO COMING SOON</text>
+</svg>
