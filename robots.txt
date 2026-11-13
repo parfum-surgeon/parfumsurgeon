@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /checkout.html
 
-Sitemap: https://YOUR-DOMAIN-HERE/sitemap.xml
+Sitemap: https://parfum-surgeon.github.io/parfumsurgeon/sitemap.xml
