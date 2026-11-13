@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parfum Surgeon | Premium Perfumes for Men and Women in Pakistan</title>
+<meta name="description" content="Discover Parfum Surgeon, your destination for premium-inspired perfumes in Pakistan. Explore elegant 50ml fragrances for men and women at PKR 3,499. Shop online with nationwide delivery.">
+<meta name="keywords" content="perfumes in Pakistan, buy perfumes online in Pakistan, best perfumes in Pakistan, affordable luxury perfumes, premium perfumes for men, perfumes for women, men's fragrances in Pakistan, women's fragrances in Pakistan, 50ml perfumes in Pakistan, luxury fragrance collection">
+<link rel="canonical" href="https://YOUR-DOMAIN-HERE/">
+<!-- Open Graph -->
+<meta property="og:title" content="Parfum Surgeon | Premium Perfumes for Men and Women in Pakistan">
+<meta property="og:description" content="Elegant 50ml fragrances for men and women at PKR 3,499. Nationwide delivery across Pakistan.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/logo/parfum-surgeon-logo.jpg">
+<link rel="icon" href="assets/logo/parfum-surgeon-logo.jpg">
+<link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Parfum Surgeon",
+  "description": "Premium-inspired perfumes for men and women in Pakistan.",
+  "email": "parfumsurgeon@gmail.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Lahore", "addressCountry": "PK" },
+  "sameAs": ["https://www.instagram.com/parfumsurgeon", "https://www.facebook.com/share/1G25dWLNv8/?mibextid=wwXIfr"]
+}
+</script>
+</head>
+<body>
+<a href="#mainContent" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo-link" aria-label="Parfum Surgeon Home">
+      <img src="assets/logo/parfum-surgeon-logo.jpg" alt="Parfum Surgeon logo">
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html" class="active">Home</a>
+      <a href="index.html?filter=all#shop">Shop All</a>
+      <a href="index.html?filter=men#shop">Men's Collection</a>
+      <a href="index.html?filter=women#shop">Women's Collection</a>
+      <a href="pages/about.html">About Us</a>
+      <a href="pages/contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="cart-btn" aria-label="Open cart">&#128722;<span class="cart-count">0</span></button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<main id="mainContent">
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">Parfum Surgeon &mdash; The Science of Signature Scents.</span>
+      <h1>FIND YOUR SIGNATURE SCENT.</h1>
+      <p>Discover exceptional fragrances designed to express your personality, elevate your confidence and leave a lasting impression.</p>
+      <div class="hero-ctas">
+        <a href="index.html?filter=men#shop" class="btn btn-gold">Explore Men's Collection</a>
+        <a href="index.html?filter=women#shop" class="btn btn-outline">Explore Women's Collection</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="shop">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Full Collection</span>
+        <h2>Ten Fragrances. Every 50ml. PKR 3,499.</h2>
+      </div>
+
+      <div class="shop-controls">
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">All Products</button>
+          <button class="filter-btn" data-filter="men">Men's Perfumes</button>
+          <button class="filter-btn" data-filter="women">Women's Perfumes</button>
+        </div>
+        <div class="search-box">
+          <input type="search" id="productSearch" placeholder="Search perfumes...">
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="container text-center">
+      <span class="eyebrow">Our Ranking</span>
+      <h2>The Parfum Surgeon Top 10</h2>
+      <p style="max-width:600px;margin:14px auto 30px;color:#cfc9bd;">All ten signature fragrances, side by side.</p>
+      <img src="assets/banners/top10-collage.jpg" alt="Parfum Surgeon Top 10 perfumes collection" style="max-width:720px;width:100%;margin:0 auto;border-radius:12px;" loading="lazy">
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose text-center">
+      <span class="eyebrow">About Parfum Surgeon</span>
+      <h2>The Science of Signature Scents.</h2>
+      <p>At Parfum Surgeon, we believe fragrance is more than just a scent. It is an expression of personality, confidence and individuality. Our collection brings together carefully selected fragrance inspirations for men and women who want to make every moment memorable. Discover your signature scent with Parfum Surgeon.</p>
+      <a href="pages/about.html" class="btn btn-dark mt-4">Read More</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- Product Detail Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="product-modal">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+    <div class="modal-image" id="modalImageWrap">
+      <img id="modalImage" src="" alt="">
+    </div>
+    <div class="modal-details">
+      <span class="eyebrow" id="modalGender"></span>
+      <h2 id="modalTitle"></h2>
+      <div class="modal-meta">
+        <div><strong>Size:</strong> <span id="modalSize"></span></div>
+        <div><strong>Fragrance Family:</strong> <span id="modalFamily"></span></div>
+        <div><strong>Personality:</strong> <span id="modalPersonality"></span></div>
+        <div><strong>Suitable Occasions:</strong> <span id="modalOccasions"></span></div>
+      </div>
+      <p id="modalDescription" style="color:#444;"></p>
+      <div class="price" id="modalPrice"></div>
+      <div class="qty-row">
+        <div class="qty-control">
+          <button type="button" id="qtyDecBtn">&minus;</button>
+          <span id="modalQty">1</span>
+          <button type="button" id="qtyIncBtn">&plus;</button>
+        </div>
+      </div>
+      <button class="btn btn-gold btn-block" id="modalAddCartBtn">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Drawer -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button id="closeCartBtn" aria-label="Close cart" style="background:none;border:none;font-size:1.3rem;cursor:pointer;">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItemsContainer"></div>
+  <div class="cart-summary" id="cartSummaryContainer"></div>
+</aside>
+
+<a href="#" class="whatsapp-float" id="whatsappFloat" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" style="display:none;">&#128172;</a>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">PARFUM SURGEON</div>
+        <p>The Science of Signature Scents.</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/parfumsurgeon" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://www.facebook.com/share/1G25dWLNv8/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        </div>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html?filter=all#shop">Shop All</a></li>
+          <li><a href="index.html?filter=men#shop">Men's Collection</a></li>
+          <li><a href="index.html?filter=women#shop">Women's Collection</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="pages/about.html">About Us</a></li>
+          <li><a href="pages/contact.html">Contact Us</a></li>
+          <li><a href="pages/return-policy.html">Return Policy</a></li>
+          <li><a href="pages/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="pages/terms.html">Terms and Conditions</a></li>
+          <li><a href="pages/delivery-info.html">Delivery Information</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>Lahore, Pakistan</li>
+          <li>Nationwide Pakistan Delivery</li>
+          <li><a href="mailto:parfumsurgeon@gmail.com">parfumsurgeon@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<script src="config/store-config.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

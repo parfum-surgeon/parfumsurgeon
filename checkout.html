@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | Parfum Surgeon</title>
+<meta name="description" content="Complete your Parfum Surgeon order — Cash on Delivery or Meezan Bank Transfer, nationwide delivery across Pakistan.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/logo/parfum-surgeon-logo.jpg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo-link" aria-label="Parfum Surgeon Home">
+      <img src="assets/logo/parfum-surgeon-logo.jpg" alt="Parfum Surgeon logo">
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="index.html?filter=all#shop">Shop All</a>
+      <a href="pages/about.html">About Us</a>
+      <a href="pages/contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="cart-btn" aria-label="Open cart">&#128722;<span class="cart-count">0</span></button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Almost There</span>
+        <h2>Checkout</h2>
+      </div>
+
+      <div id="backendNotice" style="display:none;background:#fdecea;border:1px solid #f5c2bd;color:#842029;padding:18px 20px;border-radius:8px;max-width:800px;margin:0 auto 24px;">
+        <strong>Order submission isn't connected yet.</strong> This store's owner needs to finish the backend setup
+        (Supabase URL + key in <code>config/store-config.js</code>) before real orders can be saved. See README.md
+        &ldquo;Connecting the backend&rdquo;. Your cart has not been cleared.
+      </div>
+
+      <div id="checkoutContent">
+        <div class="checkout-grid">
+          <div class="form-card">
+            <h3 style="margin-bottom:20px;">Delivery Details</h3>
+            <form id="checkoutForm" novalidate>
+              <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required>
+                <div class="field-error">Please enter your full name.</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="mobileNumber">Mobile Number *</label>
+                  <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="03XXXXXXXXX" required>
+                  <div class="field-error">Please enter a valid mobile number.</div>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email Address (optional)</label>
+                  <input type="email" id="email" name="email">
+                  <div class="field-error">Please enter a valid email address.</div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="province">Province *</label>
+                  <select id="province" name="province" required></select>
+                  <div class="field-error">Please select your province.</div>
+                </div>
+                <div class="form-group">
+                  <label for="city">City *</label>
+                  <select id="city" name="city" required></select>
+                  <div class="field-error">Please select your city.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="address">Complete Delivery Address *</label>
+                <textarea id="address" name="address" rows="3" required></textarea>
+                <div class="field-error">Please enter your delivery address.</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="postalCode">Postal Code (optional)</label>
+                  <input type="text" id="postalCode" name="postalCode">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="orderNotes">Order Notes (optional)</label>
+                <textarea id="orderNotes" name="orderNotes" rows="2"></textarea>
+              </div>
+
+              <h3 style="margin:26px 0 14px;">Payment Method</h3>
+              <div class="payment-options" id="paymentOptions"></div>
+
+              <button type="submit" class="btn btn-gold btn-block" id="placeOrderBtn">Place Order</button>
+            </form>
+          </div>
+
+          <div class="summary-card">
+            <h3 style="margin-bottom:16px;">Order Summary</h3>
+            <div class="order-summary-list" id="orderSummaryList"></div>
+            <div id="orderSummaryTotals"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button id="closeCartBtn" aria-label="Close cart" style="background:none;border:none;font-size:1.3rem;cursor:pointer;">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItemsContainer"></div>
+  <div class="cart-summary" id="cartSummaryContainer"></div>
+</aside>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div>
+</footer>
+
+<script src="config/store-config.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<!-- EmailJS (only used if backend.emailjsPublicKey is set in store-config.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  if (window.emailjs && STORE_CONFIG.backend.emailjsPublicKey) {
+    emailjs.init({ publicKey: STORE_CONFIG.backend.emailjsPublicKey });
+  }
+</script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

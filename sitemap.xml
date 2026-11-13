@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://YOUR-DOMAIN-HERE/index.html</loc><priority>1.0</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/pages/about.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/pages/contact.html</loc><priority>0.5</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/pages/return-policy.html</loc><priority>0.4</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/pages/privacy-policy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/pages/terms.html</loc><priority>0.3</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/pages/delivery-info.html</loc><priority>0.4</priority></url>
+</urlset>
