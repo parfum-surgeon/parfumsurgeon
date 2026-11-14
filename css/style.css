@@ -780,3 +780,14 @@ input, select, textarea { max-width:100%; }
  .card-actions .btn{font-size:.64rem;padding:10px 6px;letter-spacing:.02em}
  .modal-purchase-actions{grid-template-columns:1fr}
 }
+
+/* Responsive logo lockup: wide artwork already contains its wordmark;
+   square icon artwork keeps the adjacent PARFUM SURGEON text. */
+.logo-link{flex:0 0 auto;min-width:0;gap:10px}
+.logo-link img{max-width:min(190px,28vw);height:42px;width:auto;object-fit:contain}
+.logo-wordmark{display:flex;flex-direction:column;line-height:1.05;white-space:nowrap}
+.logo-wordmark-main{font-family:var(--font-serif);font-size:1rem;font-weight:700;letter-spacing:1px;color:#f7f2e8}
+.logo-wordmark-sub{font-family:var(--font-sans);font-size:.58rem;letter-spacing:4px;color:var(--color-gold);margin-top:4px}
+.logo-link.logo-image-has-wordmark .logo-wordmark{display:none!important}
+@media(max-width:860px){.header-inner{padding:10px 14px}.logo-link img{height:38px;max-width:150px}.logo-wordmark-main{font-size:.9rem}.logo-wordmark-sub{font-size:.52rem}}
+@media(max-width:420px){.logo-link{gap:7px}.logo-link img{height:34px;max-width:125px}.logo-wordmark-main{font-size:.82rem}.logo-wordmark-sub{font-size:.48rem;letter-spacing:3px}}
