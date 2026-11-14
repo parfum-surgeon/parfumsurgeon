@@ -9,7 +9,7 @@
     const rows=await res.json(),s=rows?.[0]?.value;if(!s)return;
     const set=(id,value)=>{const el=document.getElementById(id);if(el&&value)el.textContent=value};
     set('storeHeroTitle',s.hero_title);set('storeHeroText',s.hero_text);set('storeAboutText',s.about_text);
-    const logo=document.getElementById('storeLogo');if(logo&&s.logo_image)logo.src=s.logo_image;
+    if(s.logo_image)document.querySelectorAll('.logo-link img, .footer-logo, #storeLogo').forEach(logo=>logo.src=s.logo_image);
     const root=document.documentElement;
     if(s.logo_width_desktop)root.style.setProperty('--store-logo-width-desktop',Math.max(90,Math.min(360,Number(s.logo_width_desktop)))+'px');
     if(s.logo_width_mobile)root.style.setProperty('--store-logo-width-mobile',Math.max(80,Math.min(260,Number(s.logo_width_mobile)))+'px');
