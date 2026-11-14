@@ -910,3 +910,79 @@ input, select, textarea { max-width:100%; }
 @media (prefers-reduced-motion:reduce) {
   .main-nav { transition:none !important; }
 }
+
+
+/* =========================================================
+   PARFUM SURGEON BRAND SYSTEM — unified crown wordmark
+   ========================================================= */
+.logo-link { display:flex; align-items:center; gap:0; flex:0 0 auto; min-width:0; }
+.logo-link img {
+  display:block;
+  width:174px;
+  height:52px;
+  max-width:100%;
+  object-fit:contain;
+  object-position:left center;
+  border-radius:0;
+  flex:0 1 auto;
+}
+.logo-link .logo-wordmark { display:none !important; }
+.header-inner { position:relative; }
+.footer-brand .logo-text {
+  display:block;
+  width:min(270px,100%);
+  height:68px;
+  overflow:hidden;
+  font-size:0 !important;
+  letter-spacing:0;
+  background:url('../assets/logo/parfum-surgeon-logo.svg') left center / contain no-repeat;
+}
+.footer-brand { min-width:0; }
+
+/* Keep every page title and brand statement visually centered on phones. */
+@media (max-width:860px) {
+  .header-inner { justify-content:flex-end; min-height:72px; }
+  .logo-link {
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:min(158px,43vw);
+    justify-content:center;
+    z-index:2;
+  }
+  .logo-link img {
+    width:100%;
+    height:48px;
+    max-width:100%;
+    object-position:center;
+  }
+  .header-actions { margin-left:auto; position:relative; z-index:3; }
+  .main-nav { top:calc(72px + env(safe-area-inset-top)); }
+  .section-header,
+  .section-header h2,
+  .prose > h1,
+  .prose > h2,
+  .prose .section-header,
+  .prose .section-header h2,
+  .hero-content { text-align:center; }
+  .prose { margin-left:auto; margin-right:auto; }
+  .footer-brand { text-align:center; }
+  .footer-brand .logo-text { margin:0 auto; background-position:center; }
+  .footer-social { justify-content:center; }
+}
+@media (max-width:600px) {
+  .header-inner { min-height:70px; padding:8px 12px; }
+  .logo-link { width:min(146px,42vw); }
+  .logo-link img { height:45px; }
+  .main-nav { top:calc(70px + env(safe-area-inset-top)); }
+  .section-header h2 { max-width:100%; margin-left:auto; margin-right:auto; }
+  .prose .policy-card { text-align:center; }
+  .prose .policy-card .btn { display:block; width:100%; max-width:320px; margin-left:auto; margin-right:auto; }
+  .footer-grid { text-align:center; }
+  .footer-grid ul { padding:0; }
+}
+@media (max-width:360px) {
+  .logo-link { width:132px; }
+  .logo-link img { height:42px; }
+}
