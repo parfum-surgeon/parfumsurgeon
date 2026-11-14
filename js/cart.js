@@ -7,6 +7,7 @@
    ===================================================================== */
 
 const CART_KEY = "parfumSurgeonCart";
+const BUY_NOW_KEY = "parfumSurgeonBuyNow";
 
 const Cart = {
   read() {
@@ -53,7 +54,27 @@ const Cart = {
     Cart.write(items);
   },
 
+  buyNow(productId, qty = 1) {
+    const product = (STORE_CONFIG.products || []).find(p => p.id === productId);
+    if (!product) return;
+    try {
+      // Keep the customer's regular cart untouched; checkout temporarily uses this one item.
+      sessionStorage.setItem(BUY_NOW_KEY, JSON.stringify({ productId, qty: Math.max(1, Number(qty) || 1) }));
+      window.location.href = "checkout.html";
+    } catch (e) {
+      showToast("Quick checkout is unavailable in this browser. Please use Add to Cart.");
+    }
+  },
+
   clear() {
+    try {
+      if (sessionStorage.getItem(BUY_NOW_KEY)) {
+        sessionStorage.removeItem(BUY_NOW_KEY);
+        Cart.updateHeaderCount();
+        document.dispatchEvent(new CustomEvent("cart:updated"));
+        return;
+      }
+    } catch (e) {}
     Cart.write([]);
   },
 
@@ -63,7 +84,11 @@ const Cart = {
 
   // Joins stored cart items with live product data from STORE_CONFIG
   getDetailedItems() {
-    const items = Cart.read();
+    let items = Cart.read();
+    try {
+      const quickBuy = JSON.parse(sessionStorage.getItem(BUY_NOW_KEY) || "null");
+      if (quickBuy?.productId) items = [{ productId: quickBuy.productId, qty: Math.max(1, Number(quickBuy.qty) || 1) }];
+    } catch (e) {}
     return items.map(item => {
       const product = STORE_CONFIG.products.find(p => p.id === item.productId);
       if (!product) return null;
