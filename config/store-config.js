@@ -63,14 +63,18 @@ const STORE_CONFIG = {
       instructions: "Transfer the exact order total to the account below, then upload your payment receipt or enter the transaction reference. Your order stays 'Pending Verification' until we confirm the payment."
     },
     easypaisa: {
-      enabled: false,
+      enabled: true,
       label: "EasyPaisa",
-      note: "Currently unavailable."
+      accountTitle: "Parfum Surgeon",
+      accountNumber: "03234028507",
+      note: "Send payment to this EasyPaisa number. Your order will remain pending until payment is verified."
     },
     jazzcash: {
-      enabled: false,
+      enabled: true,
       label: "JazzCash",
-      note: "Currently unavailable."
+      accountTitle: "Parfum Surgeon",
+      accountNumber: "03234028507",
+      note: "Send payment to this JazzCash number. Your order will remain pending until payment is verified."
     }
   },
 
