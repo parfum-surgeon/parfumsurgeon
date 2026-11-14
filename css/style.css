@@ -766,3 +766,17 @@ input, select, textarea { max-width:100%; }
   .logo-wordmark-sub{font-size:.52rem;letter-spacing:2.8px}
   .header-actions{gap:14px}
 }
+
+
+/* Product-card and modal purchase actions */
+.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.card-actions .btn{min-width:0;padding:10px 8px;font-size:.68rem;white-space:nowrap}
+.card-actions [data-action="open-modal"]{grid-column:1/-1}
+.card-actions [data-action="buy-now"]{font-weight:700}
+.modal-purchase-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.modal-purchase-actions .btn{width:100%;min-width:0}
+@media(max-width:480px){
+ .card-actions{gap:7px}
+ .card-actions .btn{font-size:.64rem;padding:10px 6px;letter-spacing:.02em}
+ .modal-purchase-actions{grid-template-columns:1fr}
+}
