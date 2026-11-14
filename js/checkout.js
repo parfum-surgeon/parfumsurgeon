@@ -61,92 +61,46 @@ function renderPaymentOptions() {
   const container = document.getElementById("paymentOptions");
   if (!container) return;
   const p = STORE_CONFIG.payments;
-  let html = "";
-
-  if (p.cod.enabled) {
-    html += `
-      <label class="payment-option">
-        <input type="radio" name="paymentMethod" value="cod" checked>
-        <strong>${p.cod.label}</strong>
-        <div style="font-size:0.82rem;color:#666;margin-top:4px;">${p.cod.description}</div>
-      </label>`;
-  }
-
-  if (p.bankTransfer.enabled) {
-    html += `
-      <label class="payment-option">
-        <input type="radio" name="paymentMethod" value="bank">
-        <strong>${p.bankTransfer.label}</strong>
-        <div class="bank-details-box" id="bankDetailsBox">
-          <div><strong>Bank:</strong> ${p.bankTransfer.bankName}</div>
-          <div><strong>Account Holder:</strong> ${p.bankTransfer.accountHolder}</div>
-          <div><strong>Account Number:</strong> ${p.bankTransfer.accountNumber}</div>
-          <div style="margin-top:8px;">${p.bankTransfer.instructions}</div>
-          <div class="form-group" style="margin-top:14px;">
-            <label for="paymentReference">Payment Reference / Transaction ID</label>
-            <input type="text" id="paymentReference" name="paymentReference" placeholder="e.g. last 6 digits of transaction ID">
-          </div>
-          <div class="form-group">
-            <label for="receiptUpload">Upload Payment Receipt (optional)</label>
-            <input type="file" id="receiptUpload" name="receiptUpload" accept="image/*,.pdf">
-          </div>
-        </div>
-      </label>`;
-  }
-
-  [p.easypaisa, p.jazzcash].forEach(method => {
-    if (!method.enabled) {
-      html += `
-        <label class="payment-option disabled">
-          <input type="radio" disabled>
-          <strong>${method.label}</strong>
-          <div style="font-size:0.82rem;color:#999;margin-top:4px;">${method.note}</div>
-        </label>`;
-    }
-  });
-
+  const transferDetails = method => '<div class="bank-details-box payment-transfer-details">' +
+    '<div><strong>Account title:</strong> ' + (method.accountTitle || "Parfum Surgeon") + '</div>' +
+    '<div><strong>Send to:</strong> <span class="payment-number">' + method.accountNumber + '</span></div>' +
+    '<div style="margin-top:8px;">' + (method.note || "Payment subject to verification.") + '</div>' +
+    '<div class="form-group" style="margin-top:14px;"><label for="paymentReference">Transaction ID / Reference</label><input type="text" id="paymentReference" name="paymentReference" placeholder="Enter transaction ID"></div>' +
+    '<div class="form-group"><label for="receiptUpload">Upload payment screenshot (optional)</label><input type="file" id="receiptUpload" name="receiptUpload" accept="image/*,.pdf"></div></div>';
+  const option = (value, method, extra) => method.enabled ? '<label class="payment-option"><input type="radio" name="paymentMethod" value="' + value + '" ' + (value === "cod" ? "checked" : "") + '><strong>' + method.label + '</strong>' + (extra || "") + '</label>' : "";
+  let html = option("cod", p.cod, '<div class="payment-help">' + p.cod.description + '</div>');
+  html += option("bank", p.bankTransfer, transferDetails(p.bankTransfer));
+  html += option("easypaisa", p.easypaisa, transferDetails(p.easypaisa));
+  html += option("jazzcash", p.jazzcash, transferDetails(p.jazzcash));
   container.innerHTML = html;
-
-  container.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
-    radio.addEventListener("change", () => {
-      const box = document.getElementById("bankDetailsBox");
-      if (box) box.classList.toggle("show", radio.value === "bank" && radio.checked);
+  const sync = () => {
+    container.querySelectorAll(".payment-option").forEach(label => {
+      const radio = label.querySelector('input[type="radio"]');
+      label.classList.toggle("selected", !!radio?.checked);
+      const details = label.querySelector(".payment-transfer-details");
+      if (details) details.classList.toggle("show", !!radio?.checked);
     });
-  });
+  };
+  container.querySelectorAll('input[name="paymentMethod"]').forEach(radio => radio.addEventListener("change", sync));
+  sync();
 }
-
 function validateForm(form) {
-  let valid = true;
   const required = ["fullName", "mobileNumber", "province", "city", "address"];
-  required.forEach(name => {
-    const field = form.elements[name];
-    const group = field.closest(".form-group");
-    if (!field.value.trim()) {
-      group.classList.add("error");
-      valid = false;
-    } else {
-      group.classList.remove("error");
-    }
-  });
-
-  // Mobile number basic PK format check
+  let firstInvalid = null;
+  form.querySelectorAll(".form-group.error").forEach(group => group.classList.remove("error"));
+  const markInvalid = field => { const group = field?.closest(".form-group"); if (group) group.classList.add("error"); if (!firstInvalid && field) firstInvalid = field; };
+  required.forEach(name => { const field = form.elements[name]; if (!field || !String(field.value || "").trim()) markInvalid(field); });
   const mobile = form.elements["mobileNumber"];
-  const mobileDigits = mobile.value.replace(/\D/g, "");
-  if (mobile.value.trim() && (mobileDigits.length < 10 || mobileDigits.length > 12)) {
-    mobile.closest(".form-group").classList.add("error");
-    valid = false;
-  }
-
-  // Email optional, but validate format if provided
+  const phone = mobile.value.replace(/[\\s-]/g, "");
+  if (mobile.value.trim() && !/^(03\\d{9}|923\\d{9}|\\+923\\d{9})$/.test(phone)) markInvalid(mobile);
   const email = form.elements["email"];
-  if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-    email.closest(".form-group").classList.add("error");
-    valid = false;
-  }
-
-  return valid;
+  if (email.value.trim() && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.value.trim())) markInvalid(email);
+  const payment = document.getElementById("paymentOptions");
+  if (!form.querySelector('input[name="paymentMethod"]:checked')) { payment?.classList.add("error"); if (!firstInvalid) firstInvalid = payment; }
+  else payment?.classList.remove("error");
+  if (firstInvalid) { firstInvalid.scrollIntoView({behavior:"smooth",block:"center"}); if (typeof firstInvalid.focus === "function") firstInvalid.focus({preventScroll:true}); showToast("Please check the highlighted fields above"); return false; }
+  return true;
 }
-
 function generateOrderId() {
   const date = new Date();
   const stamp = date.getFullYear().toString().slice(-2) +
@@ -255,8 +209,8 @@ async function handleCheckoutSubmit(e) {
     delivery_fee: delivery,
     grand_total: grandTotal,
     payment_method: paymentMethod,
-    payment_reference: paymentMethod === "bank" ? sanitize(form.elements["paymentReference"]?.value) || null : null,
-    payment_status: paymentMethod === "bank" ? "Awaiting Verification" : "Pending",
+    payment_reference: ["bank", "easypaisa", "jazzcash"].includes(paymentMethod) ? sanitize(form.elements["paymentReference"]?.value) || null : null,
+    payment_status: ["bank", "easypaisa", "jazzcash"].includes(paymentMethod) ? "Awaiting Verification" : "Pending",
     order_status: "Pending",
     created_at: new Date().toISOString()
   };
