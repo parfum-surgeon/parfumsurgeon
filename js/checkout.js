@@ -120,18 +120,20 @@ async function submitOrderToBackend(order) {
       headers: {
         "Content-Type": "application/json",
         "apikey": supabaseAnonKey,
-        // Publishable keys are opaque API keys, not JWTs. Send only via apikey.
-        "Prefer": "return=representation"
+        // Do not request returned order rows: public checkout intentionally has
+        // INSERT permission only, while SELECT is restricted to administrators.
+        // return=representation would require a public SELECT policy and fail.
+        "Prefer": "return=minimal"
       },
       body: JSON.stringify(order)
     });
     if (!res.ok) {
       const errText = await res.text();
-      console.error("Order submission failed:", errText);
-      return { ok: false, reason: "backend_error", detail: errText };
+      console.error("Order submission failed:", res.status, errText);
+      return { ok: false, reason: "backend_error", detail: errText, status: res.status };
     }
-    const data = await res.json();
-    return { ok: true, data };
+    // A successful 2xx with return=minimal has an empty response body.
+    return { ok: true };
   } catch (err) {
     console.error(err);
     return { ok: false, reason: "network_error", detail: String(err) };
