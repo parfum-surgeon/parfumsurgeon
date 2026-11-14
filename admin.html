@@ -43,6 +43,35 @@ html{scroll-behavior:smooth}button,input,select,textarea{touch-action:manipulati
  .preview{width:110px;height:125px}
  input,select,textarea{font-size:16px!important}
 }
+
+/* Orders dashboard: clean responsive order cards */
+.orders-panel{padding:22px}
+.orders-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
+.orders-heading .section-title{margin:0 0 5px}
+.orders-subtitle{margin:0;color:#777;font-size:13px}
+.orders-toolbar{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:10px;margin-bottom:18px}
+.orders-toolbar input,.orders-toolbar select,.admin-select{min-height:42px;border:1px solid #ded8cc;border-radius:7px;background:#fff;padding:9px 12px;font:inherit;color:#222;min-width:0}
+.order-list{display:grid;gap:14px}
+.order-card{border:1px solid #e8e0d2;border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 3px 14px rgba(25,20,10,.045)}
+.order-card-top{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:16px 19px;background:#171717;color:#fff;border-bottom:2px solid #c9a45c}
+.order-kicker,.order-total>span{display:block;color:#d8b467;font-size:10px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase}
+.order-card-top h3{font:700 17px Georgia;margin:4px 0}
+.order-card-top time{color:#c8c3ba;font-size:11px}
+.order-total{text-align:right}.order-total strong{display:block;font-size:18px;margin-top:4px;color:#fff}
+.order-card-grid{display:grid;grid-template-columns:1fr 1.25fr 1.2fr 1fr;gap:18px;padding:18px 19px}
+.order-info{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;overflow-wrap:anywhere}
+.order-info h4{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:#9a7939;margin:0 0 4px}
+.order-info strong{font-size:14px}.order-info a{font-size:13px;color:#343434;text-decoration:none}.order-info p{font-size:13px;line-height:1.55;margin:0;color:#444}
+.order-info small{font-size:11px;color:#777}.order-item-line{display:flex;justify-content:space-between;gap:8px;width:100%;font-size:12px;padding:4px 0;border-bottom:1px solid #f0ece5}.order-item-line span:last-child{white-space:nowrap;color:#6d5528}
+.payment-method-label{text-transform:capitalize;font-weight:700;font-size:13px}
+.control-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#777;font-weight:700;margin-top:5px}
+.admin-select{width:100%;font-size:13px;min-height:38px;padding:7px 9px}
+.order-card-bottom{border-top:1px solid #eee9e0;background:#faf8f4;padding:12px 19px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.order-card-bottom>div{width:min(240px,100%)}.order-status-pill{font-size:11px;font-weight:700;border-radius:30px;padding:7px 11px;background:#f0e8d7;color:#74561c}
+.status-delivered{background:#e3f3e8;color:#23643a}.status-cancelled{background:#f9e5e3;color:#973b32}.status-shipped,.status-packed{background:#e7effa;color:#315a8b}
+.orders-empty{padding:45px 15px;text-align:center;display:grid;gap:8px;color:#777}.orders-empty strong{font:700 20px Georgia;color:#222}
+@media(max-width:1050px){.order-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.orders-panel{padding:13px}.orders-heading{align-items:stretch;flex-direction:column}.orders-heading .btn{width:100%}.orders-toolbar{grid-template-columns:1fr}.order-card-top{padding:14px;align-items:flex-start}.order-card-top h3{font-size:15px;overflow-wrap:anywhere}.order-total strong{font-size:15px}.order-card-grid{grid-template-columns:1fr;gap:15px;padding:15px}.order-info{padding-bottom:12px;border-bottom:1px solid #f0ece5}.order-info:last-child{border-bottom:0;padding-bottom:0}.order-card-bottom{padding:12px 14px;align-items:flex-end}.order-card-bottom>div{width:65%}}
 </style></head><body class="admin-body"><div class="shell">
 <header class="top"><div><h1>PARFUM <span>SURGEON</span></h1><small>STORE CONTROL CENTER</small></div><button id="logout" class="btn hidden">Sign out</button></header>
 <section id="login" class="panel login"><h2 class="section-title">Admin Login</h2><p>Sign in with your authorized administrator email.</p><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field" style="margin-top:12px"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button id="loginBtn" class="btn" style="margin-top:14px">Sign in</button><p id="loginMsg" class="status" role="status"></p></section>
@@ -64,7 +93,7 @@ html{scroll-behavior:smooth}button,input,select,textarea{touch-action:manipulati
 <div class="field"><label>Store location</label><input id="sLocation"></div><div class="field"><label>Delivery area text</label><input id="sDeliveryArea"></div>
 </div><div class="row" style="margin-top:14px"><button class="btn" type="submit">Save website settings</button><span id="settingsMsg" class="status"></span></div></form></div>
 <div class="panel"><h2 class="section-title">Website images & branding</h2><p>Upload logo and homepage hero image. These settings are saved for storefront display.</p><div class="grid"><div class="field"><label>Website logo (header + browser tab)</label><input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"><small class="muted">Recommended: transparent PNG or SVG, horizontal logo.</small><img id="logoPreview" class="preview hidden" alt="Current website logo"><button class="btn" type="button" id="uploadLogo">Save website logo</button><span id="logoMsg" class="muted"></span></div><div class="field"><label>Homepage background image (hero banner)</label><input id="heroFile" type="file" accept="image/png,image/jpeg,image/webp"><small class="muted">Recommended: wide landscape image, 1920 × 900 px. This changes the large top banner background.</small><img id="heroPreview" class="preview hidden" alt="Current homepage background"><button class="btn" type="button" id="uploadHero">Save homepage background</button><span id="heroMsg" class="muted"></span></div></div></div></section>
-<section id="orders" class="view hidden"><div class="panel"><div class="row" style="justify-content:space-between"><h2 class="section-title">Customer Orders</h2><button class="btn" id="refreshOrders">Refresh orders</button></div><div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Address</th><th>Total</th><th>Payment</th><th>Status</th><th>Update</th></tr></thead><tbody id="orderRows"></tbody></table></div></div></section>
+<section id="orders" class="view hidden"><div class="panel orders-panel"><div class="orders-heading"><div><h2 class="section-title">Customer Orders</h2><p class="orders-subtitle">Review customer details, payment and fulfilment in one place.</p></div><button class="btn" id="refreshOrders">↻ Refresh orders</button></div><div class="orders-toolbar"><input id="orderSearch" type="search" placeholder="Search order ID, customer, phone or city..." aria-label="Search orders"><select id="orderFilter" aria-label="Filter orders"><option value="all">All orders</option><option>Pending</option><option>Confirmed</option><option>Packed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div><div id="orderRows" class="order-list" aria-live="polite"></div></div></section>
 </main></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const db=window.supabase.createClient('https://shtksedfchykyfbwjuoo.supabase.co','sb_publishable_1p3o7U50k5ycXj9NIkwhEw_f5hLtgQZ');
@@ -87,21 +116,37 @@ async function loadSettings(){const {data,error}=await db.from('site_settings').
 $('settingsForm').onsubmit=async e=>{e.preventDefault();const v={...settings,tagline:$('sTagline').value,hero_title:$('sHeroTitle').value,hero_text:$('sHeroText').value,about_text:$('sAboutText').value,support_email:$('sEmail').value,whatsapp_number:$('sWhatsapp').value,instagram_url:$('sInstagram').value,facebook_url:$('sFacebook').value,delivery_fee:Number($('sDelivery').value||0),free_delivery_threshold:$('sFreeDelivery').value?Number($('sFreeDelivery').value):null,location:$('sLocation').value,delivery_area:$('sDeliveryArea').value};const {error}=await db.from('site_settings').upsert({key:'storefront',value:v,updated_at:new Date().toISOString()});if(error)say('settingsMsg',error.message);else{settings=v;say('settingsMsg','Website settings saved.')}}
 async function uploadBrand(fileKey,settingKey,msgId){try{const file=$(fileKey).files[0];if(!file)throw Error('Choose an image first');const url=await uploadFile(file,'branding');const v={...settings,[settingKey]:url};const {error}=await db.from('site_settings').upsert({key:'storefront',value:v,updated_at:new Date().toISOString()});if(error)throw error;settings=v;const preview=$(settingKey==='logo_image'?'logoPreview':'heroPreview');if(preview){preview.src=url;preview.classList.remove('hidden')}say(msgId,'Uploaded and saved. Your live website will use this image after refresh.');}catch(e){say(msgId,e.message)}}
 $('uploadLogo').onclick=()=>uploadBrand('logoFile','logo_image','logoMsg');$('uploadHero').onclick=()=>uploadBrand('heroFile','hero_image','heroMsg');
+let orderCache=[];
+const orderStatuses=['Pending','Confirmed','Packed','Shipped','Delivered','Cancelled'];
+const paymentStatuses=['Pending','Awaiting Verification','Paid','Failed','Refunded'];
+function renderOrderCards(){
+ const query=($('orderSearch')?.value||'').trim().toLowerCase();
+ const filter=$('orderFilter')?.value||'all';
+ const rows=orderCache.filter(o=>{
+  const hay=[o.order_id,o.customer_name,o.mobile_number,o.email,o.city,o.province,o.address].join(' ').toLowerCase();
+  return (!query||hay.includes(query))&&(filter==='all'||o.order_status===filter);
+ });
+ if(!rows.length){$('orderRows').innerHTML='<div class="orders-empty"><strong>No matching orders</strong><span>Try another search or change the status filter.</span></div>';return;}
+ $('orderRows').innerHTML=rows.map(o=>{
+  const items=Array.isArray(o.items)?o.items.map(i=>'<div class="order-item-line"><span>'+esc(i.name)+' <b>× '+Number(i.qty||0)+'</b></span><span>PKR '+Number(i.lineTotal??(Number(i.price||0)*Number(i.qty||0))).toLocaleString()+'</span></div>').join(''):'';
+  const when=o.created_at?new Date(o.created_at).toLocaleString():'Date unavailable';
+  const address=[o.address,o.city,o.province].filter(Boolean).map(esc).join(', ');
+  const paymentLabel=String(o.payment_method||'').replace(/_/g,' ');
+  return '<article class="order-card"><div class="order-card-top"><div><span class="order-kicker">ORDER</span><h3>'+esc(o.order_id)+'</h3><time>'+esc(when)+'</time></div><div class="order-total"><span>Grand total</span><strong>PKR '+Number(o.grand_total||0).toLocaleString()+'</strong></div></div><div class="order-card-grid"><section class="order-info"><h4>Customer</h4><strong>'+esc(o.customer_name)+'</strong><a href="tel:'+esc(o.mobile_number)+'">'+esc(o.mobile_number)+'</a>'+(o.email?'<a href="mailto:'+esc(o.email)+'">'+esc(o.email)+'</a>':'')+'</section><section class="order-info"><h4>Delivery address</h4><p>'+address+'</p>'+(o.postal_code?'<small>Postal code: '+esc(o.postal_code)+'</small>':'')+'</section><section class="order-info order-items"><h4>Items</h4>'+items+'</section><section class="order-info"><h4>Payment</h4><span class="payment-method-label">'+esc(paymentLabel)+'</span><label class="control-label">Payment status</label><select class="admin-select" data-payment-status="'+esc(o.id)+'">'+paymentStatuses.map(s=>'<option value="'+s+'"'+(s===o.payment_status?' selected':'')+'>'+s+'</option>').join('')+'</select>'+(o.payment_reference?'<small>Reference: '+esc(o.payment_reference)+'</small>':'')+'</section></div><div class="order-card-bottom"><div><span class="control-label">Order status</span><select class="admin-select order-status-select" data-order="'+esc(o.id)+'">'+orderStatuses.map(s=>'<option value="'+s+'"'+(s===o.order_status?' selected':'')+'>'+s+'</option>').join('')+'</select></div><span class="order-status-pill status-'+String(o.order_status||'pending').toLowerCase()+'">'+esc(o.order_status||'Pending')+'</span></div></article>';
+ }).join('');
+ document.querySelectorAll('[data-order]').forEach(s=>{s.onchange=async()=>{s.disabled=true;const {error}=await db.from('orders').update({order_status:s.value}).eq('id',s.dataset.order);if(error){alert(error.message);s.disabled=false}else{const o=orderCache.find(x=>x.id===s.dataset.order);if(o)o.order_status=s.value;renderOrderCards();$('statPending').textContent=orderCache.filter(x=>x.order_status==='Pending').length;}}});
+ document.querySelectorAll('[data-payment-status]').forEach(s=>{s.onchange=async()=>{s.disabled=true;const {error}=await db.from('orders').update({payment_status:s.value}).eq('id',s.dataset.paymentStatus);if(error){alert(error.message);s.disabled=false}else{const o=orderCache.find(x=>x.id===s.dataset.paymentStatus);if(o)o.payment_status=s.value;renderOrderCards();}}});
+}
 async function loadOrders(){
  const {data,error}=await db.from('orders').select('*').order('created_at',{ascending:false}).limit(200);
  if(error)throw error;
- $('statOrders').textContent=data.length;
- $('statPending').textContent=data.filter(x=>x.order_status==='Pending').length;
- $('statSales').textContent=data.reduce((n,x)=>n+Number(x.grand_total||0),0).toLocaleString();
- const paymentStatuses=['Pending','Awaiting Verification','Paid','Failed','Refunded'];
- $('orderRows').innerHTML=data.map(o=>{
-   const items=Array.isArray(o.items)?o.items.map(i=>esc(i.name)+' × '+Number(i.qty||0)).join('<br>'):'';
-   const paymentSelect='<select data-payment-status="'+esc(o.id)+'">'+paymentStatuses.map(s=>'<option'+(s===o.payment_status?' selected':'')+'>'+s+'</option>').join('')+'</select>';
-   const orderSelect='<select data-order="'+esc(o.id)+'"><option>Pending</option><option>Confirmed</option><option>Packed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select>';
-   return '<tr><td><strong>'+esc(o.order_id)+'</strong><br><small>'+new Date(o.created_at).toLocaleString()+'</small><br>'+items+'</td><td>'+esc(o.customer_name)+'<br>'+esc(o.mobile_number)+(o.email?'<br>'+esc(o.email):'')+'</td><td>'+esc(o.city)+', '+esc(o.province)+'<br>'+esc(o.address)+'</td><td>PKR '+Number(o.grand_total).toLocaleString()+'</td><td>'+esc(o.payment_method)+'<br>'+paymentSelect+(o.payment_reference?'<br><small>Ref: '+esc(o.payment_reference)+'</small>':'')+'</td><td>'+esc(o.order_status)+'</td><td>'+orderSelect+'</td></tr>';
- }).join('');
- document.querySelectorAll('[data-order]').forEach(s=>{s.value=data.find(x=>x.id===s.dataset.order).order_status;s.onchange=async()=>{s.disabled=true;const {error}=await db.from('orders').update({order_status:s.value}).eq('id',s.dataset.order);if(error){alert(error.message);s.disabled=false}else loadOrders()}});
- document.querySelectorAll('[data-payment-status]').forEach(s=>{s.onchange=async()=>{s.disabled=true;const {error}=await db.from('orders').update({payment_status:s.value}).eq('id',s.dataset.paymentStatus);if(error){alert(error.message);s.disabled=false}else loadOrders()}});
+ orderCache=data||[];
+ $('statOrders').textContent=orderCache.length;
+ $('statPending').textContent=orderCache.filter(x=>x.order_status==='Pending').length;
+ $('statSales').textContent=orderCache.reduce((n,x)=>n+Number(x.grand_total||0),0).toLocaleString();
+ renderOrderCards();
 }
+$('orderSearch')?.addEventListener('input',renderOrderCards);
+$('orderFilter')?.addEventListener('change',renderOrderCards);
 $('refreshOrders').onclick=loadOrders;db.auth.getSession().then(({data})=>{if(data.session)enter().catch(e=>say('loginMsg',e.message))});
 </script></body></html>
