@@ -62,25 +62,21 @@ function renderPaymentOptions() {
   if (!container) return;
   const p = STORE_CONFIG.payments;
   const transferDetails = method => '<div class="bank-details-box payment-transfer-details">' +
-    '<div><strong>Account title:</strong> ' + (method.accountTitle || "Parfum Surgeon") + '</div>' +
-    '<div><strong>Send to:</strong> <span class="payment-number">' + method.accountNumber + '</span></div>' +
+    '<div><strong>Wallet / account number:</strong> <span class="payment-number">' + method.accountNumber + '</span></div>' +
     '<div style="margin-top:8px;">' + (method.note || "Payment subject to verification.") + '</div>' +
-    '<div class="form-group" style="margin-top:14px;"><label for="paymentReference">Transaction ID / Reference</label><input type="text" id="paymentReference" name="paymentReference" placeholder="Enter transaction ID"></div>' +
-    '<div class="form-group"><label for="receiptUpload">Upload payment screenshot (optional)</label><input type="file" id="receiptUpload" name="receiptUpload" accept="image/*,.pdf"></div></div>';
+    '<div class="form-group" style="margin-top:14px;"><label>Transaction ID / Reference (optional)</label><input type="text" data-payment-reference placeholder="Enter transaction ID"></div></div>';
   const option = (value, method, extra) => method.enabled ? '<label class="payment-option"><input type="radio" name="paymentMethod" value="' + value + '" ' + (value === "cod" ? "checked" : "") + '><strong>' + method.label + '</strong>' + (extra || "") + '</label>' : "";
   let html = option("cod", p.cod, '<div class="payment-help">' + p.cod.description + '</div>');
   html += option("bank", p.bankTransfer, transferDetails(p.bankTransfer));
   html += option("easypaisa", p.easypaisa, transferDetails(p.easypaisa));
   html += option("jazzcash", p.jazzcash, transferDetails(p.jazzcash));
   container.innerHTML = html;
-  const sync = () => {
-    container.querySelectorAll(".payment-option").forEach(label => {
-      const radio = label.querySelector('input[type="radio"]');
-      label.classList.toggle("selected", !!radio?.checked);
-      const details = label.querySelector(".payment-transfer-details");
-      if (details) details.classList.toggle("show", !!radio?.checked);
-    });
-  };
+  const sync = () => container.querySelectorAll(".payment-option").forEach(label => {
+    const radio = label.querySelector('input[type="radio"]');
+    label.classList.toggle("selected", !!radio?.checked);
+    const details = label.querySelector(".payment-transfer-details");
+    if (details) details.classList.toggle("show", !!radio?.checked);
+  });
   container.querySelectorAll('input[name="paymentMethod"]').forEach(radio => radio.addEventListener("change", sync));
   sync();
 }
@@ -91,13 +87,12 @@ function validateForm(form) {
   const markInvalid = field => { const group = field?.closest(".form-group"); if (group) group.classList.add("error"); if (!firstInvalid && field) firstInvalid = field; };
   required.forEach(name => { const field = form.elements[name]; if (!field || !String(field.value || "").trim()) markInvalid(field); });
   const mobile = form.elements["mobileNumber"];
-  const phone = mobile.value.replace(/[\\s-]/g, "");
-  if (mobile.value.trim() && !/^(03\\d{9}|923\\d{9}|\\+923\\d{9})$/.test(phone)) markInvalid(mobile);
+  const phone = mobile.value.replace(/[\s-]/g, "");
+  if (mobile.value.trim() && !/^(03\d{9}|923\d{9}|\+923\d{9})$/.test(phone)) markInvalid(mobile);
   const email = form.elements["email"];
-  if (email.value.trim() && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.value.trim())) markInvalid(email);
+  if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) markInvalid(email);
   const payment = document.getElementById("paymentOptions");
-  if (!form.querySelector('input[name="paymentMethod"]:checked')) { payment?.classList.add("error"); if (!firstInvalid) firstInvalid = payment; }
-  else payment?.classList.remove("error");
+  if (!form.querySelector('input[name="paymentMethod"]:checked')) { payment?.classList.add("error"); if (!firstInvalid) firstInvalid = payment; } else payment?.classList.remove("error");
   if (firstInvalid) { firstInvalid.scrollIntoView({behavior:"smooth",block:"center"}); if (typeof firstInvalid.focus === "function") firstInvalid.focus({preventScroll:true}); showToast("Please check the highlighted fields above"); return false; }
   return true;
 }
@@ -192,6 +187,8 @@ async function handleCheckoutSubmit(e) {
   }
 
   const paymentMethod = form.elements["paymentMethod"]?.value || "cod";
+  const selectedPaymentOption = document.querySelector('#paymentOptions input[name="paymentMethod"]:checked')?.closest(".payment-option");
+  const paymentReference = selectedPaymentOption?.querySelector("[data-payment-reference]")?.value || "";
   const orderId = generateOrderId();
 
   const order = {
@@ -209,7 +206,7 @@ async function handleCheckoutSubmit(e) {
     delivery_fee: delivery,
     grand_total: grandTotal,
     payment_method: paymentMethod,
-    payment_reference: ["bank", "easypaisa", "jazzcash"].includes(paymentMethod) ? sanitize(form.elements["paymentReference"]?.value) || null : null,
+    payment_reference: ["bank", "easypaisa", "jazzcash"].includes(paymentMethod) ? sanitize(paymentReference) || null : null,
     payment_status: ["bank", "easypaisa", "jazzcash"].includes(paymentMethod) ? "Awaiting Verification" : "Pending",
     order_status: "Pending",
     created_at: new Date().toISOString()
