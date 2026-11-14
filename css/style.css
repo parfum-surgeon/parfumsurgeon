@@ -1068,3 +1068,9 @@ input, select, textarea { max-width:100%; }
  .logo-link img { max-height:54px; }
  .footer-brand { text-align:center; }
 }
+
+@media(max-width:860px) {
+ html[data-logo-mobile-position="left"] .logo-link { left:16px; transform:translateY(-50%); }
+ html[data-logo-mobile-position="center"] .logo-link { left:50%; transform:translate(-50%,-50%); }
+ html[data-logo-mobile-position="right"] .logo-link { left:auto; right:16px; transform:translateY(-50%); }
+}
