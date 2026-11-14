@@ -190,7 +190,7 @@ const STORE_CONFIG = {
     {
       id: "the-elixir",
       name: "THE ELIXIR",
-      gender: "men",
+      gender: "unisex",
       capColor: "black",
       fragranceImpression: "Cool Water",
       size: "50ml",
