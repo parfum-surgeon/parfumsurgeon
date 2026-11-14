@@ -1229,3 +1229,45 @@ body.image-lightbox-open { overflow:hidden !important; }
     object-position: center center !important;
   }
 }
+
+
+/* Product detail purchase actions: keep both actions visible on desktop and mobile. */
+.modal-purchase-actions {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  width:100%;
+  margin-top:12px;
+}
+.modal-purchase-actions .btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:52px;
+  padding:13px 12px;
+  font-size:.78rem;
+  letter-spacing:1.2px;
+  font-weight:700;
+}
+.modal-purchase-actions #modalAddCartBtn {
+  background:transparent;
+  color:#17130b;
+  border:1px solid var(--color-gold);
+}
+.modal-purchase-actions #modalAddCartBtn:hover {
+  background:#f5ecd8;
+}
+@media(max-width:720px) {
+  .modal-purchase-actions {
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .modal-purchase-actions .btn {
+    min-height:54px;
+    padding:12px 8px;
+    font-size:.72rem;
+    letter-spacing:1px;
+  }
+}
