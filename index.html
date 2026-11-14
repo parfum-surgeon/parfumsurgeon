@@ -32,7 +32,7 @@
 <header class="site-header">
   <div class="header-inner">
     <a href="index.html" class="logo-link" aria-label="Parfum Surgeon Home">
-      <img src="assets/logo/parfum-surgeon-logo.svg" alt="Parfum Surgeon logo">
+      <img id="storeLogo" src="assets/logo/parfum-surgeon-logo.svg" alt="Parfum Surgeon logo">
     </a>
     <nav class="main-nav" id="mainNav">
       <a href="index.html" class="active">Home</a>
@@ -54,8 +54,8 @@
   <section class="hero">
     <div class="hero-content">
       <span class="eyebrow">Parfum Surgeon &mdash; The Science of Signature Scents.</span>
-      <h1>FIND YOUR SIGNATURE SCENT.</h1>
-      <p>Ten distinctive 50ml fragrances. Refined black-and-gold presentation, considered scent profiles and a signature made to feel like yours.</p>
+      <h1 id="storeHeroTitle">FIND YOUR SIGNATURE SCENT.</h1>
+      <p id="storeHeroText">Ten distinctive 50ml fragrances. Refined black-and-gold presentation, considered scent profiles and a signature made to feel like yours.</p>
       <div class="hero-ctas">
         <a href="index.html?filter=men#shop" class="btn btn-gold">Explore Men's Collection</a>
         <a href="index.html?filter=women#shop" class="btn btn-outline">Explore Women's Collection</a>
@@ -113,7 +113,7 @@
     <div class="container prose text-center">
       <span class="eyebrow">About Parfum Surgeon</span>
       <h2>The Science of Signature Scents.</h2>
-      <p>At Parfum Surgeon, we believe fragrance is more than just a scent. It is an expression of personality, confidence and individuality. Our collection brings together carefully selected fragrance inspirations for men and women who want to make every moment memorable. Discover your signature scent with Parfum Surgeon.</p>
+      <p id="storeAboutText">At Parfum Surgeon, we believe fragrance is more than just a scent. It is an expression of personality, confidence and individuality. Our collection brings together carefully selected fragrance inspirations for men and women who want to make every moment memorable. Discover your signature scent with Parfum Surgeon.</p>
       <a href="pages/about.html" class="btn btn-dark mt-4">Read More</a>
     </div>
   </section>
@@ -208,6 +208,7 @@
 </footer>
 
 <script src="config/store-config.js"></script>
+<script src="js/site-settings.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/products.js"></script>
 <script src="js/main.js"></script>
