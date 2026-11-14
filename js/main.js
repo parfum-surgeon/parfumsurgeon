@@ -1,6 +1,5 @@
 /* =====================================================================
-   MAIN.JS — nav toggle, WhatsApp button, toast helper, footer year,
-   and injecting brand info from STORE_CONFIG into every page.
+   MAIN.JS — responsive navigation, WhatsApp, toast, footer and branding.
    ===================================================================== */
 
 function showToast(message, duration = 2200) {
@@ -46,18 +45,43 @@ function initNavToggle() {
   const toggle = document.getElementById("navToggle");
   const nav = document.getElementById("mainNav");
   if (!toggle || !nav) return;
-  const setOpen = open => {
+
+  const setOpen = (open, restoreFocus = false) => {
     nav.classList.toggle("open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     toggle.innerHTML = open ? "&times;" : "&#9776;";
+    nav.setAttribute("aria-hidden", String(!open));
     document.body.classList.toggle("nav-open", open);
+    if (restoreFocus && !open) toggle.focus();
   };
+
+  toggle.type = "button";
+  toggle.setAttribute("aria-controls", "mainNav");
   toggle.setAttribute("aria-expanded", "false");
-  toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
-  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setOpen(false)));
-  document.addEventListener("keydown", event => { if (event.key === "Escape") setOpen(false); });
-  window.addEventListener("resize", () => { if (window.innerWidth > 860) setOpen(false); });
+  nav.setAttribute("aria-hidden", "true");
+
+  toggle.addEventListener("click", () => {
+    setOpen(!nav.classList.contains("open"));
+  });
+
+  nav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => setOpen(false));
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && nav.classList.contains("open")) {
+      setOpen(false, true);
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860) setOpen(false);
+  });
+
+  window.addEventListener("orientationchange", () => {
+    if (window.innerWidth > 860) setOpen(false);
+  });
 }
 
 function initFooterYear() {
