@@ -1271,3 +1271,116 @@ body.image-lightbox-open { overflow:hidden !important; }
     letter-spacing:1px;
   }
 }
+
+
+/* FINAL MOBILE PRODUCT MODAL FIX — keep the image and details in separate rows.
+   The previous 68dvh image height exceeded the 34dvh grid row and caused text
+   to paint over the product photograph on phones. */
+@media (max-width:720px) {
+  .modal-overlay {
+    display:none;
+    align-items:center !important;
+    justify-content:center !important;
+    overflow-y:auto !important;
+    padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)) !important;
+  }
+  .modal-overlay.open { display:flex !important; }
+  .product-modal {
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) !important;
+    grid-template-rows:auto auto !important;
+    align-content:start !important;
+    width:min(100%, 480px) !important;
+    max-width:480px !important;
+    height:auto !important;
+    max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px) !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    position:relative !important;
+    isolation:isolate !important;
+  }
+  .product-modal .modal-image {
+    position:relative !important;
+    grid-row:1 !important;
+    width:100% !important;
+    height:clamp(210px, 38dvh, 340px) !important;
+    min-height:210px !important;
+    max-height:340px !important;
+    aspect-ratio:auto !important;
+    padding:10px !important;
+    overflow:hidden !important;
+    background:#080808 !important;
+  }
+  .product-modal .modal-image img {
+    position:static !important;
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+  }
+  .product-modal .modal-details {
+    position:relative !important;
+    z-index:1 !important;
+    grid-row:2 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    min-width:0 !important;
+    height:auto !important;
+    padding:20px 18px 22px !important;
+    background:#fff !important;
+    color:#171717 !important;
+    overflow:visible !important;
+  }
+  .product-modal .modal-details .eyebrow,
+  .product-modal .modal-details h2,
+  .product-modal .modal-details .modal-meta,
+  .product-modal .modal-details #modalDescription,
+  .product-modal .modal-details .price,
+  .product-modal .modal-details .qty-row,
+  .product-modal .modal-details .modal-purchase-actions {
+    position:relative !important;
+    inset:auto !important;
+    transform:none !important;
+    flex:none !important;
+  }
+  .product-modal .modal-details h2 {
+    margin:4px 0 12px !important;
+    line-height:1.2 !important;
+    overflow-wrap:anywhere !important;
+  }
+  .product-modal .modal-meta {
+    margin:12px 0 !important;
+    line-height:1.55 !important;
+  }
+  .product-modal .modal-meta div { margin-bottom:8px !important; }
+  .product-modal .modal-details #modalDescription {
+    margin:12px 0 !important;
+    line-height:1.6 !important;
+    overflow-wrap:anywhere !important;
+  }
+  .product-modal .modal-details .price { margin:12px 0 18px !important; }
+  .product-modal .modal-details .qty-row { margin:12px 0 16px !important; }
+  .product-modal .modal-purchase-actions {
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    margin:8px 0 0 !important;
+  }
+  .product-modal .modal-purchase-actions .btn {
+    min-width:0 !important;
+    min-height:52px !important;
+    white-space:normal !important;
+  }
+}
+@media (max-width:380px) {
+  .product-modal .modal-image {
+    height:clamp(190px, 34dvh, 280px) !important;
+    min-height:190px !important;
+  }
+  .product-modal .modal-details { padding:16px 14px 20px !important; }
+  .product-modal .modal-purchase-actions { gap:8px !important; }
+  .product-modal .modal-purchase-actions .btn { font-size:.68rem !important; padding:10px 5px !important; }
+}
