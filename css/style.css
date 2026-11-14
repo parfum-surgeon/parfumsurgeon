@@ -1103,3 +1103,72 @@ input, select, textarea { max-width:100%; }
  .site-header .header-actions .nav-toggle { left:10px !important; }
  .site-header .header-actions .cart-btn { right:10px !important; }
 }
+
+
+/* Full-screen product image viewer — show the complete original image on tap. */
+.image-lightbox {
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding: max(22px, env(safe-area-inset-top)) 18px max(42px, env(safe-area-inset-bottom));
+  background:rgba(0,0,0,.97);
+  cursor:zoom-out;
+  overscroll-behavior:contain;
+}
+.image-lightbox.open { display:flex; }
+.image-lightbox img {
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain !important;
+  object-position:center center !important;
+  margin:auto;
+  cursor:default;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.image-lightbox-close {
+  position:absolute;
+  top:max(12px, env(safe-area-inset-top));
+  right:16px;
+  z-index:2;
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  border:1px solid rgba(220,190,120,.65);
+  border-radius:50%;
+  background:rgba(15,15,15,.85);
+  color:#f5d88d;
+  font-size:30px;
+  line-height:1;
+  cursor:pointer;
+}
+.image-lightbox-hint {
+  position:absolute;
+  bottom:max(12px, env(safe-area-inset-bottom));
+  left:0;
+  right:0;
+  color:rgba(255,255,255,.62);
+  text-align:center;
+  font:12px/1.4 Arial,sans-serif;
+  letter-spacing:.5px;
+  pointer-events:none;
+}
+body.image-lightbox-open { overflow:hidden !important; }
+.modal-image { cursor:zoom-in; }
+.modal-image img { cursor:zoom-in; }
+@media(max-width:600px) {
+  .image-lightbox { padding-left:10px; padding-right:10px; }
+  .image-lightbox img { max-width:100%; max-height:100%; }
+  .image-lightbox-close { right:12px; }
+}
+@media(prefers-reduced-motion:no-preference) {
+  .image-lightbox.open img { animation:imageViewerIn .18s ease-out both; }
+  @keyframes imageViewerIn { from { opacity:.65; transform:scale(.985); } to { opacity:1; transform:scale(1); } }
+}
