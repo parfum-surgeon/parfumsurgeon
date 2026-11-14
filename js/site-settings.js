@@ -10,6 +10,7 @@
     const set=(id,value)=>{const el=document.getElementById(id);if(el&&value)el.textContent=value};
     set('storeHeroTitle',s.hero_title);set('storeHeroText',s.hero_text);set('storeAboutText',s.about_text);
     const logo=document.getElementById('storeLogo');if(logo&&s.logo_image)logo.src=s.logo_image;
+    if(s.logo_image){document.querySelectorAll('link[rel="icon"],meta[property="og:image"]').forEach(el=>el.setAttribute(el.tagName==='META'?'content':'href',s.logo_image))}
     if(s.delivery_fee!==undefined)cfg.deliveryFee=Number(s.delivery_fee)||0;
     if(s.free_delivery_threshold!==undefined)cfg.freeDeliveryThreshold=s.free_delivery_threshold===null?null:Number(s.free_delivery_threshold);
     if(s.support_email){document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{a.href='mailto:'+s.support_email;a.textContent=s.support_email})}
