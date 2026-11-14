@@ -17,6 +17,19 @@ function showToast(message, duration = 2200) {
   toast._hideTimer = setTimeout(() => toast.classList.remove("show"), duration);
 }
 
+function initAdaptiveLogo() {
+  document.querySelectorAll(".logo-link img").forEach(img => {
+    const update = () => {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const artworkContainsWordmark = img.naturalWidth / img.naturalHeight > 2.1;
+      img.closest(".logo-link")?.classList.toggle("logo-image-has-wordmark", artworkContainsWordmark);
+    };
+    if (img.complete) update();
+    img.addEventListener("load", update);
+    new MutationObserver(update).observe(img, { attributes: true, attributeFilter: ["src"] });
+  });
+}
+
 function initWhatsAppButton() {
   const number = STORE_CONFIG.brand.whatsappNumber;
   const btn = document.getElementById("whatsappFloat");
@@ -55,6 +68,7 @@ function initFooterYear() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initWhatsAppButton();
+  initAdaptiveLogo();
   initNavToggle();
   initFooterYear();
   Cart.updateHeaderCount();
