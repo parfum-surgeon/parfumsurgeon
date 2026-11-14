@@ -29,15 +29,11 @@ function normalizeStoreProduct(p, fallback = {}) {
 }
 
 async function loadStoreProducts() {
-  // Always paint the built-in catalogue first. A failed/missing API must never
-  // leave the storefront with an empty product grid.
   const localProducts = (STORE_CONFIG.products || []).map(p => normalizeStoreProduct(p));
   STORE_CONFIG.products = localProducts;
   renderProductGrid();
-
   const cfg = STORE_CONFIG.backend || {};
   if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;
-
   try {
     const response = await fetch(
       `${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`,
@@ -45,14 +41,10 @@ async function loadStoreProducts() {
     );
     if (!response.ok) throw new Error(`Product API returned ${response.status}`);
     const rows = await response.json();
-    if (!Array.isArray(rows) || rows.length === 0) return;
-
+    if (!Array.isArray(rows)) throw new Error("Invalid products response");
     const localById = new Map(localProducts.map(p => [p.id, p]));
-    const remoteById = new Map(rows.map(p => [String(p.id), p]));
-    // Keep all ten curated products even if the backend is temporarily partial.
-    STORE_CONFIG.products = localProducts.map(local =>
-      normalizeStoreProduct(remoteById.get(local.id) || {}, local)
-    );
+    // Database is authoritative: include newly-added products, and remove hidden products.
+    STORE_CONFIG.products = rows.map(row => normalizeStoreProduct(row, localById.get(String(row.id)) || {}));
     renderProductGrid();
   } catch (e) {
     console.error("Product API unavailable; showing built-in catalogue:", e);
