@@ -32,6 +32,7 @@ async function loadStoreProducts() {
   const localProducts = (STORE_CONFIG.products || []).map(p => normalizeStoreProduct(p));
   STORE_CONFIG.products = localProducts;
   renderProductGrid();
+  renderSignatureGrid();
   const cfg = STORE_CONFIG.backend || {};
   if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;
   try {
@@ -46,9 +47,42 @@ async function loadStoreProducts() {
     // Database is authoritative: include newly-added products, and remove hidden products.
     STORE_CONFIG.products = rows.map(row => normalizeStoreProduct(row, localById.get(String(row.id)) || {}));
     renderProductGrid();
+    renderSignatureGrid();
   } catch (e) {
     console.error("Product API unavailable; showing built-in catalogue:", e);
   }
+}
+
+
+function renderSignatureGrid() {
+  const grid = document.getElementById("signatureGrid");
+  if (!grid) return;
+  const items = (STORE_CONFIG.products || []).filter(p => p.active !== false);
+  if (!items.length) {
+    grid.innerHTML = '<p class="signature-empty">Our signature collection is being prepared. Please check back soon.</p>';
+    return;
+  }
+  grid.innerHTML = items.map((p, index) => {
+    const gender = p.gender === "women" ? "WOMEN" : p.gender === "men" ? "MEN" : "UNISEX";
+    const image = resolveAssetPath(p.image);
+    return `
+      <article class="signature-card" data-signature-id="${p.id}">
+        <button class="signature-image-button" type="button" aria-label="View ${p.name}">
+          <span class="signature-number">${String(index + 1).padStart(2, "0")}</span>
+          <img src="${image}" alt="${p.name} perfume bottle" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.svg';">
+        </button>
+        <div class="signature-card-body">
+          <span class="signature-category">${gender} <i></i> ${p.size || "50ml"}</span>
+          <h3>${p.name}</h3>
+          <p>${p.shortDescription || p.fragranceFamily || "A signature Parfum Surgeon fragrance."}</p>
+          <div class="signature-card-bottom"><strong>PKR ${Number(p.price || 0).toLocaleString("en-PK")}</strong><button type="button" class="signature-view">Discover scent <span aria-hidden="true">↗</span></button></div>
+        </div>
+      </article>`;
+  }).join("");
+  grid.querySelectorAll("[data-signature-id]").forEach(card => {
+    card.querySelector(".signature-image-button").addEventListener("click", () => openProductModal(card.dataset.signatureId));
+    card.querySelector(".signature-view").addEventListener("click", () => openProductModal(card.dataset.signatureId));
+  });
 }
 
 function productCardHTML(p) {
