@@ -120,7 +120,7 @@ async function submitOrderToBackend(order) {
       headers: {
         "Content-Type": "application/json",
         "apikey": supabaseAnonKey,
-        "Authorization": `Bearer ${supabaseAnonKey}`,
+        // Publishable keys are opaque API keys, not JWTs. Send only via apikey.
         "Prefer": "return=representation"
       },
       body: JSON.stringify(order)
