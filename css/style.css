@@ -1058,14 +1058,14 @@ input, select, textarea { max-width:100%; }
 @media(max-width:860px) {
  .header-inner { justify-content:flex-end; position:relative; }
  .logo-link { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:var(--store-logo-width-mobile); max-width:46vw; justify-content:center; z-index:2; }
- .logo-link img { width:100% !important; max-width:100%; max-height:58px; }
+ .logo-link img { width:100% !important; max-width:100%; max-height:64px; }
  .header-actions { margin-left:auto; position:relative; z-index:3; }
  .footer-brand .footer-logo { margin:0 auto 8px; object-position:center; }
 }
 @media(max-width:520px) {
  .header-inner { min-height:76px; padding:8px 12px; }
  .logo-link { width:var(--store-logo-width-mobile); max-width:44vw; }
- .logo-link img { max-height:54px; }
+ .logo-link img { max-height:64px; }
  .footer-brand { text-align:center; }
 }
 
