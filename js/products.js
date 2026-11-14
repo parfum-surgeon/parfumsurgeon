@@ -7,6 +7,39 @@ let currentSearch = "";
 let modalQty = 1;
 let activeModalProduct = null;
 
+function updateCatalogStructuredData(products) {
+  const script = document.getElementById("catalogStructuredData");
+  if (!script) return;
+  const visible = (products || []).filter(p => p.active !== false);
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Parfum Surgeon Signature Perfume Collection",
+    "description": "Explore signature perfumes for men, women and unisex wear from Parfum Surgeon Pakistan.",
+    "numberOfItems": visible.length,
+    "itemListElement": visible.map((p, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Product",
+        "name": p.name,
+        "description": p.description || p.shortDescription || "Signature fragrance from Parfum Surgeon.",
+        "image": new URL(resolveAssetPath(p.image), document.baseURI).href,
+        "brand": { "@type": "Brand", "name": "Parfum Surgeon" },
+        "category": p.gender === "women" ? "Women's Perfume" : p.gender === "men" ? "Men's Perfume" : "Unisex Perfume",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PKR",
+          "price": Number(p.price || 0),
+          "availability": Number(p.stock_quantity ?? p.stock ?? 1) > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          "url": "https://parfum-surgeon.github.io/parfumsurgeon/#shop"
+        }
+      }
+    }))
+  };
+  script.textContent = JSON.stringify(itemList);
+}
+
 function normalizeStoreProduct(p, fallback = {}) {
   const genderRaw = String(p.gender || fallback.gender || "unisex").toLowerCase();
   const gender = ["men", "male", "m"].includes(genderRaw) ? "men"
@@ -33,6 +66,7 @@ async function loadStoreProducts() {
   STORE_CONFIG.products = localProducts;
   renderProductGrid();
   renderSignatureGrid();
+  updateCatalogStructuredData(STORE_CONFIG.products);
   const cfg = STORE_CONFIG.backend || {};
   if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;
   try {
@@ -48,6 +82,7 @@ async function loadStoreProducts() {
     STORE_CONFIG.products = rows.map(row => normalizeStoreProduct(row, localById.get(String(row.id)) || {}));
     renderProductGrid();
     renderSignatureGrid();
+    updateCatalogStructuredData(STORE_CONFIG.products);
   } catch (e) {
     console.error("Product API unavailable; showing built-in catalogue:", e);
   }
