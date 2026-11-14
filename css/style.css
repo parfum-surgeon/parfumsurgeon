@@ -1048,7 +1048,7 @@ input, select, textarea { max-width:100%; }
 :root {
   --store-logo-width-desktop: 190px;
   --store-logo-width-mobile: 172px;
-  --store-logo-mobile-position: center;
+  --store-logo-mobile-position: right;
 }
 .logo-link { display:flex !important; align-items:center; justify-content:center; flex:0 0 auto; min-width:0; }
 .logo-link img { display:block !important; width:var(--store-logo-width-desktop) !important; max-width:28vw; height:auto !important; max-height:68px; object-fit:contain !important; object-position:center !important; border-radius:0 !important; background:transparent !important; }
@@ -1072,5 +1072,5 @@ input, select, textarea { max-width:100%; }
 @media(max-width:860px) {
  html[data-logo-mobile-position="left"] .logo-link { left:16px; transform:translateY(-50%); }
  html[data-logo-mobile-position="center"] .logo-link { left:50%; transform:translate(-50%,-50%); }
- html[data-logo-mobile-position="right"] .logo-link { left:auto; right:16px; transform:translateY(-50%); }
+ html[data-logo-mobile-position="right"] .logo-link { left:auto; right:108px; transform:translateY(-50%); }
 }
