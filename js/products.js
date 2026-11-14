@@ -5,17 +5,29 @@
 let currentFilter = "all";
 let currentSearch = "";
 let modalQty = 1;
-let activeModalProduct = null;\n\nasync function loadStoreProducts() {\n  try {\n    const cfg = STORE_CONFIG.backend;\n    if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;\n    const response = await fetch(`${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`, { headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } });\n    if (!response.ok) throw new Error("Could not load products");\n    const rows = await response.json();\n    if (rows.length) STORE_CONFIG.products = rows.map(p => ({ ...p, shortDescription: p.short_description || "", fragranceFamily: p.fragrance_family || "", image: p.image || "" }));\n  } catch (e) { console.error("Using local product catalogue:", e); }\n  renderProductGrid();\n}
+let activeModalProduct = null;
+
+async function loadStoreProducts() {
+  try {
+    const cfg = STORE_CONFIG.backend;
+    if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;
+    const response = await fetch(`${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`, { headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } });
+    if (!response.ok) throw new Error("Could not load products");
+    const rows = await response.json();
+    if (rows.length) STORE_CONFIG.products = rows.map(p => ({ ...p, shortDescription: p.short_description || "", fragranceFamily: p.fragrance_family || "", image: p.image || "" }));
+  } catch (e) { console.error("Using local product catalogue:", e); }
+  renderProductGrid();
+}
 
 function productCardHTML(p) {
   return `
     <article class="product-card" data-id="${p.id}">
       <div class="img-wrap" data-action="open-modal">
-        <img src="${resolveAssetPath(p.image)}" alt="${p.name} - Parfum Surgeon ${p.gender === 'men' ? "men's" : "women's"} perfume" loading="lazy">
+        <img src="${resolveAssetPath(p.image)}" alt="${p.name} - Parfum Surgeon ${p.gender === "men" ? "men's" : p.gender === "women" ? "women's" : "unisex"} perfume" loading="lazy">
       </div>
       <div class="card-body">
         <div class="tag-row">
-          <span class="tag ${p.gender === 'men' ? 'tag-men' : 'tag-women'}">${p.gender === 'men' ? "Men's" : "Women's"}</span>
+          <span class="tag ${p.gender === "women" ? "tag-women" : "tag-men"}">${p.gender === "men" ? "Men's" : p.gender === "women" ? "Women's" : "Unisex"}</span>
           <span class="tag tag-size">${p.size}</span>
         </div>
         <h3>${p.name}</h3>
@@ -37,7 +49,7 @@ function renderProductGrid() {
   let products = STORE_CONFIG.products;
 
   if (currentFilter !== "all") {
-    products = products.filter(p => p.gender === currentFilter);
+    products = products.filter(p => p.gender === currentFilter || p.gender === "unisex");
   }
   if (currentSearch.trim()) {
     const q = currentSearch.trim().toLowerCase();
@@ -86,7 +98,7 @@ function openProductModal(id) {
   document.getElementById("modalTitle").textContent = product.name;
   document.getElementById("modalPrice").textContent = Cart.formatPrice(product.price);
   document.getElementById("modalDescription").textContent = product.description;
-  document.getElementById("modalGender").textContent = product.gender === "men" ? "Men's Collection" : "Women's Collection";
+  document.getElementById("modalGender").textContent = product.gender === "men" ? "Men's Collection" : product.gender === "women" ? "Women's Collection" : "Unisex Collection";
   document.getElementById("modalSize").textContent = product.size;
   document.getElementById("modalPersonality").textContent = product.personality;
   document.getElementById("modalOccasions").textContent = product.occasions;
@@ -104,7 +116,7 @@ function closeProductModal() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderProductGrid();
+  loadStoreProducts();
 
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => setFilter(btn.dataset.filter));
