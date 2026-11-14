@@ -475,3 +475,21 @@ h1, h2, h3, h4 {
 .featured-fragrance img { width:100%; height:440px; object-fit:contain; object-position:center; background:#050505; border-radius:10px; }
 .featured-fragrance .eyebrow { color:var(--color-gold-bright); }
 @media (max-width:700px) { .featured-fragrance { grid-template-columns:1fr; text-align:center; } .featured-fragrance img { height:360px; } .modal-image { min-height:300px; max-height:45vh; } }
+
+
+/* Final storefront presentation: full bottle artwork, never crop or zoom. */
+.product-card .img-wrap { aspect-ratio: 3 / 4 !important; height: auto !important; background: #080808 !important; padding: 10px; }
+.product-card .img-wrap img { display:block; width:100% !important; height:100% !important; object-fit:contain !important; object-position:center !important; transform:none !important; }
+.product-card:hover .img-wrap img { transform:none !important; }
+.product-card { min-width:0; }
+.filter-btn[data-filter="unisex"] { border-color:var(--color-gold); }
+.filter-btn[data-filter="unisex"].active { background:var(--color-gold); color:#111; }
+.signature-intro { max-width:680px; margin:14px auto 0; color:#d0c8b8; }
+.signature-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:18px; margin-top:34px; }
+.signature-tile { display:flex; flex-direction:column; gap:12px; padding:12px; border:1px solid rgba(201,162,75,.22); border-radius:10px; background:#111; text-align:center; transition:border-color .2s ease,transform .2s ease; }
+.signature-tile:hover { border-color:var(--color-gold); transform:translateY(-3px); }
+.signature-tile img { width:100%; aspect-ratio:3 / 4; object-fit:contain; object-position:center; background:#050505; border-radius:6px; }
+.signature-tile span { color:#f6ead0; font-family:var(--font-serif); font-weight:700; letter-spacing:.8px; font-size:.9rem; }
+.signature-cta { text-align:center; margin-top:34px; }
+@media (max-width:900px) { .signature-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media (max-width:560px) { .signature-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } .signature-tile { padding:8px; } .signature-tile span { font-size:.78rem; } }
