@@ -11,6 +11,7 @@
     set('storeHeroTitle',s.hero_title);set('storeHeroText',s.hero_text);set('storeAboutText',s.about_text);
     if(s.logo_image)document.querySelectorAll('.logo-link img, .footer-logo, #storeLogo').forEach(logo=>logo.src=s.logo_image);
     const root=document.documentElement;
+    root.dataset.logoMobilePosition=s.logo_mobile_position||'center';
     if(s.logo_width_desktop)root.style.setProperty('--store-logo-width-desktop',Math.max(90,Math.min(360,Number(s.logo_width_desktop)))+'px');
     if(s.logo_width_mobile)root.style.setProperty('--store-logo-width-mobile',Math.max(80,Math.min(260,Number(s.logo_width_mobile)))+'px');
     if(s.logo_mobile_position){const pos=['left','center','right'].includes(s.logo_mobile_position)?s.logo_mobile_position :'right';root.style.setProperty('--store-logo-mobile-position',pos);root.dataset.logoMobilePosition=pos;}
