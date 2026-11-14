@@ -230,8 +230,34 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("modalOverlay")?.addEventListener("click", e => {
     if (e.target.id === "modalOverlay") closeProductModal();
   });
-  document.getElementById("modalImageWrap")?.addEventListener("click", function () {
-    this.classList.toggle("zoomed");
+  const imageLightbox = document.getElementById("imageLightbox");
+  const imageLightboxPhoto = document.getElementById("imageLightboxPhoto");
+  const imageLightboxClose = document.getElementById("imageLightboxClose");
+  const openImageLightbox = () => {
+    const source = document.getElementById("modalImage");
+    if (!imageLightbox || !imageLightboxPhoto || !source?.src) return;
+    imageLightboxPhoto.src = source.src;
+    imageLightboxPhoto.alt = source.alt || "Parfum Surgeon perfume";
+    imageLightbox.classList.add("open");
+    imageLightbox.setAttribute("aria-hidden", "false");
+    document.body.classList.add("image-lightbox-open");
+  };
+  const closeImageLightbox = () => {
+    if (!imageLightbox) return;
+    imageLightbox.classList.remove("open");
+    imageLightbox.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("image-lightbox-open");
+    if (imageLightboxPhoto) imageLightboxPhoto.removeAttribute("src");
+  };
+  document.getElementById("modalImageWrap")?.addEventListener("click", openImageLightbox);
+  imageLightboxClose?.addEventListener("click", closeImageLightbox);
+  imageLightbox?.addEventListener("click", event => {
+    if (event.target === imageLightbox) closeImageLightbox();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && imageLightbox?.classList.contains("open")) {
+      closeImageLightbox();
+    }
   });
   document.getElementById("qtyIncBtn")?.addEventListener("click", () => {
     modalQty++;
