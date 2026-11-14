@@ -65,7 +65,6 @@ const STORE_CONFIG = {
     easypaisa: {
       enabled: true,
       label: "EasyPaisa",
-      accountTitle: "Parfum Surgeon",
       accountNumber: "03234028507",
       note: "Send payment to this EasyPaisa number. Your order will remain pending until payment is verified."
     },
