@@ -737,3 +737,16 @@ input, select, textarea { max-width:100%; }
   .modal-image { min-height:165px; padding:8px; }
   .modal-details { padding:15px 13px 18px; }
 }
+
+/* Checkout payment methods + validation feedback */
+.payment-option{display:block;position:relative;border:1px solid #dedbd4;border-radius:12px;padding:18px 18px 18px 54px;margin:12px 0;background:#fff;cursor:pointer;transition:border-color .18s,box-shadow .18s}
+.payment-option>input[type=radio]{position:absolute;left:20px;top:22px;width:18px;height:18px;accent-color:#bd9849}
+.payment-option.selected{border-color:#bd9849;box-shadow:0 0 0 2px rgba(189,152,73,.12)}
+.payment-option .payment-help{font-size:.9rem;color:#666;margin-top:5px;line-height:1.5}
+.payment-transfer-details{display:none;margin-top:14px;padding:14px;border-radius:9px;background:#f7f4ed;color:#24211c;line-height:1.7;overflow-wrap:anywhere}
+.payment-transfer-details.show{display:block}
+.payment-number{font-weight:700;letter-spacing:.04em;white-space:nowrap}
+#paymentOptions.error{outline:2px solid #bd4b42;outline-offset:5px;border-radius:8px}
+.form-group.error input,.form-group.error select,.form-group.error textarea{border-color:#bd4b42!important;box-shadow:0 0 0 2px rgba(189,75,66,.1)}
+.form-group.error .field-error{display:block;color:#bd4b42}
+@media(max-width:600px){.payment-option{padding:15px 13px 15px 46px;margin:10px 0}.payment-option>input[type=radio]{left:15px;top:19px}.payment-transfer-details{padding:12px;font-size:.9rem}#placeOrderBtn{min-height:54px}}
