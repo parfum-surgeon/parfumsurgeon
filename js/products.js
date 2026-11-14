@@ -101,8 +101,9 @@ function productCardHTML(p) {
         <p class="short-desc">${p.shortDescription || ""}</p>
         <div class="price">${Cart.formatPrice(p.price)}</div>
         <div class="card-actions">
-          <button class="btn btn-outline-dark" style="border:1px solid #000;color:#000;" data-action="open-modal">View Details</button>
-          <button class="btn btn-gold" data-action="add-cart">Add to Cart</button>
+          <button class="btn btn-outline-dark" style="border:1px solid #000;color:#000;" data-action="open-modal">Details</button>
+          <button class="btn btn-outline-dark" data-action="add-cart">Add to Cart</button>
+          <button class="btn btn-gold" data-action="buy-now">Buy Now</button>
         </div>
       </div>
     </article>
@@ -137,6 +138,9 @@ function renderProductGrid() {
     card.querySelector('[data-action="add-cart"]').addEventListener("click", () => {
       Cart.add(id, 1);
       showToast("Added to cart");
+    });
+    card.querySelector('[data-action="buy-now"]').addEventListener("click", () => {
+      Cart.buyNow(id, 1);
     });
   });
 }
@@ -207,5 +211,9 @@ document.addEventListener("DOMContentLoaded", () => {
     Cart.add(activeModalProduct.id, modalQty);
     showToast("Added to cart");
     closeProductModal();
+  });
+  document.getElementById("modalBuyNowBtn")?.addEventListener("click", () => {
+    if (!activeModalProduct) return;
+    Cart.buyNow(activeModalProduct.id, modalQty);
   });
 });
