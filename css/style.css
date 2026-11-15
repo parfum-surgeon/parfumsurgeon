@@ -1465,3 +1465,31 @@ img { max-width: 100%; }
   .announcement-track { animation: none; }
   .btn:hover, .filter-btn:hover, .product-card:hover, .experience-pillar:hover { transform: none; }
 }
+
+/* FAQ / AEO section & zero-overlap button/tab safeguards */
+.filter-btn { min-height: 40px; white-space: nowrap; }
+.card-actions .btn { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.faq-list { max-width: 780px; margin: 0 auto; display: grid; gap: 12px; }
+.faq-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 164, 92, 0.22);
+  border-radius: 10px;
+  padding: 16px 20px;
+  transition: border-color 0.25s ease;
+}
+.faq-item[open] { border-color: rgba(201, 164, 92, 0.55); }
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #f8f5ee;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; color: #c9a45c; font-size: 1.2rem; line-height: 1; }
+.faq-item[open] summary::after { content: "−"; }
+.faq-item p { margin: 10px 0 0; color: #cfc9bc; font-size: 0.94rem; line-height: 1.65; }
+.faq-item a { color: #e2bd70; }
