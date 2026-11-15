@@ -28,12 +28,14 @@ const Cart = {
   },
 
   add(productId, qty = 1) {
+    const pid = (productId && typeof productId === "object") ? productId.id : productId;
+    if (!pid) return;
     const items = Cart.read();
-    const existing = items.find(i => i.productId === productId);
+    const existing = items.find(i => i.productId === pid);
     if (existing) {
       existing.qty += qty;
     } else {
-      items.push({ productId, qty });
+      items.push({ productId: pid, qty });
     }
     Cart.write(items);
   },
@@ -60,7 +62,7 @@ const Cart = {
     try {
       // Keep the customer's regular cart untouched; checkout temporarily uses this one item.
       sessionStorage.setItem(BUY_NOW_KEY, JSON.stringify({ productId, qty: Math.max(1, Number(qty) || 1) }));
-      window.location.href = "checkout.html";
+      window.location.href = window.location.pathname.includes("/pages/") ? "../checkout.html" : "checkout.html";
     } catch (e) {
       showToast("Quick checkout is unavailable in this browser. Please use Add to Cart.");
     }

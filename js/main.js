@@ -52,6 +52,12 @@ function initNavToggle() {
   };
 
   const setOpen = (open, restoreFocus = false) => {
+    if (open) {
+      const header = document.querySelector(".site-header");
+      const top = header ? Math.max(0, Math.round(header.getBoundingClientRect().bottom)) : 68;
+      nav.style.setProperty("top", `${top}px`, "important");
+      nav.style.setProperty("max-height", `${Math.max(200, window.innerHeight - top)}px`, "important");
+    }
     nav.classList.toggle("open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");

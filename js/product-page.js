@@ -202,17 +202,22 @@
       if (buyBtn) { buyBtn.disabled = true; }
     } else {
       addBtn?.addEventListener("click", () => {
-        if (typeof addToCart === "function") {
-          addToCart({ ...product, price: activePrice }, qty);
-          if (typeof openCart === "function") openCart();
+        if (window.Cart && typeof Cart.add === "function") {
+          Cart.add(product.id, qty);
+          if (typeof Cart.openDrawer === "function") Cart.openDrawer();
+          if (typeof showToast === "function") showToast("Added to cart");
         }
         if (typeof window.psTrack === "function") {
           window.psTrack("add_to_cart", { currency: "PKR", value: activePrice * qty, items: [{ item_id: product.id, item_name: product.name, price: activePrice, quantity: qty }] });
         }
       });
       buyBtn?.addEventListener("click", () => {
-        if (typeof addToCart === "function") addToCart({ ...product, price: activePrice }, qty);
-        window.location.href = "checkout.html";
+        if (window.Cart && typeof Cart.buyNow === "function") {
+          Cart.buyNow(product.id, qty);
+        } else if (window.Cart && typeof Cart.add === "function") {
+          Cart.add(product.id, qty);
+          window.location.href = "checkout.html";
+        }
       });
     }
 

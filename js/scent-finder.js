@@ -82,9 +82,10 @@
     resultsEl.querySelectorAll(".finder-add-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const prod = list.find(item => String(item.id) === String(btn.dataset.id));
-        if (prod && typeof addToCart === "function") {
-          addToCart(prod, 1);
-          if (typeof openCart === "function") openCart();
+        if (prod && window.Cart && typeof Cart.add === "function") {
+          Cart.add(prod.id, 1);
+          if (typeof Cart.openDrawer === "function") Cart.openDrawer();
+          if (typeof showToast === "function") showToast("Added to cart");
         }
       });
     });
