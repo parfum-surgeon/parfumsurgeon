@@ -3026,7 +3026,13 @@ textarea {
   display: none !important;
 }
 
-.footer-brand .footer-logo {
+.footer-brand .footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.footer-logo {
   display: block;
   width: min(290px, 100%);
   height: 112px;
@@ -3069,7 +3075,13 @@ textarea {
     z-index: 3;
   }
 
-  .footer-brand .footer-logo {
+  .footer-brand .footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.footer-logo {
     margin: 0 auto 8px;
     object-position: center;
   }
@@ -3154,7 +3166,13 @@ textarea {
   gap: 14px;
 }
 
-.footer-brand .footer-logo {
+.footer-brand .footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.footer-logo {
   display: block !important;
   width: min(320px, 100%) !important;
   height: 128px !important;
@@ -3232,7 +3250,13 @@ textarea {
     text-align: center !important;
   }
 
-  .footer-brand .footer-logo {
+  .footer-brand .footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.footer-logo {
     margin: 0 auto 14px !important;
     object-position: center !important;
   }
@@ -3858,6 +3882,12 @@ img {
   background: rgba(201, 164, 92, 0.18) !important;
   transform: translateY(-1px);
 }
+.footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
 .footer-logo {
   width: 210px !important;
   max-width: 100% !important;
@@ -4167,6 +4197,12 @@ img {
   max-width: min(var(--store-logo-width-desktop, 240px), 250px) !important;
   object-fit: contain !important;
 }
+.footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
 .footer-logo {
   mix-blend-mode: normal !important;
   background: transparent !important;
@@ -4363,7 +4399,16 @@ img {
   .mood-chips { margin: -6px 0 18px !important; gap: 6px !important; }
   .mood-chip { font-size: 0.72rem !important; padding: 6px 11px !important; }
   .footer-grid { grid-template-columns: 1fr !important; text-align: left !important; }
-  .footer-brand .footer-logo { margin: 0 0 12px !important; }
+  .footer-brand { text-align: center !important; }
+  .footer-brand .footer-logo-link { display: block !important; margin: 0 auto !important; }
+  .footer-brand .footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.footer-logo { margin: 0 auto 12px !important; object-position: center !important; }
+  .footer-social { justify-content: center !important; }
 }
 @media (max-width: 380px) {
   .product-grid { grid-template-columns: 1fr !important; }
