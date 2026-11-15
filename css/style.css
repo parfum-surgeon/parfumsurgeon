@@ -3803,3 +3803,35 @@ img {
 .faq-item[open] summary::after { content: "−"; }
 .faq-item p { margin: 10px 0 0; color: #cfc9bc; font-size: 0.94rem; line-height: 1.65; }
 .faq-item a { color: #e2bd70; }
+
+/* Consistent, crisp 16:9 logo sizing across desktop, tablet, mobile, and footer */
+.logo-link img,
+#storeLogo {
+  width: var(--store-logo-width-desktop, 175px) !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 64px !important;
+  object-fit: contain !important;
+  border-radius: 6px;
+}
+.footer-logo {
+  width: 195px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 8px;
+}
+@media (max-width: 860px) {
+  .logo-link img,
+  #storeLogo {
+    width: var(--store-logo-width-mobile, 150px) !important;
+    max-height: 52px !important;
+  }
+}
+@media (max-width: 420px) {
+  .logo-link img,
+  #storeLogo {
+    width: min(var(--store-logo-width-mobile, 138px), 138px) !important;
+    max-height: 46px !important;
+  }
+}
