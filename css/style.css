@@ -4357,3 +4357,73 @@ img {
   .site-header .logo-link img,
   #storeLogo { height: 40px !important; max-width: 132px !important; }
 }
+
+/* Full-bleed animated luxury hero banner */
+.hero.hero-showcase {
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: #09090b !important;
+  display: block !important;
+  overflow: hidden;
+}
+.hero-banner-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 1520px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #09090b;
+}
+.hero-banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 640px;
+  object-fit: cover;
+  object-position: center;
+  animation: heroBreath 16s ease-in-out infinite alternate, heroFadeIn 0.85s ease both;
+}
+.hero-shimmer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 35%, rgba(230, 207, 160, 0.08) 50%, transparent 65%);
+  transform: translateX(-100%);
+  animation: heroShimmer 7s ease-in-out infinite;
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: scale(1.03); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes heroBreath {
+  from { transform: scale(1); }
+  to { transform: scale(1.035); }
+}
+@keyframes heroShimmer {
+  0%, 60% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.hero-mobile-actions {
+  display: none;
+}
+@media (max-width: 860px) {
+  .hero-banner-img {
+    max-height: none;
+    object-fit: contain;
+    animation: heroFadeIn 0.7s ease both;
+  }
+  .hero-mobile-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 12px 14px 16px;
+    background: #0b0b0c;
+  }
+  .hero-mobile-actions .btn {
+    width: 100%;
+    padding: 11px 10px;
+    font-size: 0.74rem;
+    text-align: center;
+  }
+}
