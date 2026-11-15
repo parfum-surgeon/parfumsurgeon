@@ -262,11 +262,54 @@ function renderConfirmation(order) {
   `;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+async function syncLiveProductsForCheckout() {
+  try {
+    const cachedRaw = localStorage.getItem("ps_cached_products_v1");
+    if (cachedRaw) {
+      const cached = JSON.parse(cachedRaw);
+      if (Array.isArray(cached) && cached.length) {
+        STORE_CONFIG.products = cached.map(p => ({ ...p, price: Number(p.price ?? 0) }));
+      }
+    }
+  } catch (e) {}
+
+  const cfg = STORE_CONFIG.backend || {};
+  if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;
+  try {
+    const res = await fetch(
+      `${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`,
+      { headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } }
+    );
+    if (!res.ok) return;
+    const rows = await res.json();
+    if (!Array.isArray(rows)) return;
+    const localById = new Map((STORE_CONFIG.products || []).map(p => [String(p.id), p]));
+    STORE_CONFIG.products = rows.map(row => {
+      const fb = localById.get(String(row.id)) || {};
+      return {
+        ...fb,
+        ...row,
+        id: String(row.id || fb.id || ""),
+        name: row.name || fb.name || "Parfum Surgeon",
+        size: row.size || (row.size_ml ? `${row.size_ml}ml` : fb.size || "50ml"),
+        price: Number(row.price ?? fb.price ?? 3499),
+        image: row.image || fb.image || ""
+      };
+    });
+    try { localStorage.setItem("ps_cached_products_v1", JSON.stringify(STORE_CONFIG.products)); } catch (e) {}
+  } catch (e) {
+    console.warn("Checkout product sync unavailable; using cached/built-in catalogue.", e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await syncLiveProductsForCheckout();
   const hasItems = renderOrderSummary();
   if (!hasItems) return;
   populateLocationDropdowns();
   renderPaymentOptions();
+  document.addEventListener("store:settings-updated", () => renderOrderSummary());
+  document.addEventListener("cart:updated", () => renderOrderSummary());
 
   const form = document.getElementById("checkoutForm");
   if (form) form.addEventListener("submit", handleCheckoutSubmit);

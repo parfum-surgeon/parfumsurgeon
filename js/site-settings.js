@@ -28,6 +28,7 @@
     if(s.free_delivery_threshold!==undefined)cfg.freeDeliveryThreshold=s.free_delivery_threshold===null?null:Number(s.free_delivery_threshold);
     if(s.support_email){
       cfg.brand.email=s.support_email;
+      cfg.brand.supportEmail=s.support_email;
       document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{a.href='mailto:'+s.support_email;a.textContent=s.support_email});
     }
     if(s.whatsapp_number){
@@ -41,6 +42,7 @@
       if(hero&&hero.style.backgroundImage!==nextBg)hero.style.backgroundImage=nextBg;
     }
     if(s.tagline)document.querySelectorAll('.hero .eyebrow').forEach(el=>el.textContent='Parfum Surgeon — '+s.tagline);
+    document.dispatchEvent(new CustomEvent('store:settings-updated',{detail:s}));
   }
 
   let cachedRaw=null;

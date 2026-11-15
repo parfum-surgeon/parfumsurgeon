@@ -119,6 +119,8 @@ async function loadStoreProducts() {
       renderProductGrid();
       renderSignatureGrid();
       updateCatalogStructuredData(STORE_CONFIG.products);
+      Cart.updateHeaderCount();
+      if (typeof Cart.renderDrawer === "function") Cart.renderDrawer();
     }
   } catch (e) {
     console.error("Product API unavailable; showing built-in catalogue:", e);
