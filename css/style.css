@@ -4400,7 +4400,7 @@ img {
 }
 .hero .eyebrow {
   display: inline-block;
-  margin: 0 auto auto;
+  margin: 0 auto;
   padding: 6px 16px;
   border-radius: 999px;
   background: rgba(9, 9, 11, 0.58);
@@ -4413,10 +4413,15 @@ img {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   opacity: 1 !important;
-  font-size: clamp(2.1rem, 4.8vw, 3.65rem);
-  line-height: 1.1;
-  margin: auto auto 0;
-  text-shadow: 0 6px 32px rgba(0, 0, 0, 0.78);
+  font-size: clamp(2.15rem, 4.9vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.08;
+  margin: 24px auto auto;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.9),
+    0 10px 36px rgba(0, 0, 0, 0.85),
+    0 0 28px rgba(201, 162, 75, 0.3);
 }
 .hero p {
   color: rgba(255, 255, 255, 0.94) !important;
