@@ -403,6 +403,14 @@ function openProductModal(id) {
   document.getElementById("modalPersonality").textContent = product.personality || "Refined, confident, memorable";
   document.getElementById("modalOccasions").textContent = product.occasions || "Daily wear & special evenings";
   document.getElementById("modalFamily").textContent = product.fragranceFamily || "Signature Blend";
+  const pillsEl = document.getElementById("modalNotesPills");
+  if (pillsEl) {
+    const rawTags = [product.fragranceFamily, ...(String(product.personality || "").split(","))]
+      .map(s => s.trim())
+      .filter(Boolean)
+      .slice(0, 4);
+    pillsEl.innerHTML = rawTags.map(t => `<span class="modal-note-pill">${t}</span>`).join("");
+  }
   document.getElementById("modalQty").textContent = modalQty;
   document.getElementById("modalOverlay").classList.add("open");
   document.body.style.overflow = "hidden";
