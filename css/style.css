@@ -4800,9 +4800,10 @@ img {
   html, body {
     overflow-x: clip !important;
   }
+  html.nav-open,
   body.nav-open {
     overflow: hidden !important;
-    touch-action: none;
+    overscroll-behavior: none;
   }
   .site-header {
     position: sticky !important;
@@ -4818,8 +4819,10 @@ img {
   }
   .site-header .main-nav {
     top: 68px !important;
-    max-height: calc(100dvh - 68px) !important;
+    bottom: 0 !important;
+    max-height: none !important;
     overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
   .top-promo-bar {
     font-size: 0.7rem;
