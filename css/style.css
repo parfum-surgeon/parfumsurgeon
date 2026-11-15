@@ -3804,36 +3804,84 @@ img {
 .faq-item p { margin: 10px 0 0; color: #cfc9bc; font-size: 0.94rem; line-height: 1.65; }
 .faq-item a { color: #e2bd70; }
 
-/* Consistent, crisp 16:9 logo sizing across desktop, tablet, mobile, and footer */
+/* Consistent, crisp luxury header & logo placement across desktop, tablet, and mobile */
+.site-header {
+  background: rgba(11, 11, 12, 0.96) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201, 164, 92, 0.25) !important;
+}
+.header-inner {
+  min-height: 86px !important;
+  padding: 10px 28px !important;
+  gap: 24px;
+}
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
 .logo-link img,
 #storeLogo {
-  width: var(--store-logo-width-desktop, 175px) !important;
-  max-width: 100% !important;
-  height: auto !important;
-  max-height: 64px !important;
+  height: 66px !important;
+  width: auto !important;
+  max-width: min(var(--store-logo-width-desktop, 230px), 240px) !important;
+  max-height: none !important;
   object-fit: contain !important;
-  border-radius: 6px;
+  mix-blend-mode: lighten;
+  border-radius: 0 !important;
+}
+.main-nav {
+  gap: 28px !important;
+}
+.main-nav a {
+  font-size: 0.78rem !important;
+  letter-spacing: 2px !important;
+  padding: 6px 0 !important;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px !important;
+  border: 1px solid rgba(201, 164, 92, 0.38) !important;
+  border-radius: 999px !important;
+  background: rgba(201, 164, 92, 0.08) !important;
+  color: #f4e6c3 !important;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+.cart-btn:hover {
+  border-color: #c9a45c !important;
+  background: rgba(201, 164, 92, 0.18) !important;
+  transform: translateY(-1px);
 }
 .footer-logo {
-  width: 195px !important;
+  width: 210px !important;
   max-width: 100% !important;
   height: auto !important;
   object-fit: contain !important;
-  border-radius: 8px;
+  mix-blend-mode: lighten;
 }
 @media (max-width: 860px) {
+  .header-inner { min-height: 68px !important; padding: 8px 16px !important; }
   .logo-link img,
   #storeLogo {
-    width: var(--store-logo-width-mobile, 150px) !important;
-    max-height: 52px !important;
+    height: 48px !important;
+    max-width: min(var(--store-logo-width-mobile, 165px), 175px) !important;
   }
 }
 @media (max-width: 420px) {
+  .header-inner { min-height: 64px !important; padding: 8px 12px !important; }
   .logo-link img,
   #storeLogo {
-    width: min(var(--store-logo-width-mobile, 138px), 138px) !important;
-    max-height: 46px !important;
+    height: 44px !important;
+    max-width: 145px !important;
   }
+  .cart-btn { padding: 6px 11px !important; }
 }
 
 /* Swipeable multi-image product gallery */
