@@ -265,7 +265,12 @@ const STORE_CONFIG = {
       occasions: "Daytime, office, everyday elegance",
       fragranceFamily: "Floral Fruity"
     }
-  ]
+  ],
+  analytics: {
+    ga4Id: "",
+    metaPixelId: "",
+    googleSiteVerification: ""
+  }
 };
 
 // Expose globally for the rest of the site's scripts

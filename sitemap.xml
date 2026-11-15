@@ -6,7 +6,52 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html</loc>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-antidote</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-catalyst</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-compound</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-dosage</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-elixir</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-formula</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-panacea</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-prescription</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-remedy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-serum</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
