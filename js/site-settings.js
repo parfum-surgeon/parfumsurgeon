@@ -18,8 +18,8 @@
     if(s.logo_image){document.querySelectorAll('link[rel="icon"],meta[property="og:image"]').forEach(el=>el.setAttribute(el.tagName==='META'?'content':'href',s.logo_image))}
     if(s.delivery_fee!==undefined)cfg.deliveryFee=Number(s.delivery_fee)||0;
     if(s.free_delivery_threshold!==undefined)cfg.freeDeliveryThreshold=s.free_delivery_threshold===null?null:Number(s.free_delivery_threshold);
-    if(s.support_email){document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{a.href='mailto:'+s.support_email;a.textContent=s.support_email})}
-    if(s.whatsapp_number){const w=document.getElementById('whatsappFloat');if(w){w.href='https://wa.me/'+s.whatsapp_number.replace(/\D/g,'');w.style.display='flex'}}
+    if(s.support_email){cfg.brand.email=s.support_email;document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{a.href='mailto:'+s.support_email;a.textContent=s.support_email})}
+    if(s.whatsapp_number){cfg.brand.whatsappNumber=s.whatsapp_number;const w=document.getElementById('whatsappFloat');if(w){w.href='https://wa.me/'+s.whatsapp_number.replace(/\D/g,'');w.style.display='flex'}}
     if(s.hero_image){const hero=document.querySelector('.hero');if(hero)hero.style.backgroundImage='linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.2)),url("'+s.hero_image.replace(/"/g,'%22')+'")'}
     if(s.tagline)document.querySelectorAll('.hero .eyebrow').forEach(el=>el.textContent='Parfum Surgeon — '+s.tagline);
   }catch(e){console.warn('Store settings unavailable; using built-in content.',e)}

@@ -255,8 +255,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.target === imageLightbox) closeImageLightbox();
   });
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && imageLightbox?.classList.contains("open")) {
+    if (event.key !== "Escape") return;
+    if (imageLightbox?.classList.contains("open")) {
       closeImageLightbox();
+    } else if (document.getElementById("modalOverlay")?.classList.contains("open")) {
+      closeProductModal();
     }
   });
   document.getElementById("qtyIncBtn")?.addEventListener("click", () => {

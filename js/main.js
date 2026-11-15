@@ -46,12 +46,17 @@ function initNavToggle() {
   const nav = document.getElementById("mainNav");
   if (!toggle || !nav) return;
 
+  const syncNavVisibility = () => {
+    const isDesktop = window.innerWidth > 860;
+    nav.setAttribute("aria-hidden", String(!isDesktop && !nav.classList.contains("open")));
+  };
+
   const setOpen = (open, restoreFocus = false) => {
     nav.classList.toggle("open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     toggle.innerHTML = open ? "&times;" : "&#9776;";
-    nav.setAttribute("aria-hidden", String(!open));
+    syncNavVisibility();
     document.body.classList.toggle("nav-open", open);
     if (restoreFocus && !open) toggle.focus();
   };
@@ -59,7 +64,7 @@ function initNavToggle() {
   toggle.type = "button";
   toggle.setAttribute("aria-controls", "mainNav");
   toggle.setAttribute("aria-expanded", "false");
-  nav.setAttribute("aria-hidden", "true");
+  syncNavVisibility();
 
   toggle.addEventListener("click", () => {
     setOpen(!nav.classList.contains("open"));
@@ -77,6 +82,7 @@ function initNavToggle() {
 
   window.addEventListener("resize", () => {
     if (window.innerWidth > 860) setOpen(false);
+    else syncNavVisibility();
   });
 
   window.addEventListener("orientationchange", () => {
