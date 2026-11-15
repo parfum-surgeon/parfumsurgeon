@@ -4628,3 +4628,221 @@ img {
     justify-content: center;
   }
 }
+
+/* =====================================================================
+   SCENTS N STORIES-INSPIRED EDITORIAL HEADER, COLLECTIONS & CLEAN SHOP
+   ===================================================================== */
+.top-promo-bar {
+  background: #0b0b0c;
+  color: #f4f1ea;
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 861px) {
+  .site-header.site-header-editorial {
+    padding: 0;
+  }
+  .site-header.site-header-editorial .header-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
+    row-gap: 0;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 12px 28px 0;
+  }
+  .header-search-form {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 265px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    padding: 5px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    transition: border-color 0.2s ease;
+  }
+  .header-search-form:focus-within {
+    border-color: var(--gold, #c9a24b);
+  }
+  .header-search-form input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+    outline: none;
+  }
+  .header-search-form input::placeholder {
+    color: rgba(244, 241, 234, 0.6);
+  }
+  .header-search-form button {
+    background: transparent;
+    border: 0;
+    color: #f4f1ea;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0 0 0 6px;
+  }
+  .site-header.site-header-editorial .logo-link {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+    margin: 0;
+  }
+  .site-header.site-header-editorial .header-actions {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .site-header.site-header-editorial .main-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: center;
+    gap: 28px;
+    padding: 12px 0 13px;
+    margin-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .site-header.site-header-editorial .main-nav a {
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+}
+
+@media (max-width: 860px) {
+  .header-search-form {
+    display: none !important;
+  }
+  .top-promo-bar {
+    font-size: 0.68rem;
+    padding: 7px 10px;
+  }
+}
+
+/* TOP PERFUME COLLECTIONS */
+.collections-showcase {
+  background: #ffffff;
+  padding: 54px 0 32px;
+}
+.collections-showcase .section-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.collections-showcase .section-header h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  letter-spacing: 0.06em;
+  color: #0b0b0c;
+  margin: 0;
+}
+.collections-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+.collection-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #141418;
+  box-shadow: 0 12px 28px rgba(11, 11, 12, 0.12);
+  text-decoration: none;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.collection-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 36px rgba(11, 11, 12, 0.2);
+}
+.collection-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+.collection-card:hover img {
+  transform: scale(1.05);
+}
+.collection-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 11px 12px;
+  background: rgba(11, 11, 12, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+@media (max-width: 960px) {
+  .collections-row {
+    grid-template-columns: repeat(5, minmax(175px, 1fr));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .collection-card {
+    scroll-snap-align: start;
+  }
+}
+
+/* OUR BEST SELLERS clean white surface & underline tabs */
+.shop-section-clean {
+  background: #ffffff;
+  padding-top: 28px;
+}
+.shop-section-clean .section-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.shop-section-clean .section-header h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  letter-spacing: 0.06em;
+  color: #0b0b0c;
+  margin-bottom: 6px;
+}
+.shop-section-clean .section-header p {
+  color: #71717a;
+  font-size: 0.92rem;
+  margin: 0;
+}
+.shop-section-clean .filter-group {
+  gap: 8px;
+}
+.shop-section-clean .filter-btn {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: #71717a;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+}
+.shop-section-clean .filter-btn:hover {
+  color: #0b0b0c;
+}
+.shop-section-clean .filter-btn.active {
+  background: transparent;
+  color: #0b0b0c;
+  border-bottom-color: #0b0b0c;
+}

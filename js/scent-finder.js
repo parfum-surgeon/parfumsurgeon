@@ -108,4 +108,67 @@
     renderResults();
   }
   window.addEventListener("ps:products-updated", renderResults);
+
+  // Sync Top Collection Cards with live product imagery & click filtering
+  function syncCollections() {
+    const list = (window.STORE_CONFIG && Array.isArray(window.STORE_CONFIG.products))
+      ? window.STORE_CONFIG.products
+      : [];
+    if (!list.length) return;
+    document.querySelectorAll(".collection-card[data-col-product]").forEach(card => {
+      const slug = card.dataset.colProduct;
+      const match = list.find(p =>
+        String(p.id || "").toLowerCase().includes(slug) ||
+        String(p.name || "").toLowerCase().replace(/\s+/g, "-").includes(slug)
+      );
+      if (match && match.image) {
+        const raw = Array.isArray(match.image) ? match.image[0] : String(match.image).split(",")[0].trim();
+        const url = (typeof resolveAssetPath === "function") ? resolveAssetPath(raw) : raw;
+        const img = card.querySelector("img");
+        if (img && url) img.src = url;
+      }
+    });
+  }
+
+  document.querySelectorAll(".collection-card[data-col-filter], .collection-card[data-col-mood]").forEach(card => {
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (card.dataset.colFilter) {
+        const btn = document.querySelector(`.filter-btn[data-filter="${card.dataset.colFilter}"]`);
+        if (btn) btn.click();
+      } else if (card.dataset.colMood) {
+        const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+        if (allBtn) allBtn.click();
+        const moodBtn = document.querySelector(`.mood-chip[data-mood="${card.dataset.colMood}"]`);
+        if (moodBtn) moodBtn.click();
+      }
+      const shop = document.getElementById("shop");
+      if (shop) shop.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  // Wire header search bar to #productSearch
+  const headerForm = document.getElementById("headerSearchForm");
+  const headerInput = document.getElementById("headerSearch");
+  const productSearch = document.getElementById("productSearch");
+  if (headerForm && headerInput && productSearch) {
+    headerInput.addEventListener("input", () => {
+      productSearch.value = headerInput.value;
+      productSearch.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    headerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      productSearch.value = headerInput.value;
+      productSearch.dispatchEvent(new Event("input", { bubbles: true }));
+      const shop = document.getElementById("shop");
+      if (shop) shop.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncCollections);
+  } else {
+    syncCollections();
+  }
+  window.addEventListener("ps:products-updated", syncCollections);
 })();

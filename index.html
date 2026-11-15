@@ -29,7 +29,7 @@
   <meta property="og:image"
     content="https://parfum-surgeon.github.io/parfumsurgeon/assets/logo/parfum-surgeon-logo.png">
   <link rel="icon" href="assets/logo/parfum-surgeon-logo.png">
-  <link rel="stylesheet" href="css/style.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=19">
   <script>
     try { if (localStorage.getItem('ps_cached_settings_v1')) { document.documentElement.classList.add('ps-hydrating'); setTimeout(function () { document.documentElement.classList.remove('ps-hydrating') }, 400); } } catch (e) { }
   </script>
@@ -129,23 +129,33 @@
 <body>
   <a href="#mainContent" class="skip-link">Skip to content</a>
 
-  <header class="site-header">
+  <div class="top-promo-bar" role="region" aria-label="Store Announcement">
+    Nationwide Cash on Delivery across Pakistan &nbsp;&bull;&nbsp; 12+ Hour Lasting 50ml Perfumes &nbsp;&bull;&nbsp; 30-Day Exchange
+  </div>
+
+  <header class="site-header site-header-editorial">
     <div class="header-inner">
+      <form class="header-search-form" id="headerSearchForm" role="search">
+        <input type="search" id="headerSearch" placeholder="Search perfumes, notes..." aria-label="Search perfumes">
+        <button type="submit" aria-label="Search">&#128269;</button>
+      </form>
       <a href="index.html" class="logo-link" aria-label="Parfum Surgeon Home">
         <img id="storeLogo" src="assets/logo/parfum-surgeon-logo.png" alt="Parfum Surgeon logo">
       </a>
+      <div class="header-actions">
+        <button class="cart-btn" aria-label="Open cart">&#128722;<span class="cart-count">0</span></button>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
       <nav class="main-nav" id="mainNav">
         <a href="index.html" class="active">Home</a>
         <a href="index.html?filter=all#shop">Shop All</a>
         <a href="index.html?filter=men#shop">Men's Collection</a>
         <a href="index.html?filter=women#shop">Women's Collection</a>
+        <a href="#deals">Deals &amp; Gift Box</a>
+        <a href="#scentFinder">Scent Finder</a>
         <a href="pages/about.html">About Us</a>
         <a href="pages/contact.html">Contact</a>
       </nav>
-      <div class="header-actions">
-        <button class="cart-btn" aria-label="Open cart">&#128722;<span class="cart-count">0</span></button>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
-      </div>
     </div>
   </header>
 
@@ -172,18 +182,41 @@
       </div>
     </div>
 
-    <div class="announcement-bar" aria-label="Brand highlight">
-      <div class="announcement-track">
-        <span>PARFUM SURGEON <i>&#10022;</i> THE SCIENCE OF SIGNATURE SCENTS <i>&#10022;</i> CRAFTED FOR LASTING IMPRESSIONS <i>&#10022;</i> NATIONWIDE DELIVERY ACROSS PAKISTAN <i>&#10022;</i> MEN &middot; WOMEN &middot; UNISEX</span>
-        <span aria-hidden="true">PARFUM SURGEON <i>&#10022;</i> THE SCIENCE OF SIGNATURE SCENTS <i>&#10022;</i> CRAFTED FOR LASTING IMPRESSIONS <i>&#10022;</i> NATIONWIDE DELIVERY ACROSS PAKISTAN <i>&#10022;</i> MEN &middot; WOMEN &middot; UNISEX</span>
-      </div>
-    </div>
-
-    <section class="section" id="shop">
+    <section class="section collections-showcase" id="collections">
       <div class="container">
         <div class="section-header">
-          <span class="eyebrow">Full Collection</span>
-          <h2>Ten Signature Scents. One Unforgettable Impression.</h2>
+          <h2>TOP PERFUME COLLECTIONS</h2>
+        </div>
+        <div class="collections-row" id="collectionsRow">
+          <a href="#shop" class="collection-card" data-col-filter="men" data-col-product="the-antidote">
+            <img src="assets/deals/hero-studio-bg.jpg" alt="Men's Signature Perfumes">
+            <span class="collection-label">Men's Signature</span>
+          </a>
+          <a href="#shop" class="collection-card" data-col-filter="women" data-col-product="the-serum">
+            <img src="assets/deals/hero-studio-bg.jpg" alt="Women's Luxury Perfumes">
+            <span class="collection-label">Women's Luxury</span>
+          </a>
+          <a href="#shop" class="collection-card" data-col-mood="fresh" data-col-product="the-dosage">
+            <img src="assets/deals/hero-studio-bg.jpg" alt="Daily & Office Fresh Perfumes">
+            <span class="collection-label">Office &amp; Daily</span>
+          </a>
+          <a href="#shop" class="collection-card" data-col-mood="woody" data-col-product="the-remedy">
+            <img src="assets/deals/hero-studio-bg.jpg" alt="Evening & Oud Perfumes">
+            <span class="collection-label">Evening &amp; Oud</span>
+          </a>
+          <a href="#deals" class="collection-card">
+            <img src="assets/deals/signature-duo-deal.jpg" alt="Gifting & Perfume Bundles">
+            <span class="collection-label">Gifting &amp; Bundles</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shop-section-clean" id="shop">
+      <div class="container">
+        <div class="section-header">
+          <h2>OUR BEST SELLERS</h2>
+          <p>Perfumes crafted to make every entrance unforgettable</p>
         </div>
 
         <div class="shop-controls">
@@ -503,7 +536,7 @@
   <script src="js/site-settings.js?v=4"></script>
   <script src="js/cart.js?v=4"></script>
   <script src="js/products.js?v=7"></script>
-  <script src="js/scent-finder.js?v=1"></script>
+  <script src="js/scent-finder.js?v=2"></script>
   <script src="js/main.js?v=2"></script>
 </body>
 
