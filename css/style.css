@@ -4093,3 +4093,67 @@ img {
   background: rgba(201, 164, 92, 0.32);
   color: #faf6ee;
 }
+
+/* Deal bottle showcase & bundle thumbnails */
+.deals-bottle-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px;
+  background: radial-gradient(circle at 50% 35%, rgba(201, 164, 92, 0.16), rgba(11, 11, 12, 0.95) 75%);
+  border-radius: 12px;
+}
+.deal-showcase-bottle {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 164, 92, 0.24);
+  border-radius: 10px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.deal-showcase-bottle:hover {
+  transform: translateY(-4px);
+  border-color: #c9a45c;
+}
+.deal-showcase-bottle img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  border-radius: 6px;
+}
+.deal-showcase-bottle span {
+  color: #f6f1e7;
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-align: center;
+}
+.deal-bottles-preview {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.deal-bottles-preview img {
+  width: 44px;
+  height: 54px;
+  object-fit: contain;
+  background: #0b0b0c;
+  border: 1px solid rgba(201, 164, 92, 0.28);
+  border-radius: 6px;
+  padding: 2px;
+}
+.deal-price-row {
+  color: #dfd8ca;
+  font-size: 0.85rem;
+}
+.deal-price-row strong {
+  color: #e6cfa0;
+  font-size: 0.96rem;
+}
+@media (max-width: 480px) {
+  .deals-bottle-showcase { gap: 8px; padding: 10px; }
+  .deal-showcase-bottle span { font-size: 0.68rem; }
+}

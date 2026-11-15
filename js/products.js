@@ -110,11 +110,13 @@ async function loadStoreProducts() {
     STORE_CONFIG.products = cached.map(p => normalizeStoreProduct(p));
     renderProductGrid();
     renderSignatureGrid();
+    renderDealsSection();
     updateCatalogStructuredData(STORE_CONFIG.products);
   } else if (!hasBackend) {
     STORE_CONFIG.products = localProducts;
     renderProductGrid();
     renderSignatureGrid();
+    renderDealsSection();
     updateCatalogStructuredData(STORE_CONFIG.products);
     return;
   } else {
@@ -138,6 +140,7 @@ async function loadStoreProducts() {
       STORE_CONFIG.products = nextProducts;
       renderProductGrid();
       renderSignatureGrid();
+      renderDealsSection();
       updateCatalogStructuredData(STORE_CONFIG.products);
       Cart.updateHeaderCount();
       if (typeof Cart.renderDrawer === "function") Cart.renderDrawer();
@@ -148,11 +151,87 @@ async function loadStoreProducts() {
       STORE_CONFIG.products = localProducts;
       renderProductGrid();
       renderSignatureGrid();
+      renderDealsSection();
       updateCatalogStructuredData(STORE_CONFIG.products);
     }
   }
 }
 
+
+function getDealBundles(list) {
+  const men = list.filter(p => p.gender === "men");
+  const women = list.filter(p => p.gender === "women");
+  const pick = (arr, idx, fb) => arr[idx] || list[fb] || list[0];
+  return [
+    {
+      id: "duo",
+      tag: "SIGNATURE DUO · 2 BOTTLES",
+      title: "His & Hers Pair",
+      items: [pick(men, 0, 0), pick(women, 0, 1)].filter(Boolean)
+    },
+    {
+      id: "office",
+      tag: "MOST POPULAR · 2 BOTTLES",
+      title: "Office to Evening",
+      items: [pick(men, 0, 0), pick(men, 1, 2)].filter(Boolean)
+    },
+    {
+      id: "trio",
+      tag: "GIFT BOX · 3 BOTTLES",
+      title: "Discovery Trio",
+      items: list.slice(0, 3)
+    }
+  ].filter(b => b.items.length > 0);
+}
+
+function renderDealsSection() {
+  const list = (STORE_CONFIG.products || []).filter(p => p.active !== false);
+  const showcase = document.getElementById("dealsShowcase");
+  const grid = document.getElementById("dealsGrid");
+  if (!list.length) return;
+
+  if (showcase) {
+    const featured = list.slice(0, 3);
+    showcase.innerHTML = featured.map(p => `
+      <button type="button" class="deal-showcase-bottle" data-showcase-id="${p.id}" aria-label="View ${p.name} details">
+        <img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name}" loading="lazy">
+        <span>${p.name}</span>
+      </button>
+    `).join("");
+    showcase.querySelectorAll("[data-showcase-id]").forEach(btn => {
+      btn.addEventListener("click", () => openProductModal(btn.dataset.showcaseId));
+    });
+  }
+
+  if (grid) {
+    const bundles = getDealBundles(list);
+    grid.innerHTML = bundles.map(b => {
+      const total = b.items.reduce((sum, p) => sum + Number(p.price || 0), 0);
+      const thumbs = b.items.map(p => `<img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name}" title="${p.name}">`).join("");
+      const names = b.items.map(p => p.name).join(" + ");
+      return `
+        <article class="deal-mini-card">
+          <span class="deal-tag">${b.tag}</span>
+          <h3>${b.title}</h3>
+          <div class="deal-bottles-preview">${thumbs}</div>
+          <p>${names}</p>
+          <div class="deal-price-row">Total: <strong>${Cart.formatPrice(total)}</strong></div>
+          <button type="button" class="btn btn-gold" data-deal-id="${b.id}">Order ${b.items.length} Bottles</button>
+        </article>
+      `;
+    }).join("");
+
+    grid.querySelectorAll("[data-deal-id]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const bundle = bundles.find(b => b.id === btn.dataset.dealId);
+        if (!bundle) return;
+        try { sessionStorage.removeItem("parfumSurgeonBuyNow"); } catch (e) {}
+        bundle.items.forEach(p => Cart.add(p.id, 1));
+        window.location.href = "checkout.html";
+      });
+    });
+  }
+}
 
 function renderSignatureGrid() {
   const grid = document.getElementById("signatureGrid");
@@ -318,12 +397,12 @@ function openProductModal(id) {
   setModalGalleryIndex(0);
   document.getElementById("modalTitle").textContent = product.name;
   document.getElementById("modalPrice").textContent = Cart.formatPrice(product.price);
-  document.getElementById("modalDescription").textContent = product.description || "";
+  document.getElementById("modalDescription").textContent = product.description || product.shortDescription || "A signature 50ml Parfum Surgeon fragrance crafted for lasting impression.";
   document.getElementById("modalGender").textContent = product.gender === "men" ? "Men's Collection" : product.gender === "women" ? "Women's Collection" : "Unisex Collection";
   document.getElementById("modalSize").textContent = product.size || "50ml";
-  document.getElementById("modalPersonality").textContent = product.personality || "";
-  document.getElementById("modalOccasions").textContent = product.occasions || "";
-  document.getElementById("modalFamily").textContent = product.fragranceFamily || "";
+  document.getElementById("modalPersonality").textContent = product.personality || "Refined, confident, memorable";
+  document.getElementById("modalOccasions").textContent = product.occasions || "Daily wear & special evenings";
+  document.getElementById("modalFamily").textContent = product.fragranceFamily || "Signature Blend";
   document.getElementById("modalQty").textContent = modalQty;
   document.getElementById("modalOverlay").classList.add("open");
   document.body.style.overflow = "hidden";
@@ -345,26 +424,6 @@ document.addEventListener("DOMContentLoaded", () => {
       currentMood = chip.dataset.mood || "all";
       document.querySelectorAll(".mood-chip").forEach(c => c.classList.toggle("active", c === chip));
       renderProductGrid();
-    });
-  });
-  document.querySelectorAll("[data-deal-bundle]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const list = (STORE_CONFIG.products || []).filter(p => p.active !== false);
-      if (!list.length) return;
-      const men = list.filter(p => p.gender === "men");
-      const women = list.filter(p => p.gender === "women");
-      const kind = btn.dataset.dealBundle;
-      let picks = [];
-      if (kind === "duo") {
-        picks = [men[0] || list[0], women[0] || list[1] || list[0]];
-      } else if (kind === "office") {
-        picks = [men[0] || list[0], men[1] || list[1] || list[0]];
-      } else {
-        picks = list.slice(0, 3);
-      }
-      picks.filter(Boolean).forEach(p => Cart.add(p.id, 1));
-      showToast("Bundle added to cart!");
-      document.querySelector(".cart-btn")?.click();
     });
   });
   const searchInput = document.getElementById("productSearch");
