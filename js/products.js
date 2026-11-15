@@ -3,6 +3,7 @@
    ===================================================================== */
 
 let currentFilter = "all";
+let currentMood = "all";
 let currentSearch = "";
 let modalQty = 1;
 let activeModalProduct = null;
@@ -184,11 +185,13 @@ function renderSignatureGrid() {
   });
 }
 
-function productCardHTML(p) {
+function productCardHTML(p, index = 0) {
   const genderLabel = p.gender === "men" ? "Men's" : p.gender === "women" ? "Women's" : "Unisex";
+  const badge = index < 2 ? '<span class="card-badge">Bestseller</span>' : "";
   return `
     <article class="product-card" data-id="${p.id}">
       <div class="img-wrap" data-action="open-modal">
+        ${badge}
         <img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.jpg';">
       </div>
       <div class="card-body">
@@ -216,6 +219,21 @@ function renderProductGrid() {
   if (currentFilter !== "all") {
     products = products.filter(p => p.gender === currentFilter || p.gender === "unisex");
   }
+  if (currentMood !== "all") {
+    const moodMap = {
+      woody: ["wood", "cedar", "sandal", "oud", "spic", "pepper", "vetiver", "leather"],
+      fresh: ["fresh", "citrus", "bergamot", "lemon", "aquatic", "marine", "crisp", "mint"],
+      amber: ["amber", "oriental", "musk", "vanilla", "warm", "incense", "tonka"],
+      floral: ["floral", "rose", "jasmine", "sweet", "bloom", "fruity", "peach", "berry"]
+    };
+    const terms = moodMap[currentMood] || [];
+    if (terms.length) {
+      products = products.filter(p => {
+        const hay = [p.fragranceFamily, p.shortDescription, p.description, p.personality].join(" ").toLowerCase();
+        return terms.some(t => hay.includes(t));
+      });
+    }
+  }
   if (currentSearch.trim()) {
     const q = currentSearch.trim().toLowerCase();
     products = products.filter(p =>
@@ -228,7 +246,7 @@ function renderProductGrid() {
     grid.innerHTML = `<div class="no-results">No perfumes match your search. Try a different term or filter.</div>`;
     return;
   }
-  grid.innerHTML = products.map(productCardHTML).join("");
+  grid.innerHTML = products.map((p, i) => productCardHTML(p, i)).join("");
   grid.querySelectorAll(".product-card").forEach(card => {
     const id = card.dataset.id;
     card.querySelectorAll('[data-action="open-modal"]').forEach(el =>
@@ -321,6 +339,33 @@ document.addEventListener("DOMContentLoaded", () => {
   loadStoreProducts();
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => setFilter(btn.dataset.filter));
+  });
+  document.querySelectorAll(".mood-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      currentMood = chip.dataset.mood || "all";
+      document.querySelectorAll(".mood-chip").forEach(c => c.classList.toggle("active", c === chip));
+      renderProductGrid();
+    });
+  });
+  document.querySelectorAll("[data-deal-bundle]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const list = (STORE_CONFIG.products || []).filter(p => p.active !== false);
+      if (!list.length) return;
+      const men = list.filter(p => p.gender === "men");
+      const women = list.filter(p => p.gender === "women");
+      const kind = btn.dataset.dealBundle;
+      let picks = [];
+      if (kind === "duo") {
+        picks = [men[0] || list[0], women[0] || list[1] || list[0]];
+      } else if (kind === "office") {
+        picks = [men[0] || list[0], men[1] || list[1] || list[0]];
+      } else {
+        picks = list.slice(0, 3);
+      }
+      picks.filter(Boolean).forEach(p => Cart.add(p.id, 1));
+      showToast("Bundle added to cart!");
+      document.querySelector(".cart-btn")?.click();
+    });
   });
   const searchInput = document.getElementById("productSearch");
   if (searchInput) searchInput.addEventListener("input", e => {

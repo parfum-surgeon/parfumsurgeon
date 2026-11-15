@@ -29,7 +29,7 @@
   <meta property="og:image"
     content="https://parfum-surgeon.github.io/parfumsurgeon/assets/logo/parfum-surgeon-logo.svg">
   <link rel="icon" href="assets/logo/parfum-surgeon-logo.svg">
-  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/style.css?v=8">
   <script>
     try { if (localStorage.getItem('ps_cached_settings_v1')) { document.documentElement.classList.add('ps-hydrating'); setTimeout(function () { document.documentElement.classList.remove('ps-hydrating') }, 400); } } catch (e) { }
   </script>
@@ -147,6 +147,15 @@
       </div>
     </section>
 
+    <div class="trust-strip" aria-label="Store highlights">
+      <div class="container trust-grid">
+        <div class="trust-item"><strong>12+ Hour Lasting</strong><span>High-concentration 50ml blends</span></div>
+        <div class="trust-item"><strong>Nationwide COD</strong><span>Cash on Delivery across Pakistan</span></div>
+        <div class="trust-item"><strong>30-Day Returns</strong><span>Hassle-free exchange window</span></div>
+        <div class="trust-item"><strong>Luxury Packaging</strong><span>Black &amp; gold gift-ready presentation</span></div>
+      </div>
+    </div>
+
     <div class="announcement-bar" aria-label="Brand highlight">
       <div class="announcement-track">
         <span>PARFUM SURGEON <i>&#10022;</i> THE SCIENCE OF SIGNATURE SCENTS <i>&#10022;</i> CRAFTED FOR LASTING IMPRESSIONS <i>&#10022;</i> NATIONWIDE DELIVERY ACROSS PAKISTAN <i>&#10022;</i> MEN &middot; WOMEN &middot; UNISEX</span>
@@ -173,7 +182,50 @@
           </div>
         </div>
 
+        <div class="mood-chips" id="moodChips" aria-label="Filter by scent profile">
+          <button type="button" class="mood-chip active" data-mood="all">All Notes</button>
+          <button type="button" class="mood-chip" data-mood="woody">Woody &amp; Spicy</button>
+          <button type="button" class="mood-chip" data-mood="fresh">Fresh &amp; Citrus</button>
+          <button type="button" class="mood-chip" data-mood="amber">Amber &amp; Oriental</button>
+          <button type="button" class="mood-chip" data-mood="floral">Floral &amp; Sweet</button>
+        </div>
+
         <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section-dark deals-section" id="deals">
+      <div class="container">
+        <div class="deals-hero-card">
+          <div class="deals-hero-media">
+            <img src="assets/deals/signature-duo-deal.jpg" alt="Parfum Surgeon Luxury Gift Box &amp; Signature Deals" loading="lazy">
+          </div>
+          <div class="deals-hero-copy">
+            <span class="eyebrow">Curated Bundles &amp; Gift Sets</span>
+            <h2>Signature Deals Made for Gifting &amp; Everyday Wear</h2>
+            <p>Pair your favourite Parfum Surgeon scents together for effortless day-to-night rotation or luxury gifting across Pakistan.</p>
+            <div class="deals-cards" id="dealsGrid">
+              <article class="deal-mini-card">
+                <span class="deal-tag">SIGNATURE DUO</span>
+                <h3>His &amp; Hers Pair</h3>
+                <p>1 Men's + 1 Women's 50ml signature bottle</p>
+                <button type="button" class="btn btn-gold" data-deal-bundle="duo">Add Duo to Cart</button>
+              </article>
+              <article class="deal-mini-card">
+                <span class="deal-tag">MOST POPULAR</span>
+                <h3>Office to Evening</h3>
+                <p>2 versatile daytime &amp; evening scents</p>
+                <button type="button" class="btn btn-gold" data-deal-bundle="office">Add Pair to Cart</button>
+              </article>
+              <article class="deal-mini-card">
+                <span class="deal-tag">GIFT BOX</span>
+                <h3>Discovery Trio</h3>
+                <p>3 signature 50ml bottles for the full wardrobe</p>
+                <button type="button" class="btn btn-gold" data-deal-bundle="trio">Add Trio to Cart</button>
+              </article>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -374,7 +426,7 @@
   <script src="config/store-config.js"></script>
   <script src="js/site-settings.js?v=4"></script>
   <script src="js/cart.js?v=4"></script>
-  <script src="js/products.js?v=4"></script>
+  <script src="js/products.js?v=5"></script>
   <script src="js/main.js?v=2"></script>
 </body>
 

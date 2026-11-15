@@ -3932,3 +3932,130 @@ img {
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .gallery-dots button.active { background: #c9a45c; transform: scale(1.25); }
+
+/* Scents N Stories-inspired realistic hero, trust strip, scent mood chips, deals, and bestseller badges */
+.hero {
+  background: linear-gradient(90deg, rgba(9, 9, 11, 0.84) 0%, rgba(9, 9, 11, 0.42) 60%, rgba(9, 9, 11, 0.72) 100%),
+    url("../assets/deals/hero-studio-bg.jpg") center / cover no-repeat;
+}
+.trust-strip {
+  background: #111113;
+  border-top: 1px solid rgba(201, 164, 92, 0.18);
+  border-bottom: 1px solid rgba(201, 164, 92, 0.18);
+  padding: 18px 0;
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: center;
+  padding: 6px 10px;
+}
+.trust-item strong {
+  color: #e6cfa0;
+  font-size: 0.82rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.trust-item span { color: #a8a298; font-size: 0.78rem; }
+
+.mood-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -10px 0 26px;
+}
+.mood-chip {
+  border: 1px solid #dfd6c3;
+  background: #faf7f0;
+  color: #3a3328;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
+}
+.mood-chip:hover { border-color: #c9a45c; transform: translateY(-1px); }
+.mood-chip.active { background: #111; color: #e2bd70; border-color: #111; }
+
+.product-card .img-wrap { position: relative; }
+.card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: linear-gradient(135deg, #d8b467, #b38938);
+  color: #111;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.deals-hero-card {
+  display: grid;
+  grid-template-columns: 1.05fr 1.25fr;
+  gap: 28px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 164, 92, 0.25);
+  border-radius: 16px;
+  padding: 26px;
+}
+.deals-hero-media {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 164, 92, 0.2);
+}
+.deals-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.deals-hero-copy h2 { color: #f8f5ee; margin: 8px 0 10px; }
+.deals-hero-copy > p { color: #bfb8aa; margin-bottom: 20px; line-height: 1.65; }
+.deals-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.deal-mini-card {
+  background: #141416;
+  border: 1px solid rgba(201, 164, 92, 0.24);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.deal-tag {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: #e2bd70;
+}
+.deal-mini-card h3 { color: #fff; font-size: 0.98rem; margin: 0; }
+.deal-mini-card p { color: #a8a298; font-size: 0.78rem; line-height: 1.45; flex: 1; }
+.deal-mini-card .btn { width: 100%; padding: 9px 10px; font-size: 0.72rem; }
+
+@media (max-width: 960px) {
+  .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .deals-hero-card { grid-template-columns: 1fr; }
+  .deals-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .deals-hero-card { padding: 16px; gap: 18px; }
+  .deals-cards { grid-template-columns: 1fr; }
+  .trust-item { text-align: left; padding: 4px 6px; }
+}
