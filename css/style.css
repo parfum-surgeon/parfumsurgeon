@@ -4157,3 +4157,35 @@ img {
   .deals-bottle-showcase { gap: 8px; padding: 10px; }
   .deal-showcase-bottle span { font-size: 0.68rem; }
 }
+
+/* Hero real Parfum Surgeon bottles studio backdrop */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 42%, rgba(201, 164, 92, 0.22), #09090b 72%) !important;
+}
+.hero-bottles-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 54px);
+  pointer-events: none;
+  opacity: 0.34;
+  filter: contrast(1.08) saturate(1.1);
+}
+.hero-bottles-bg img {
+  height: clamp(240px, 56vh, 460px);
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: lighten;
+  border-radius: 10px;
+}
+.hero-bottle-side { transform: scale(0.88) translateY(14px); opacity: 0.78; }
+.hero-bottle-center { transform: scale(1.04); }
+@media (max-width: 640px) {
+  .hero-bottles-bg { gap: 8px; opacity: 0.28; }
+  .hero-bottles-bg img { height: 220px; }
+}
