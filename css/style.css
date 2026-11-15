@@ -1384,3 +1384,21 @@ body.image-lightbox-open { overflow:hidden !important; }
   .product-modal .modal-purchase-actions { gap:8px !important; }
   .product-modal .modal-purchase-actions .btn { font-size:.68rem !important; padding:10px 5px !important; }
 }
+
+/* Global responsive polish across mobile, tablet, and desktop */
+html, body { overflow-x: clip; }
+img { max-width: 100%; }
+
+@media (max-width: 960px) {
+  .experience-pillars { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .product-modal { width: min(94vw, 820px); }
+}
+
+@media (max-width: 600px) {
+  .shop-controls { flex-direction: column; align-items: stretch; gap: 12px; }
+  .filter-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter-btn { flex: 1 1 auto; text-align: center; }
+  .search-box, .search-box input { width: 100%; }
+  .card-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .card-actions [data-action="open-modal"] { grid-column: 1 / -1; }
+}
