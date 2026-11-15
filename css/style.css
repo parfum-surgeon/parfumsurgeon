@@ -4059,3 +4059,37 @@ img {
   .deals-cards { grid-template-columns: 1fr; }
   .trust-item { text-align: left; padding: 4px 6px; }
 }
+
+/* Premium warm-white / pearl-ivory typography & luxury contrast across dark sections */
+.hero h1,
+.section-dark h2,
+.section-dark h3,
+.experience-heading h2,
+.deals-hero-copy h2,
+.deal-mini-card h3,
+.faq-item summary,
+.site-footer h4 {
+  color: #faf6ee !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+.hero p,
+.section-dark p,
+.experience-heading p,
+.deals-hero-copy > p,
+.deal-mini-card p,
+.faq-item p,
+.site-footer li,
+.site-footer a {
+  color: #dfd8ca !important;
+}
+.main-nav a {
+  color: #f6f1e7 !important;
+}
+.main-nav a:hover,
+.main-nav a.active {
+  color: #e6cfa0 !important;
+}
+::selection {
+  background: rgba(201, 164, 92, 0.32);
+  color: #faf6ee;
+}
