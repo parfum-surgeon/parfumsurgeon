@@ -4158,34 +4158,52 @@ img {
   .deal-showcase-bottle span { font-size: 0.68rem; }
 }
 
-/* Hero real Parfum Surgeon bottles studio backdrop */
+/* Clean Split Luxury Hero (Text Left, Seamless Bottle Right — zero box edges, zero text overlap) */
+.logo-link img,
+#storeLogo {
+  mix-blend-mode: screen !important;
+}
 .hero {
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 42%, rgba(201, 164, 92, 0.22), #09090b 72%) !important;
+  min-height: clamp(500px, 74vh, 680px) !important;
+  padding: 44px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  background: radial-gradient(circle at 75% 48%, rgba(201, 164, 92, 0.16), #09090b 65%) !important;
 }
-.hero-bottles-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
+.hero-split {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
   align-items: center;
+  gap: 32px;
+  width: 100%;
+}
+.hero-split .hero-content {
+  text-align: left !important;
+  max-width: 640px;
+}
+.hero-split .hero-ctas {
+  justify-content: flex-start !important;
+}
+.hero-visual {
+  display: flex;
   justify-content: center;
-  gap: clamp(16px, 4vw, 54px);
-  pointer-events: none;
-  opacity: 0.34;
-  filter: contrast(1.08) saturate(1.1);
+  align-items: center;
 }
-.hero-bottles-bg img {
-  height: clamp(240px, 56vh, 460px);
-  width: auto;
+.hero-featured-bottle {
+  width: min(100%, 400px);
+  max-height: 460px;
   object-fit: contain;
-  mix-blend-mode: lighten;
-  border-radius: 10px;
+  display: block;
+  -webkit-mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, #000 54%, transparent 98%);
+  mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, #000 54%, transparent 98%);
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
 }
-.hero-bottle-side { transform: scale(0.88) translateY(14px); opacity: 0.78; }
-.hero-bottle-center { transform: scale(1.04); }
-@media (max-width: 640px) {
-  .hero-bottles-bg { gap: 8px; opacity: 0.28; }
-  .hero-bottles-bg img { height: 220px; }
+@media (max-width: 860px) {
+  .hero { min-height: auto !important; padding: 36px 0 42px !important; }
+  .hero-split { grid-template-columns: 1fr; gap: 22px; }
+  .hero-split .hero-content { text-align: center !important; margin: 0 auto; }
+  .hero-split .hero-ctas { justify-content: center !important; }
+  .hero-featured-bottle { width: min(76%, 300px); max-height: 320px; }
 }
