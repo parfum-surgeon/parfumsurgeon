@@ -270,6 +270,10 @@ const STORE_CONFIG = {
     ga4Id: "",
     metaPixelId: "",
     googleSiteVerification: ""
+  },
+  supabase: {
+    get url() { return STORE_CONFIG.backend.supabaseUrl; },
+    get anonKey() { return STORE_CONFIG.backend.supabaseAnonKey; }
   }
 };
 

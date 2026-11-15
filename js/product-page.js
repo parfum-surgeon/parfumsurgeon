@@ -3,7 +3,9 @@
    ===================================================================== */
 (function () {
   const cfg = window.STORE_CONFIG || {};
-  const sb = cfg.supabase || {};
+  const sb = (cfg.supabase && cfg.supabase.url)
+    ? cfg.supabase
+    : { url: cfg.backend?.supabaseUrl || "", anonKey: cfg.backend?.supabaseAnonKey || "" };
   const RECENT_KEY = "ps_recent_products_v1";
   let qty = 1;
   let activeImages = [];

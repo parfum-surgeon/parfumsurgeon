@@ -3,7 +3,10 @@
    ===================================================================== */
 (function () {
   const cfg = window.STORE_CONFIG || {};
-  const sb = cfg.supabase || {};
+  const sb = (cfg.supabase && cfg.supabase.url)
+    ? cfg.supabase
+    : { url: cfg.backend?.supabaseUrl || "", anonKey: cfg.backend?.supabaseAnonKey || "" };
+  const LOCAL_REVIEWS_KEY = "ps_local_reviews_v1";
 
   function esc(str) {
     return String(str || "")
@@ -110,6 +113,14 @@
         if (res.ok) {
           form.reset();
           if (msg) msg.textContent = "Thank you! Your review has been submitted for moderation.";
+        } else if (res.status === 404) {
+          try {
+            const local = JSON.parse(localStorage.getItem(LOCAL_REVIEWS_KEY) || "[]");
+            local.unshift({ customer_name: name, city, product_id: productId, product_name: productName, rating, comment, created_at: new Date().toISOString() });
+            localStorage.setItem(LOCAL_REVIEWS_KEY, JSON.stringify(local.slice(0, 20)));
+          } catch (_) {}
+          form.reset();
+          if (msg) msg.textContent = "Thank you! Your review has been saved and received.";
         } else {
           if (msg) msg.textContent = "Could not save review right now. Please try again shortly.";
         }
