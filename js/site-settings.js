@@ -48,6 +48,7 @@
       if(hero&&hero.style.backgroundImage!==nextBg)hero.style.backgroundImage=nextBg;
     }
     if(s.tagline)document.querySelectorAll('.hero .eyebrow').forEach(el=>el.textContent='Parfum Surgeon — '+s.tagline);
+    window.__psHiddenImages=s.hidden_product_images||{};
     document.dispatchEvent(new CustomEvent('store:settings-updated',{detail:s}));
   }
 

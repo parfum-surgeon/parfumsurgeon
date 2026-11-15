@@ -10,21 +10,29 @@ let activeModalProduct = null;
 let modalImages = [];
 let modalImageIndex = 0;
 
-function parseProductImages(raw) {
-  if (!raw) return [];
-  if (Array.isArray(raw)) return raw.filter(Boolean);
-  const str = String(raw).trim();
-  if (str.startsWith("[")) {
-    try {
-      const arr = JSON.parse(str);
-      if (Array.isArray(arr)) return arr.filter(Boolean);
-    } catch (e) {}
+function parseProductImages(raw, productId) {
+  let list = [];
+  if (Array.isArray(raw)) list = raw.filter(Boolean);
+  else {
+    const str = String(raw || "").trim();
+    if (str.startsWith("[")) {
+      try {
+        const arr = JSON.parse(str);
+        if (Array.isArray(arr)) list = arr.filter(Boolean);
+      } catch (e) {}
+    } else if (str) {
+      list = [str];
+    }
   }
-  return str ? [str] : [];
+  const hiddenMap = window.__psHiddenImages || {};
+  const hidden = productId && Array.isArray(hiddenMap[String(productId)]) ? hiddenMap[String(productId)] : [];
+  if (!hidden.length) return list;
+  const visible = list.filter(u => !hidden.includes(u));
+  return visible.length ? visible : list;
 }
 
-function getPrimaryProductImage(raw) {
-  return parseProductImages(raw)[0] || "";
+function getPrimaryProductImage(raw, productId) {
+  return parseProductImages(raw, productId)[0] || "";
 }
 
 function updateCatalogStructuredData(products) {
@@ -44,7 +52,7 @@ function updateCatalogStructuredData(products) {
         "@type": "Product",
         "name": p.name,
         "description": p.description || p.shortDescription || "Signature fragrance from Parfum Surgeon.",
-        "image": new URL(resolveAssetPath(getPrimaryProductImage(p.image)), document.baseURI).href,
+        "image": new URL(resolveAssetPath(getPrimaryProductImage(p.image, p.id)), document.baseURI).href,
         "brand": { "@type": "Brand", "name": "Parfum Surgeon" },
         "category": p.gender === "women" ? "Women's Perfume" : p.gender === "men" ? "Men's Perfume" : "Unisex Perfume",
         "offers": {
@@ -194,7 +202,7 @@ function renderDealsSection() {
     const featured = list.slice(0, 3);
     showcase.innerHTML = featured.map(p => `
       <button type="button" class="deal-showcase-bottle" data-showcase-id="${p.id}" aria-label="View ${p.name} details">
-        <img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name}" loading="lazy">
+        <img src="${resolveAssetPath(getPrimaryProductImage(p.image, p.id))}" alt="${p.name}" loading="lazy">
         <span>${p.name}</span>
       </button>
     `).join("");
@@ -207,7 +215,7 @@ function renderDealsSection() {
     const bundles = getDealBundles(list);
     grid.innerHTML = bundles.map(b => {
       const total = b.items.reduce((sum, p) => sum + Number(p.price || 0), 0);
-      const thumbs = b.items.map(p => `<img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name}" title="${p.name}">`).join("");
+      const thumbs = b.items.map(p => `<img src="${resolveAssetPath(getPrimaryProductImage(p.image, p.id))}" alt="${p.name}" title="${p.name}">`).join("");
       const names = b.items.map(p => p.name).join(" + ");
       return `
         <article class="deal-mini-card">
@@ -243,7 +251,7 @@ function renderSignatureGrid() {
   }
   grid.innerHTML = items.map((p, index) => {
     const gender = p.gender === "women" ? "WOMEN" : p.gender === "men" ? "MEN" : "UNISEX";
-    const image = resolveAssetPath(getPrimaryProductImage(p.image));
+    const image = resolveAssetPath(getPrimaryProductImage(p.image, p.id));
     return `
       <article class="signature-card" data-signature-id="${p.id}">
         <button class="signature-image-button" type="button" aria-label="View ${p.name}">
@@ -274,7 +282,7 @@ function productCardHTML(p, index = 0) {
     <article class="product-card" data-id="${p.id}">
       <div class="img-wrap" data-action="open-modal">
         ${badge}
-        <img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.png';">
+        <img src="${resolveAssetPath(getPrimaryProductImage(p.image, p.id))}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.png';">
       </div>
       <div class="card-body">
         <div class="tag-row">
@@ -378,7 +386,7 @@ function openProductModal(id) {
   if (!product) return;
   activeModalProduct = product;
   modalQty = 1;
-  modalImages = parseProductImages(product.image);
+  modalImages = parseProductImages(product.image, product.id);
   if (!modalImages.length) modalImages = ["assets/logo/parfum-surgeon-logo.png"];
   modalImageIndex = 0;
 
