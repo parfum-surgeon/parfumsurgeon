@@ -28,9 +28,10 @@ function populateLocationDropdowns() {
 }
 
 function renderOrderSummary() {
-  const { items, subtotal, delivery, grandTotal } = Cart.getTotals();
+  const { items, subtotal, delivery, grandTotal } = Cart.getTotals(true);
   const listEl = document.getElementById("orderSummaryList");
   const totalsEl = document.getElementById("orderSummaryTotals");
+  if (!listEl || !totalsEl) return false;
 
   if (items.length === 0) {
     document.getElementById("checkoutContent").innerHTML = `
@@ -182,7 +183,7 @@ async function handleCheckoutSubmit(e) {
     return;
   }
 
-  const { items, subtotal, delivery, grandTotal } = Cart.getTotals();
+  const { items, subtotal, delivery, grandTotal } = Cart.getTotals(true);
   if (items.length === 0) {
     showToast("Your cart is empty");
     return;
