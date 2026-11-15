@@ -8,7 +8,7 @@
     if(!s)return;
     const set=(id,value)=>{const el=document.getElementById(id);if(el&&value&&el.textContent!==value)el.textContent=value};
     set('storeHeroTitle',s.hero_title);set('storeHeroText',s.hero_text);set('storeAboutText',s.about_text);
-    if(s.logo_image){
+    if(s.logo_image && s.logo_image.includes('parfum-surgeon-logo.png')){
       document.querySelectorAll('.logo-link img, .footer-logo, #storeLogo').forEach(logo=>{
         if(logo.getAttribute('src')!==s.logo_image)logo.src=s.logo_image;
       });

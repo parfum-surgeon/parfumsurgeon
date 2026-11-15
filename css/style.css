@@ -4162,15 +4162,18 @@ img {
 #storeLogo {
   mix-blend-mode: normal !important;
   background: transparent !important;
-  height: 64px !important;
+  height: 70px !important;
   width: auto !important;
-  max-width: min(var(--store-logo-width-desktop, 190px), 210px) !important;
+  max-width: min(var(--store-logo-width-desktop, 240px), 250px) !important;
+  object-fit: contain !important;
 }
 .footer-logo {
   mix-blend-mode: normal !important;
   background: transparent !important;
-  width: 210px !important;
+  width: 220px !important;
+  max-width: 100%;
   height: auto !important;
+  object-fit: contain !important;
 }
 .hero {
   position: relative;
@@ -4303,15 +4306,15 @@ img {
     transform: none !important;
     justify-self: center !important;
     width: auto !important;
-    max-width: 165px !important;
+    max-width: 185px !important;
     margin: 0 !important;
   }
   .site-header .logo-link img,
   #storeLogo {
     width: auto !important;
-    height: 46px !important;
-    max-width: 160px !important;
-    max-height: 46px !important;
+    height: 52px !important;
+    max-width: 180px !important;
+    max-height: 52px !important;
     object-fit: contain !important;
   }
   .site-header .header-actions .cart-btn {
@@ -4365,7 +4368,7 @@ img {
 @media (max-width: 380px) {
   .product-grid { grid-template-columns: 1fr !important; }
   .site-header .logo-link img,
-  #storeLogo { height: 40px !important; max-width: 132px !important; }
+  #storeLogo { height: 44px !important; max-width: 145px !important; }
 }
 
 /* Centered luxury hero with clean studio backdrop */
@@ -4449,5 +4452,179 @@ img {
   .hero-ctas .btn {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* Interactive 3-Step Scent Finder & Verified Reviews */
+.finder-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 162, 75, 0.28);
+  border-radius: 18px;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 28px;
+  align-items: start;
+}
+.finder-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.finder-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold, #c9a24b);
+  margin-bottom: 10px;
+}
+.finder-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.finder-pill {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f4f1ea;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 8px 15px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.finder-pill:hover {
+  border-color: var(--gold, #c9a24b);
+}
+.finder-pill.active {
+  background: var(--gold, #c9a24b);
+  color: #09090b;
+  border-color: var(--gold, #c9a24b);
+  font-weight: 600;
+}
+.finder-results {
+  display: grid;
+  gap: 16px;
+}
+.finder-match {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 16px;
+  background: rgba(12, 12, 14, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 14px;
+  align-items: center;
+}
+.finder-match img {
+  width: 104px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #141418;
+}
+.finder-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold, #c9a24b);
+  margin-bottom: 4px;
+}
+.finder-match-info h3 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  color: #ffffff;
+}
+.finder-match-info p {
+  margin: 0 0 12px;
+  font-size: 0.86rem;
+  color: rgba(244, 241, 234, 0.78);
+  line-height: 1.45;
+}
+.finder-match-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.finder-match-foot strong {
+  color: var(--gold, #c9a24b);
+  font-size: 1rem;
+}
+.finder-match-actions {
+  display: flex;
+  gap: 8px;
+}
+.finder-match-actions .btn {
+  padding: 8px 14px;
+  font-size: 0.76rem;
+}
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.review-card {
+  background: #ffffff;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(11, 11, 12, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+.review-stars {
+  color: #c9a24b;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+.review-quote {
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #27272a;
+}
+.review-author {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  padding-top: 12px;
+}
+.review-author strong {
+  font-size: 0.9rem;
+  color: #0b0b0c;
+}
+.review-author span {
+  font-size: 0.76rem;
+  color: #71717a;
+}
+@media (max-width: 900px) {
+  .finder-card {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .finder-match {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .finder-match img {
+    margin: 0 auto;
+    width: 130px;
+    height: 150px;
+  }
+  .finder-match-foot {
+    justify-content: center;
   }
 }
