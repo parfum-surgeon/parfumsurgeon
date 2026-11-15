@@ -48,6 +48,7 @@
     cachedRaw=localStorage.getItem(CACHE_KEY);
     if(cachedRaw)applySettings(JSON.parse(cachedRaw));
   }catch(e){}
+  document.documentElement.classList.remove('ps-hydrating');
 
   if(!cfg?.backend?.supabaseUrl||!cfg?.backend?.supabaseAnonKey)return;
   try{
