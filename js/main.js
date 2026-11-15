@@ -96,10 +96,36 @@ function initFooterYear() {
   });
 }
 
+function initTopPromoTicker() {
+  const bar = document.querySelector(".top-promo-bar");
+  if (!bar) return;
+  const messages = [
+    "Nationwide Cash on Delivery across Pakistan",
+    "12+ Hour Lasting 50ml Perfumes",
+    "30-Day Hassle-Free Exchange Policy",
+    "Curated 2-Bottle & 3-Bottle Signature Bundles"
+  ];
+  let span = bar.querySelector(".top-promo-text");
+  if (!span) {
+    bar.innerHTML = `<span class="top-promo-text">${messages[0]}</span>`;
+    span = bar.querySelector(".top-promo-text");
+  }
+  let idx = 0;
+  setInterval(() => {
+    span.classList.add("is-fading");
+    setTimeout(() => {
+      idx = (idx + 1) % messages.length;
+      span.textContent = messages[idx];
+      span.classList.remove("is-fading");
+    }, 260);
+  }, 3800);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initWhatsAppButton();
   initAdaptiveLogo();
   initNavToggle();
   initFooterYear();
+  initTopPromoTicker();
   Cart.updateHeaderCount();
 });
