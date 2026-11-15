@@ -6,6 +6,25 @@ let currentFilter = "all";
 let currentSearch = "";
 let modalQty = 1;
 let activeModalProduct = null;
+let modalImages = [];
+let modalImageIndex = 0;
+
+function parseProductImages(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.filter(Boolean);
+  const str = String(raw).trim();
+  if (str.startsWith("[")) {
+    try {
+      const arr = JSON.parse(str);
+      if (Array.isArray(arr)) return arr.filter(Boolean);
+    } catch (e) {}
+  }
+  return str ? [str] : [];
+}
+
+function getPrimaryProductImage(raw) {
+  return parseProductImages(raw)[0] || "";
+}
 
 function updateCatalogStructuredData(products) {
   const script = document.getElementById("catalogStructuredData");
@@ -24,7 +43,7 @@ function updateCatalogStructuredData(products) {
         "@type": "Product",
         "name": p.name,
         "description": p.description || p.shortDescription || "Signature fragrance from Parfum Surgeon.",
-        "image": new URL(resolveAssetPath(p.image), document.baseURI).href,
+        "image": new URL(resolveAssetPath(getPrimaryProductImage(p.image)), document.baseURI).href,
         "brand": { "@type": "Brand", "name": "Parfum Surgeon" },
         "category": p.gender === "women" ? "Women's Perfume" : p.gender === "men" ? "Men's Perfume" : "Unisex Perfume",
         "offers": {
@@ -105,7 +124,7 @@ async function loadStoreProducts() {
   try {
     const response = await fetch(
       `${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`,
-      { headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } }
+      { cache: "no-store", headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } }
     );
     if (!response.ok) throw new Error(`Product API returned ${response.status}`);
     const rows = await response.json();
@@ -144,7 +163,7 @@ function renderSignatureGrid() {
   }
   grid.innerHTML = items.map((p, index) => {
     const gender = p.gender === "women" ? "WOMEN" : p.gender === "men" ? "MEN" : "UNISEX";
-    const image = resolveAssetPath(p.image);
+    const image = resolveAssetPath(getPrimaryProductImage(p.image));
     return `
       <article class="signature-card" data-signature-id="${p.id}">
         <button class="signature-image-button" type="button" aria-label="View ${p.name}">
@@ -170,7 +189,7 @@ function productCardHTML(p) {
   return `
     <article class="product-card" data-id="${p.id}">
       <div class="img-wrap" data-action="open-modal">
-        <img src="${resolveAssetPath(p.image)}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.jpg';">
+        <img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.jpg';">
       </div>
       <div class="card-body">
         <div class="tag-row">
@@ -233,13 +252,52 @@ function setFilter(filter) {
   renderProductGrid();
 }
 
+function setModalGalleryIndex(idx) {
+  if (!modalImages.length) return;
+  modalImageIndex = (idx + modalImages.length) % modalImages.length;
+  const src = resolveAssetPath(modalImages[modalImageIndex]);
+  const modalImg = document.getElementById("modalImage");
+  if (modalImg) {
+    modalImg.src = src;
+    modalImg.alt = `${activeModalProduct?.name || "Parfum Surgeon"} (${modalImageIndex + 1}/${modalImages.length})`;
+  }
+  const lightbox = document.getElementById("imageLightbox");
+  const lightboxImg = document.getElementById("imageLightboxPhoto");
+  if (lightbox?.classList.contains("open") && lightboxImg) {
+    lightboxImg.src = src;
+  }
+  const dotsEl = document.getElementById("modalGalleryDots");
+  if (dotsEl) {
+    dotsEl.querySelectorAll("button").forEach((b, i) => b.classList.toggle("active", i === modalImageIndex));
+  }
+}
+
 function openProductModal(id) {
   const product = STORE_CONFIG.products.find(p => p.id === id);
   if (!product) return;
   activeModalProduct = product;
   modalQty = 1;
-  document.getElementById("modalImage").src = resolveAssetPath(product.image);
-  document.getElementById("modalImage").alt = product.name;
+  modalImages = parseProductImages(product.image);
+  if (!modalImages.length) modalImages = ["assets/logo/parfum-surgeon-logo.jpg"];
+  modalImageIndex = 0;
+
+  const hasMultiple = modalImages.length > 1;
+  document.getElementById("modalPrevImg")?.classList.toggle("hidden", !hasMultiple);
+  document.getElementById("modalNextImg")?.classList.toggle("hidden", !hasMultiple);
+  document.getElementById("lightboxPrevImg")?.classList.toggle("hidden", !hasMultiple);
+  document.getElementById("lightboxNextImg")?.classList.toggle("hidden", !hasMultiple);
+
+  const dotsEl = document.getElementById("modalGalleryDots");
+  if (dotsEl) {
+    dotsEl.innerHTML = hasMultiple
+      ? modalImages.map((_, i) => `<button type="button" aria-label="Image ${i + 1}" class="${i === 0 ? "active" : ""}"></button>`).join("")
+      : "";
+    dotsEl.querySelectorAll("button").forEach((b, i) => {
+      b.addEventListener("click", e => { e.stopPropagation(); setModalGalleryIndex(i); });
+    });
+  }
+
+  setModalGalleryIndex(0);
   document.getElementById("modalTitle").textContent = product.name;
   document.getElementById("modalPrice").textContent = Cart.formatPrice(product.price);
   document.getElementById("modalDescription").textContent = product.description || "";
@@ -294,7 +352,25 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.remove("image-lightbox-open");
     if (imageLightboxPhoto) imageLightboxPhoto.removeAttribute("src");
   };
-  document.getElementById("modalImageWrap")?.addEventListener("click", openImageLightbox);
+  const attachSwipe = (el) => {
+    if (!el) return;
+    let startX = 0;
+    el.addEventListener("touchstart", e => { startX = e.touches[0]?.clientX || 0; }, { passive: true });
+    el.addEventListener("touchend", e => {
+      if (modalImages.length <= 1) return;
+      const endX = e.changedTouches[0]?.clientX || 0;
+      const diff = endX - startX;
+      if (Math.abs(diff) > 40) setModalGalleryIndex(modalImageIndex + (diff < 0 ? 1 : -1));
+    }, { passive: true });
+  };
+  const modalWrap = document.getElementById("modalImageWrap");
+  attachSwipe(modalWrap);
+  attachSwipe(imageLightbox);
+  document.getElementById("modalPrevImg")?.addEventListener("click", e => { e.stopPropagation(); setModalGalleryIndex(modalImageIndex - 1); });
+  document.getElementById("modalNextImg")?.addEventListener("click", e => { e.stopPropagation(); setModalGalleryIndex(modalImageIndex + 1); });
+  document.getElementById("lightboxPrevImg")?.addEventListener("click", e => { e.stopPropagation(); setModalGalleryIndex(modalImageIndex - 1); });
+  document.getElementById("lightboxNextImg")?.addEventListener("click", e => { e.stopPropagation(); setModalGalleryIndex(modalImageIndex + 1); });
+  modalWrap?.addEventListener("click", openImageLightbox);
   imageLightboxClose?.addEventListener("click", closeImageLightbox);
   imageLightbox?.addEventListener("click", event => {
     if (event.target === imageLightbox) closeImageLightbox();

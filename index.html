@@ -29,7 +29,7 @@
   <meta property="og:image"
     content="https://parfum-surgeon.github.io/parfumsurgeon/assets/logo/parfum-surgeon-logo.svg">
   <link rel="icon" href="assets/logo/parfum-surgeon-logo.svg">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
   <script>
     try { if (localStorage.getItem('ps_cached_settings_v1')) { document.documentElement.classList.add('ps-hydrating'); setTimeout(function () { document.documentElement.classList.remove('ps-hydrating') }, 400); } } catch (e) { }
   </script>
@@ -272,6 +272,9 @@
       <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
       <div class="modal-image" id="modalImageWrap">
         <img id="modalImage" src="" alt="">
+        <button type="button" class="gallery-arrow prev hidden" id="modalPrevImg" aria-label="Previous image">&#10094;</button>
+        <button type="button" class="gallery-arrow next hidden" id="modalNextImg" aria-label="Next image">&#10095;</button>
+        <div class="gallery-dots" id="modalGalleryDots"></div>
       </div>
       <div class="modal-details">
         <span class="eyebrow" id="modalGender"></span>
@@ -304,8 +307,10 @@
     aria-label="Full size product image">
     <button class="image-lightbox-close" id="imageLightboxClose" type="button"
       aria-label="Close full size image">&times;</button>
+    <button type="button" class="gallery-arrow lightbox-arrow prev hidden" id="lightboxPrevImg" aria-label="Previous image">&#10094;</button>
     <img id="imageLightboxPhoto" src="" alt="">
-    <span class="image-lightbox-hint">Tap outside or close to return</span>
+    <button type="button" class="gallery-arrow lightbox-arrow next hidden" id="lightboxNextImg" aria-label="Next image">&#10095;</button>
+    <span class="image-lightbox-hint" id="lightboxHint">Swipe or tap outside to close</span>
   </div>
 
   <!-- Cart Drawer -->
@@ -371,9 +376,9 @@
   </footer>
 
   <script src="config/store-config.js"></script>
-  <script src="js/site-settings.js?v=3"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/products.js?v=3"></script>
+  <script src="js/site-settings.js?v=4"></script>
+  <script src="js/cart.js?v=4"></script>
+  <script src="js/products.js?v=4"></script>
   <script src="js/main.js?v=2"></script>
 </body>
 

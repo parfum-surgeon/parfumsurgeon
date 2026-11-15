@@ -55,7 +55,7 @@
   if(!cfg?.backend?.supabaseUrl||!cfg?.backend?.supabaseAnonKey)return;
   try{
     const url=cfg.backend.supabaseUrl+'/rest/v1/site_settings?key=eq.storefront&select=value';
-    const res=await fetch(url,{headers:{apikey:cfg.backend.supabaseAnonKey,Authorization:'Bearer '+cfg.backend.supabaseAnonKey}});
+    const res=await fetch(url,{cache:'no-store',headers:{apikey:cfg.backend.supabaseAnonKey,Authorization:'Bearer '+cfg.backend.supabaseAnonKey}});
     if(!res.ok)throw new Error('Settings request failed: '+res.status);
     const rows=await res.json(),s=rows?.[0]?.value;if(!s)return;
     const nextRaw=JSON.stringify(s);

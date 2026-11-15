@@ -97,7 +97,7 @@ const Cart = {
         name: product.name,
         gender: product.gender,
         size: product.size,
-        image: product.image,
+        image: (function(raw){if(!raw)return "";if(typeof raw==="string"&&raw.trim().startsWith("[")){try{const arr=JSON.parse(raw);if(Array.isArray(arr)&&arr.length)return arr[0];}catch(e){}}return raw;})(product.image),
         price: product.price,
         qty: item.qty,
         lineTotal: product.price * item.qty

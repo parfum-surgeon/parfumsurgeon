@@ -278,7 +278,7 @@ async function syncLiveProductsForCheckout() {
   try {
     const res = await fetch(
       `${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`,
-      { headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } }
+      { cache: "no-store", headers: { apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` } }
     );
     if (!res.ok) return;
     const rows = await res.json();
