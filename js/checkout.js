@@ -287,6 +287,8 @@ async function syncLiveProductsForCheckout() {
     const localById = new Map((STORE_CONFIG.products || []).map(p => [String(p.id), p]));
     STORE_CONFIG.products = rows.map(row => {
       const fb = localById.get(String(row.id)) || {};
+      const updatedMs = row.updated_at ? Date.parse(row.updated_at) : 0;
+      const useRepoImage = fb.image && (!row.image || !updatedMs || updatedMs < Date.parse("2026-11-15T18:00:00Z"));
       return {
         ...fb,
         ...row,
@@ -294,10 +296,10 @@ async function syncLiveProductsForCheckout() {
         name: row.name || fb.name || "Parfum Surgeon",
         size: row.size || (row.size_ml ? `${row.size_ml}ml` : fb.size || "50ml"),
         price: Number(row.price ?? fb.price ?? 3499),
-        image: row.image || fb.image || ""
+        image: useRepoImage ? fb.image : (row.image || fb.image || "")
       };
     });
-    try { localStorage.setItem("ps_cached_products_v1", JSON.stringify(STORE_CONFIG.products)); } catch (e) {}
+    try { localStorage.setItem("ps_cached_products_v2", JSON.stringify(STORE_CONFIG.products)); } catch (e) {}
   } catch (e) {
     console.warn("Checkout product sync unavailable; using cached/built-in catalogue.", e);
   }

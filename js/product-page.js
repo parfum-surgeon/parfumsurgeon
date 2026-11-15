@@ -49,10 +49,12 @@
         const byId = new Map(list.map(p => [String(p.id), p]));
         list = rows.map(r => {
           const fb = byId.get(String(r.id)) || {};
+          const updatedMs = r.updated_at ? Date.parse(r.updated_at) : 0;
+          const useRepoImage = fb.image && (!r.image || !updatedMs || updatedMs < Date.parse("2026-11-15T18:00:00Z"));
           return {
             ...fb,
             ...r,
-            image: r.image || fb.image,
+            image: useRepoImage ? fb.image : (r.image || fb.image),
             shortDescription: r.short_description || r.shortDescription || fb.shortDescription || "",
             fullDescription: r.full_description || r.fullDescription || fb.fullDescription || "",
             fragranceFamily: r.fragrance_family || r.fragranceFamily || fb.fragranceFamily || "",

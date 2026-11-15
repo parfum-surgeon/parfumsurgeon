@@ -68,6 +68,15 @@ function updateCatalogStructuredData(products) {
   script.textContent = JSON.stringify(itemList);
 }
 
+function shouldPreferRepoImage(row, fallback) {
+  if (!fallback || !fallback.image) return false;
+  if (!row || !row.image) return true;
+  const updatedMs = row.updated_at ? Date.parse(row.updated_at) : 0;
+  // Ignore pre-refresh (2026-11-14) Supabase image URLs so the new studio photos show immediately;
+  // any newer image saved via Store Control Center (updated_at > 2026-11-15T18:00Z) still wins.
+  return !updatedMs || updatedMs < Date.parse("2026-11-15T18:00:00Z");
+}
+
 function normalizeStoreProduct(p, fallback = {}) {
   const genderRaw = String(p.gender || fallback.gender || "unisex").toLowerCase();
   const gender = ["men", "male", "m"].includes(genderRaw) ? "men"
@@ -80,7 +89,7 @@ function normalizeStoreProduct(p, fallback = {}) {
     gender,
     size: p.size || p.size_ml ? (p.size || (p.size_ml + "ml")) : (fallback.size || "50ml"),
     price: Number(p.price ?? fallback.price ?? 3499),
-    image: p.image || fallback.image || "",
+    image: shouldPreferRepoImage(p, fallback) ? fallback.image : (p.image || fallback.image || ""),
     shortDescription: p.short_description || p.shortDescription || fallback.shortDescription || "",
     description: p.description || fallback.description || "",
     fragranceFamily: p.fragrance_family || p.fragranceFamily || fallback.fragranceFamily || "",
@@ -89,7 +98,7 @@ function normalizeStoreProduct(p, fallback = {}) {
   };
 }
 
-const PRODUCTS_CACHE_KEY = "ps_cached_products_v1";
+const PRODUCTS_CACHE_KEY = "ps_cached_products_v2";
 
 function readCachedProducts() {
   try {
@@ -115,7 +124,8 @@ async function loadStoreProducts() {
   const cached = hasBackend ? readCachedProducts() : null;
 
   if (cached) {
-    STORE_CONFIG.products = cached.map(p => normalizeStoreProduct(p));
+    const localMap = new Map(localProducts.map(p => [p.id, p]));
+    STORE_CONFIG.products = cached.map(p => normalizeStoreProduct(p, localMap.get(String(p.id)) || {}));
     renderProductGrid();
     renderSignatureGrid();
     renderDealsSection();
