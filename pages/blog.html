@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fragrance Journal &amp; Perfume Tips | Parfum Surgeon Pakistan</title>
+  <meta name="description" content="Read fragrance articles from Parfum Surgeon Pakistan: how to choose a signature scent, woody vs floral notes, and tips for long-lasting wear.">
+  <link rel="canonical" href="https://parfum-surgeon.github.io/parfumsurgeon/pages/blog.html">
+  <link rel="icon" href="../assets/logo/parfum-surgeon-logo.png">
+  <link rel="stylesheet" href="../css/style.css?v=20">
+</head>
+<body>
+  <div class="top-promo-bar">Nationwide Cash on Delivery across Pakistan &nbsp;&bull;&nbsp; 12+ Hour Lasting 50ml Perfumes</div>
+  <header class="site-header site-header-editorial">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-link" aria-label="Parfum Surgeon Home">
+        <img id="storeLogo" src="../assets/logo/parfum-surgeon-logo.png" alt="Parfum Surgeon logo">
+      </a>
+      <div class="header-actions">
+        <a href="wishlist.html" class="header-icon-link" aria-label="Wishlist">&#9825;<span class="wishlist-count hidden" id="headerWishlistCount">0</span></a>
+        <a href="account.html" class="header-icon-link" aria-label="My Account">&#128100;</a>
+        <a href="../checkout.html" class="cart-btn" aria-label="Cart">&#128722;<span class="cart-count">0</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
+      <nav class="main-nav" id="mainNav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#shop">Shop All</a>
+        <a href="fragrance-guide.html">Fragrance Guide</a>
+        <a href="blog.html" class="active">Journal</a>
+        <a href="track-order.html">Track Order</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-width:960px;">
+      <div class="section-header">
+        <span class="eyebrow">Parfum Surgeon Journal</span>
+        <h1>Fragrance Guides &amp; Stories</h1>
+        <p>Educational guides on choosing, layering, and wearing signature scents in Pakistan.</p>
+      </div>
+      <div class="blog-grid" id="blogGrid">
+        <article class="review-card">
+          <div>
+            <span class="eyebrow">Buying Guide</span>
+            <h3>How to Choose Your Signature Fragrance</h3>
+            <p>Start with where you wear perfume most—crisp woody scents excel in daytime offices, while warm vanilla, leather, and amber shine at night.</p>
+          </div>
+          <a href="fragrance-guide.html" class="btn btn-outline" style="color:#0b0b0c;border-color:#0b0b0c;">Read Guide</a>
+        </article>
+        <article class="review-card">
+          <div>
+            <span class="eyebrow">Notes Explained</span>
+            <h3>Woody, Floral &amp; Oriental Scents Compared</h3>
+            <p>Understand top, heart, and base notes so you know how a perfume evolves from the first spray to hour ten.</p>
+          </div>
+          <a href="fragrance-guide.html" class="btn btn-outline" style="color:#0b0b0c;border-color:#0b0b0c;">Explore Notes</a>
+        </article>
+        <article class="review-card">
+          <div>
+            <span class="eyebrow">Longevity Tips</span>
+            <h3>How to Make Your Perfume Last Longer in Pakistani Heat</h3>
+            <p>Hydrated skin, pulse-point placement, and avoiding wrist friction keep high-concentration 50ml blends projecting all day.</p>
+          </div>
+          <a href="../index.html#shop" class="btn btn-gold">Shop 50ml Collection</a>
+        </article>
+        <article class="review-card">
+          <div>
+            <span class="eyebrow">Gifting</span>
+            <h3>Choosing Perfumes for Weddings &amp; Special Occasions</h3>
+            <p>Pair a bold evening flacon with a clean daytime bottle using our curated 2-bottle and 3-bottle signature bundles.</p>
+          </div>
+          <a href="../index.html#deals" class="btn btn-gold">View Bundles</a>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div>
+    </div>
+  </footer>
+  <script src="../config/store-config.js"></script>
+  <script src="../js/wishlist.js?v=1"></script>
+  <script src="../js/cart.js?v=4"></script>
+  <script src="../js/main.js?v=2"></script>
+  <script>
+    (async function () {
+      const sb = window.STORE_CONFIG && window.STORE_CONFIG.supabase;
+      const grid = document.getElementById("blogGrid");
+      if (!sb || !sb.url || !sb.anonKey || !grid) return;
+      try {
+        const res = await fetch(`${sb.url}/rest/v1/blog_posts?select=title,category,excerpt,slug,created_at&is_published=eq.true&order=created_at.desc`, {
+          headers: { apikey: sb.anonKey, Authorization: `Bearer ${sb.anonKey}` },
+          cache: "no-store"
+        });
+        if (!res.ok) return;
+        const rows = await res.json();
+        if (Array.isArray(rows) && rows.length) {
+          grid.innerHTML = rows.map(p => `
+            <article class="review-card">
+              <div>
+                <span class="eyebrow">${p.category || "Journal"}</span>
+                <h3>${p.title}</h3>
+                <p>${p.excerpt || ""}</p>
+              </div>
+              <a href="fragrance-guide.html" class="btn btn-outline" style="color:#0b0b0c;border-color:#0b0b0c;">Read More</a>
+            </article>`).join("");
+        }
+      } catch (_) { }
+    })();
+  </script>
+</body>
+</html>

@@ -266,7 +266,10 @@ function renderSignatureGrid() {
 
 function productCardHTML(p, index = 0) {
   const genderLabel = p.gender === "men" ? "Men's" : p.gender === "women" ? "Women's" : "Unisex";
-  const badge = index < 2 ? '<span class="card-badge">Bestseller</span>' : "";
+  const outOfStock = p.inStock === false || Number(p.stock) === 0;
+  const badge = outOfStock
+    ? '<span class="card-badge" style="background:#71717a;color:#fff;">Out of Stock</span>'
+    : (index < 2 ? '<span class="card-badge">Bestseller</span>' : "");
   return `
     <article class="product-card" data-id="${p.id}">
       <div class="img-wrap" data-action="open-modal">
@@ -278,13 +281,13 @@ function productCardHTML(p, index = 0) {
           <span class="tag ${p.gender === "women" ? "tag-women" : "tag-men"}">${genderLabel}</span>
           <span class="tag tag-size">${p.size || "50ml"}</span>
         </div>
-        <h3>${p.name}</h3>
+        <h3><a href="product.html?id=${encodeURIComponent(p.id)}" style="color:inherit;text-decoration:none;">${p.name}</a></h3>
         <p class="short-desc">${p.shortDescription || ""}</p>
         <div class="price">${Cart.formatPrice(p.price)}</div>
         <div class="card-actions">
           <button class="btn btn-outline-dark" style="border:1px solid #000;color:#000;" data-action="open-modal">Details</button>
-          <button class="btn btn-outline-dark" data-action="add-cart">Add to Cart</button>
-          <button class="btn btn-gold" data-action="buy-now">Buy Now</button>
+          <button class="btn btn-outline-dark" data-action="add-cart" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Sold Out" : "Add to Cart"}</button>
+          <button class="btn btn-gold" data-action="buy-now" ${outOfStock ? "disabled" : ""}>Buy Now</button>
         </div>
       </div>
     </article>

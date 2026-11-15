@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Wishlist | Parfum Surgeon Pakistan</title>
+  <meta name="robots" content="noindex,follow">
+  <link rel="icon" href="../assets/logo/parfum-surgeon-logo.png">
+  <link rel="stylesheet" href="../css/style.css?v=20">
+</head>
+<body>
+  <div class="top-promo-bar">Nationwide Cash on Delivery across Pakistan &nbsp;&bull;&nbsp; 12+ Hour Lasting 50ml Perfumes</div>
+  <header class="site-header site-header-editorial">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-link" aria-label="Parfum Surgeon Home">
+        <img id="storeLogo" src="../assets/logo/parfum-surgeon-logo.png" alt="Parfum Surgeon logo">
+      </a>
+      <div class="header-actions">
+        <a href="wishlist.html" class="header-icon-link" aria-label="Wishlist">&#9825;<span class="wishlist-count hidden" id="headerWishlistCount">0</span></a>
+        <a href="account.html" class="header-icon-link" aria-label="My Account">&#128100;</a>
+        <a href="../checkout.html" class="cart-btn" aria-label="Cart">&#128722;<span class="cart-count">0</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
+      <nav class="main-nav" id="mainNav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#shop">Shop All</a>
+        <a href="fragrance-guide.html">Fragrance Guide</a>
+        <a href="track-order.html">Track Order</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Saved Fragrances</span>
+        <h1>Your Wishlist</h1>
+      </div>
+      <div class="product-grid" id="wishlistGrid"></div>
+      <div id="wishlistEmpty" class="text-center hidden" style="padding:36px 16px;">
+        <p style="color:#52525b;margin-bottom:18px;">Your wishlist is empty. Save your favourite scents to revisit anytime.</p>
+        <a href="../index.html#shop" class="btn btn-gold">Explore Perfumes</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div>
+    </div>
+  </footer>
+  <script src="../config/store-config.js"></script>
+  <script src="../js/wishlist.js?v=1"></script>
+  <script src="../js/cart.js?v=4"></script>
+  <script src="../js/main.js?v=2"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const grid = document.getElementById("wishlistGrid");
+      const empty = document.getElementById("wishlistEmpty");
+      const list = (window.STORE_CONFIG && window.STORE_CONFIG.products) || [];
+      function render() {
+        const ids = window.psWishlist ? window.psWishlist.getAll() : [];
+        const items = ids.map(id => list.find(p => String(p.id) === String(id))).filter(Boolean);
+        if (!items.length) {
+          grid.innerHTML = "";
+          empty.classList.remove("hidden");
+          return;
+        }
+        empty.classList.add("hidden");
+        grid.innerHTML = items.map(p => {
+          const raw = Array.isArray(p.image) ? p.image[0] : String(p.image || "").split(",")[0].trim();
+          const img = raw.startsWith("http") ? raw : `../${raw}`;
+          return `
+            <article class="product-card" style="padding:16px;">
+              <a href="../product.html?id=${encodeURIComponent(p.id)}" class="product-image" style="display:block;">
+                <img src="${img}" alt="${p.name}" loading="lazy">
+              </a>
+              <div class="product-body" style="padding:12px 0 0;">
+                <h3>${p.name}</h3>
+                <div class="product-price" style="font-weight:700;margin-bottom:12px;">PKR ${Number(p.price || 0).toLocaleString("en-PK")}</div>
+                <div style="display:flex;gap:8px;">
+                  <button type="button" class="btn btn-gold wish-add" data-id="${p.id}" style="flex:1;padding:9px;font-size:0.75rem;">Add to Cart</button>
+                  <button type="button" class="btn btn-outline wish-rem" data-id="${p.id}" style="color:#0b0b0c;border-color:#d4d4d8;padding:9px 12px;font-size:0.75rem;">Remove</button>
+                </div>
+              </div>
+            </article>`;
+        }).join("");
+        grid.querySelectorAll(".wish-add").forEach(btn => btn.addEventListener("click", () => {
+          const prod = list.find(x => String(x.id) === btn.dataset.id);
+          if (prod && typeof addToCart === "function") {
+            addToCart(prod, 1);
+            window.location.href = "../checkout.html";
+          }
+        }));
+        grid.querySelectorAll(".wish-rem").forEach(btn => btn.addEventListener("click", () => {
+          if (window.psWishlist) window.psWishlist.remove(btn.dataset.id);
+          render();
+        }));
+      }
+      render();
+    });
+  </script>
+</body>
+</html>

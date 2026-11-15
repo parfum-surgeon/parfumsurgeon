@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account | Parfum Surgeon Pakistan</title>
+  <meta name="robots" content="noindex,follow">
+  <link rel="icon" href="../assets/logo/parfum-surgeon-logo.png">
+  <link rel="stylesheet" href="../css/style.css?v=20">
+</head>
+<body>
+  <div class="top-promo-bar">Nationwide Cash on Delivery across Pakistan &nbsp;&bull;&nbsp; 12+ Hour Lasting 50ml Perfumes</div>
+  <header class="site-header site-header-editorial">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-link" aria-label="Parfum Surgeon Home">
+        <img id="storeLogo" src="../assets/logo/parfum-surgeon-logo.png" alt="Parfum Surgeon logo">
+      </a>
+      <div class="header-actions">
+        <a href="wishlist.html" class="header-icon-link" aria-label="Wishlist">&#9825;<span class="wishlist-count hidden" id="headerWishlistCount">0</span></a>
+        <a href="account.html" class="header-icon-link" aria-label="My Account">&#128100;</a>
+        <a href="../checkout.html" class="cart-btn" aria-label="Cart">&#128722;<span class="cart-count">0</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
+      <nav class="main-nav" id="mainNav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#shop">Shop All</a>
+        <a href="fragrance-guide.html">Fragrance Guide</a>
+        <a href="track-order.html">Track Order</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-width:720px;">
+      <div class="section-header">
+        <span class="eyebrow">Customer Portal</span>
+        <h1>My Parfum Surgeon Account</h1>
+      </div>
+
+      <div id="authView" class="review-submit-form" style="background:#fff;padding:24px;border-radius:16px;border:1px solid rgba(11,11,12,0.1);">
+        <div style="display:flex;gap:10px;margin-bottom:18px;">
+          <button type="button" class="btn btn-dark" id="tabLoginBtn">Sign In</button>
+          <button type="button" class="btn btn-outline" id="tabRegBtn" style="color:#0b0b0c;border-color:#d4d4d8;">Create Account</button>
+        </div>
+        <form id="customerAuthForm" style="display:grid;gap:12px;">
+          <input type="text" id="authName" placeholder="Full Name" class="hidden">
+          <input type="email" id="authEmail" placeholder="Email Address *" required>
+          <input type="password" id="authPassword" placeholder="Password (min 6 characters) *" required minlength="6">
+          <button type="submit" class="btn btn-gold" id="authSubmitBtn">Sign In</button>
+          <button type="button" id="forgotPassBtn" style="background:none;border:0;color:#71717a;text-decoration:underline;cursor:pointer;text-align:left;padding:0;">Forgot password?</button>
+          <div id="authMsg" aria-live="polite" style="font-size:0.88rem;"></div>
+        </form>
+      </div>
+
+      <div id="profileView" class="hidden" style="background:#fff;padding:24px;border-radius:16px;border:1px solid rgba(11,11,12,0.1);">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+          <div>
+            <strong id="profileEmail"></strong>
+            <div style="font-size:0.84rem;color:#71717a;">Signed in to Parfum Surgeon</div>
+          </div>
+          <button type="button" class="btn btn-outline" id="signOutBtn" style="color:#0b0b0c;border-color:#d4d4d8;">Sign Out</button>
+        </div>
+        <h3>Order History</h3>
+        <div id="customerOrders">Loading your orders...</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div>
+    </div>
+  </footer>
+  <script src="../config/store-config.js"></script>
+  <script src="../js/wishlist.js?v=1"></script>
+  <script src="../js/cart.js?v=4"></script>
+  <script src="../js/main.js?v=2"></script>
+  <script>
+    (function () {
+      const sb = window.STORE_CONFIG && window.STORE_CONFIG.supabase;
+      const SESSION_KEY = "ps_customer_session_v1";
+      let mode = "login";
+
+      const tabLogin = document.getElementById("tabLoginBtn");
+      const tabReg = document.getElementById("tabRegBtn");
+      const nameInput = document.getElementById("authName");
+      const submitBtn = document.getElementById("authSubmitBtn");
+      const msg = document.getElementById("authMsg");
+      const authView = document.getElementById("authView");
+      const profileView = document.getElementById("profileView");
+
+      function setMode(next) {
+        mode = next;
+        nameInput.classList.toggle("hidden", mode === "login");
+        submitBtn.textContent = mode === "login" ? "Sign In" : "Create Account";
+        tabLogin.className = mode === "login" ? "btn btn-dark" : "btn btn-outline";
+        tabReg.className = mode === "register" ? "btn btn-dark" : "btn btn-outline";
+        if (mode === "login") tabReg.style.color = "#0b0b0c"; else tabLogin.style.color = "#0b0b0c";
+      }
+      tabLogin.addEventListener("click", () => setMode("login"));
+      tabReg.addEventListener("click", () => setMode("register"));
+
+      async function loadProfile(session) {
+        if (!session || !session.access_token || !sb) return;
+        authView.classList.add("hidden");
+        profileView.classList.remove("hidden");
+        document.getElementById("profileEmail").textContent = session.user?.email || "Customer";
+        const box = document.getElementById("customerOrders");
+        try {
+          const email = session.user?.email || "";
+          const res = await fetch(`${sb.url}/rest/v1/orders?select=order_number,status,total_amount,created_at&customer_email=eq.${encodeURIComponent(email)}&order=created_at.desc`, {
+            headers: { apikey: sb.anonKey, Authorization: `Bearer ${session.access_token}` }
+          });
+          const rows = res.ok ? await res.json() : [];
+          if (!rows.length) { box.innerHTML = "<p>No orders found for this account yet.</p>"; return; }
+          box.innerHTML = rows.map(o => `
+            <div style="padding:12px;border-bottom:1px solid #e4e4e7;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <strong>${o.order_number}</strong>
+              <span>${String(o.status || "pending").toUpperCase()}</span>
+              <strong>PKR ${Number(o.total_amount || 0).toLocaleString("en-PK")}</strong>
+            </div>`).join("");
+        } catch (_) {
+          box.innerHTML = "<p>Unable to load order history.</p>";
+        }
+      }
+
+      document.getElementById("customerAuthForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!sb || !sb.url || !sb.anonKey) { msg.textContent = "Authentication is not configured."; return; }
+        const email = document.getElementById("authEmail").value.trim();
+        const password = document.getElementById("authPassword").value;
+        const fullName = nameInput.value.trim();
+        msg.textContent = "Please wait...";
+        const endpoint = mode === "login" ? "token?grant_type=password" : "signup";
+        const body = mode === "login" ? { email, password } : { email, password, data: { full_name: fullName } };
+        try {
+          const res = await fetch(`${sb.url}/auth/v1/${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", apikey: sb.anonKey },
+            body: JSON.stringify(body)
+          });
+          const data = await res.json();
+          if (!res.ok) { msg.textContent = data.error_description || data.msg || "Authentication failed."; return; }
+          if (data.access_token) {
+            localStorage.setItem(SESSION_KEY, JSON.stringify(data));
+            loadProfile(data);
+          } else {
+            msg.textContent = "Account created! Please check your email to verify your address.";
+          }
+        } catch (_) {
+          msg.textContent = "Network error.";
+        }
+      });
+
+      document.getElementById("forgotPassBtn").addEventListener("click", async () => {
+        const email = document.getElementById("authEmail").value.trim();
+        if (!email) { msg.textContent = "Enter your email address first."; return; }
+        if (!sb || !sb.url) return;
+        await fetch(`${sb.url}/auth/v1/recover`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: sb.anonKey },
+          body: JSON.stringify({ email })
+        });
+        msg.textContent = "If an account exists for that email, a password reset link has been sent.";
+      });
+
+      document.getElementById("signOutBtn").addEventListener("click", () => {
+        localStorage.removeItem(SESSION_KEY);
+        profileView.classList.add("hidden");
+        authView.classList.remove("hidden");
+      });
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+        if (saved && saved.access_token) loadProfile(saved);
+      } catch (_) { }
+    })();
+  </script>
+</body>
+</html>

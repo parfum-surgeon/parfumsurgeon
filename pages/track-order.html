@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Your Order | Parfum Surgeon Pakistan</title>
+  <meta name="description" content="Track your Parfum Surgeon perfume order status in Pakistan using your order number and email or phone.">
+  <link rel="canonical" href="https://parfum-surgeon.github.io/parfumsurgeon/pages/track-order.html">
+  <link rel="icon" href="../assets/logo/parfum-surgeon-logo.png">
+  <link rel="stylesheet" href="../css/style.css?v=20">
+</head>
+<body>
+  <div class="top-promo-bar">Nationwide Cash on Delivery across Pakistan &nbsp;&bull;&nbsp; 12+ Hour Lasting 50ml Perfumes</div>
+  <header class="site-header site-header-editorial">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-link" aria-label="Parfum Surgeon Home">
+        <img id="storeLogo" src="../assets/logo/parfum-surgeon-logo.png" alt="Parfum Surgeon logo">
+      </a>
+      <div class="header-actions">
+        <a href="wishlist.html" class="header-icon-link" aria-label="Wishlist">&#9825;<span class="wishlist-count hidden" id="headerWishlistCount">0</span></a>
+        <a href="account.html" class="header-icon-link" aria-label="My Account">&#128100;</a>
+        <a href="../checkout.html" class="cart-btn" aria-label="Cart">&#128722;<span class="cart-count">0</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
+      <nav class="main-nav" id="mainNav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#shop">Shop All</a>
+        <a href="fragrance-guide.html">Fragrance Guide</a>
+        <a href="blog.html">Journal</a>
+        <a href="track-order.html" class="active">Track Order</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-width:640px;">
+      <div class="section-header">
+        <span class="eyebrow">Order Status</span>
+        <h1>Track Your Order</h1>
+        <p>Enter your Order Reference (e.g. PS-...) and the Email or Mobile Number used at checkout.</p>
+      </div>
+      <form id="trackForm" class="review-submit-form" style="background:#fff;padding:24px;border-radius:16px;border:1px solid rgba(11,11,12,0.1);">
+        <div style="display:grid;gap:12px;">
+          <input type="text" id="trackOrderId" placeholder="Order Number (e.g. PS-1001) *" required>
+          <input type="text" id="trackContact" placeholder="Email or Phone Number *" required>
+          <button type="submit" class="btn btn-gold">Track Order</button>
+        </div>
+        <div id="trackResult" style="margin-top:18px;" aria-live="polite"></div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div>
+    </div>
+  </footer>
+  <script src="../config/store-config.js"></script>
+  <script src="../js/wishlist.js?v=1"></script>
+  <script src="../js/cart.js?v=4"></script>
+  <script src="../js/main.js?v=2"></script>
+  <script>
+    document.getElementById("trackForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const orderRef = document.getElementById("trackOrderId").value.trim();
+      const contact = document.getElementById("trackContact").value.trim().toLowerCase();
+      const out = document.getElementById("trackResult");
+      const sb = window.STORE_CONFIG && window.STORE_CONFIG.supabase;
+      if (!sb || !sb.url || !sb.anonKey) {
+        out.innerHTML = "<p>Tracking service is not configured.</p>";
+        return;
+      }
+      out.innerHTML = "<p>Checking order status...</p>";
+      try {
+        const res = await fetch(
+          `${sb.url}/rest/v1/orders?select=order_number,status,payment_method,payment_status,total_amount,created_at,city,customer_email,customer_phone&order_number=eq.${encodeURIComponent(orderRef)}&limit=1`,
+          { headers: { apikey: sb.anonKey, Authorization: `Bearer ${sb.anonKey}` }, cache: "no-store" }
+        );
+        const rows = res.ok ? await res.json() : [];
+        const ord = Array.isArray(rows) ? rows[0] : null;
+        if (!ord || (String(ord.customer_email || "").toLowerCase() !== contact && String(ord.customer_phone || "").replace(/\D/g, "") !== contact.replace(/\D/g, ""))) {
+          out.innerHTML = `<p style="color:#b91c1c;">No matching order found. Please check your Order Number and Email/Phone.</p>`;
+          return;
+        }
+        const statusLabel = String(ord.status || "pending").toUpperCase();
+        out.innerHTML = `
+          <div style="padding:16px;border-radius:12px;background:#faf8f3;border:1px solid rgba(201,162,75,0.4);">
+            <strong style="display:block;margin-bottom:8px;">Order ${ord.order_number}</strong>
+            <div><strong>Status:</strong> ${statusLabel}</div>
+            <div><strong>Payment:</strong> ${ord.payment_method || "COD"} (${ord.payment_status || "pending"})</div>
+            <div><strong>Total:</strong> PKR ${Number(ord.total_amount || 0).toLocaleString("en-PK")}</div>
+            <div><strong>Destination:</strong> ${ord.city || "Pakistan"}</div>
+          </div>`;
+      } catch (_) {
+        out.innerHTML = "<p>Unable to look up order right now. Please try again shortly.</p>";
+      }
+    });
+  </script>
+</body>
+</html>

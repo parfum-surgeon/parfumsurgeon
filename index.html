@@ -29,7 +29,7 @@
   <meta property="og:image"
     content="https://parfum-surgeon.github.io/parfumsurgeon/assets/logo/parfum-surgeon-logo.png">
   <link rel="icon" href="assets/logo/parfum-surgeon-logo.png">
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <script>
     try { if (localStorage.getItem('ps_cached_settings_v1')) { document.documentElement.classList.add('ps-hydrating'); setTimeout(function () { document.documentElement.classList.remove('ps-hydrating') }, 400); } } catch (e) { }
   </script>
@@ -52,7 +52,6 @@
   "priceRange": "PKR",
   "areaServed": { "@type": "Country", "name": "Pakistan" },
   "address": { "@type": "PostalAddress", "addressLocality": "Lahore", "addressCountry": "PK" },
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "480", "bestRating": "5" },
   "sameAs": ["https://www.instagram.com/parfumsurgeon", "https://www.facebook.com/share/1G25dWLNv8/?mibextid=wwXIfr"]
 }
 </script>
@@ -143,17 +142,20 @@
         <img id="storeLogo" src="assets/logo/parfum-surgeon-logo.png" alt="Parfum Surgeon logo">
       </a>
       <div class="header-actions">
+        <a href="pages/wishlist.html" class="header-icon-link" aria-label="Wishlist" title="Wishlist">&#9825;<span class="wishlist-count hidden" id="headerWishlistCount">0</span></a>
+        <a href="pages/account.html" class="header-icon-link" aria-label="My Account" title="My Account">&#128100;</a>
         <button class="cart-btn" aria-label="Open cart">&#128722;<span class="cart-count">0</span></button>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
       </div>
       <nav class="main-nav" id="mainNav">
         <a href="index.html" class="active">Home</a>
         <a href="index.html?filter=all#shop">Shop All</a>
-        <a href="index.html?filter=men#shop">Men's Collection</a>
-        <a href="index.html?filter=women#shop">Women's Collection</a>
-        <a href="#deals">Deals &amp; Gift Box</a>
-        <a href="#scentFinder">Scent Finder</a>
-        <a href="pages/about.html">About Us</a>
+        <a href="index.html?filter=men#shop">Men's</a>
+        <a href="index.html?filter=women#shop">Women's</a>
+        <a href="#deals">Deals</a>
+        <a href="pages/fragrance-guide.html">Fragrance Guide</a>
+        <a href="pages/blog.html">Journal</a>
+        <a href="pages/track-order.html">Track Order</a>
         <a href="pages/contact.html">Contact</a>
       </nav>
     </div>
@@ -302,27 +304,54 @@
     <section class="section reviews-section" id="reviews">
       <div class="container">
         <div class="section-header">
-          <span class="eyebrow">Verified Buyer Feedback · ★ 4.9 / 5.0</span>
-          <h2>Loved Across Pakistan</h2>
-          <p>Real impressions from customers in Lahore, Karachi, Islamabad &amp; beyond.</p>
+          <span class="eyebrow" id="reviewsSummaryEyebrow">Customer Reviews</span>
+          <h2>Authentic Fragrance Impressions</h2>
+          <p>Read real reviews from verified Parfum Surgeon customers or share your experience below.</p>
         </div>
-        <div class="reviews-grid">
-          <article class="review-card">
-            <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-            <p class="review-quote">"Ordered The Antidote &amp; The Catalyst bundle for my brother's wedding. Easily lasts 12+ hours on sherwani and gets compliments all night."</p>
-            <div class="review-author"><strong>Hamza Tariq</strong><span>Lahore · Verified COD Buyer</span></div>
-          </article>
-          <article class="review-card">
-            <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-            <p class="review-quote">"The Serum smells genuinely expensive — soft floral and luminous without being overpowering. Black-and-gold bottle looks luxury on my vanity."</p>
-            <div class="review-author"><strong>Ayesha Siddiqui</strong><span>Karachi · Verified Buyer</span></div>
-          </article>
-          <article class="review-card">
-            <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-            <p class="review-quote">"The Dosage is my daily office staple now. Clean, energetic projection even in Islamabad heat, and delivery reached in 2 days."</p>
-            <div class="review-author"><strong>Saad Mahmood</strong><span>Islamabad · Repeat Customer</span></div>
-          </article>
+        <div class="reviews-grid" id="reviewsGrid">
+          <div class="reviews-empty" id="reviewsEmpty">
+            <p>Customer reviews are loaded directly from our store database. Tried a Parfum Surgeon scent? Be the first to share your impression.</p>
+          </div>
         </div>
+        <div class="review-form-wrap">
+          <form class="review-submit-form" id="reviewSubmitForm">
+            <h3>Share Your Experience</h3>
+            <div class="review-form-grid">
+              <input type="text" id="revName" placeholder="Your Name *" required maxlength="80">
+              <input type="text" id="revCity" placeholder="City (e.g. Lahore, Karachi)" maxlength="60">
+              <select id="revProduct" aria-label="Select perfume">
+                <option value="">Select Perfume *</option>
+              </select>
+              <select id="revRating" aria-label="Select rating">
+                <option value="5">★★★★★ (5/5)</option>
+                <option value="4">★★★★☆ (4/5)</option>
+                <option value="3">★★★☆☆ (3/5)</option>
+                <option value="2">★★☆☆☆ (2/5)</option>
+                <option value="1">★☆☆☆☆ (1/5)</option>
+              </select>
+            </div>
+            <textarea id="revComment" rows="3" placeholder="How was the scent profile and longevity for you? *" required maxlength="600"></textarea>
+            <div class="review-form-foot">
+              <button type="submit" class="btn btn-dark">Submit Review</button>
+              <span class="review-form-msg" id="revFormMsg" aria-live="polite"></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark newsletter-band" id="newsletter">
+      <div class="container newsletter-inner">
+        <div>
+          <span class="eyebrow">Private Dispatch</span>
+          <h2>Receive New Releases &amp; Seasonal Offers</h2>
+          <p>Stay informed about new 50ml formulations, curated gift sets, and fragrance care tips.</p>
+        </div>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email address" required aria-label="Email address">
+          <button type="submit" class="btn btn-gold">Subscribe</button>
+          <span class="newsletter-msg" id="newsletterMsg" aria-live="polite"></span>
+        </form>
       </div>
     </section>
 
@@ -534,9 +563,12 @@
 
   <script src="config/store-config.js"></script>
   <script src="js/site-settings.js?v=4"></script>
+  <script src="js/wishlist.js?v=1"></script>
   <script src="js/cart.js?v=4"></script>
-  <script src="js/products.js?v=7"></script>
+  <script src="js/products.js?v=8"></script>
   <script src="js/scent-finder.js?v=2"></script>
+  <script src="js/reviews.js?v=1"></script>
+  <script src="js/analytics.js?v=1"></script>
   <script src="js/main.js?v=2"></script>
 </body>
 
