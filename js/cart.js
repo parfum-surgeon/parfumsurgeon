@@ -28,40 +28,46 @@ const Cart = {
   },
 
   add(productId, qty = 1) {
-    const pid = (productId && typeof productId === "object") ? productId.id : productId;
+    const pid = String((productId && typeof productId === "object") ? productId.id : productId || "");
     if (!pid) return;
+    try { sessionStorage.removeItem(BUY_NOW_KEY); } catch (e) {}
     const items = Cart.read();
-    const existing = items.find(i => i.productId === pid);
+    const existing = items.find(i => String(i.productId) === pid);
     if (existing) {
-      existing.qty += qty;
+      existing.qty += Math.max(1, Number(qty) || 1);
     } else {
-      items.push({ productId: pid, qty });
+      items.push({ productId: pid, qty: Math.max(1, Number(qty) || 1) });
     }
     Cart.write(items);
   },
 
   updateQty(productId, qty) {
+    const pid = String(productId || "");
+    try { sessionStorage.removeItem(BUY_NOW_KEY); } catch (e) {}
     let items = Cart.read();
     if (qty <= 0) {
-      items = items.filter(i => i.productId !== productId);
+      items = items.filter(i => String(i.productId) !== pid);
     } else {
-      const existing = items.find(i => i.productId === productId);
-      if (existing) existing.qty = qty;
+      const existing = items.find(i => String(i.productId) === pid);
+      if (existing) existing.qty = Number(qty);
     }
     Cart.write(items);
   },
 
   remove(productId) {
-    const items = Cart.read().filter(i => i.productId !== productId);
+    const pid = String(productId || "");
+    try { sessionStorage.removeItem(BUY_NOW_KEY); } catch (e) {}
+    const items = Cart.read().filter(i => String(i.productId) !== pid);
     Cart.write(items);
   },
 
   buyNow(productId, qty = 1) {
-    const product = (STORE_CONFIG.products || []).find(p => p.id === productId);
+    const pid = String((productId && typeof productId === "object") ? productId.id : productId || "");
+    const product = (STORE_CONFIG.products || []).find(p => String(p.id) === pid);
     if (!product) return;
     try {
       // Keep the customer's regular cart untouched; checkout temporarily uses this one item.
-      sessionStorage.setItem(BUY_NOW_KEY, JSON.stringify({ productId, qty: Math.max(1, Number(qty) || 1) }));
+      sessionStorage.setItem(BUY_NOW_KEY, JSON.stringify({ productId: pid, qty: Math.max(1, Number(qty) || 1) }));
       window.location.href = window.location.pathname.includes("/pages/") ? "../checkout.html" : "checkout.html";
     } catch (e) {
       showToast("Quick checkout is unavailable in this browser. Please use Add to Cart.");
@@ -92,26 +98,28 @@ const Cart = {
       if (quickBuy?.productId) items = [{ productId: quickBuy.productId, qty: Math.max(1, Number(quickBuy.qty) || 1) }];
     } catch (e) {}
     return items.map(item => {
-      const product = STORE_CONFIG.products.find(p => p.id === item.productId);
+      const product = (STORE_CONFIG.products || []).find(p => String(p.id) === String(item.productId));
       if (!product) return null;
+      const unitPrice = Number(product.price || 0);
+      const qty = Math.max(1, Number(item.qty) || 1);
       return {
-        id: product.id,
+        id: String(product.id),
         name: product.name,
         gender: product.gender,
-        size: product.size,
-        image: (function(raw){if(!raw)return "";if(typeof raw==="string"&&raw.trim().startsWith("[")){try{const arr=JSON.parse(raw);if(Array.isArray(arr)&&arr.length)return arr[0];}catch(e){}}return raw;})(product.image),
-        price: product.price,
-        qty: item.qty,
-        lineTotal: product.price * item.qty
+        size: product.size || "50ml",
+        image: (function(raw){if(!raw)return "";if(typeof raw==="string"&&raw.trim().startsWith("[")){try{const arr=JSON.parse(raw);if(Array.isArray(arr)&&arr.length)return arr[0];}catch(e){}}return Array.isArray(raw)?raw[0]:String(raw).split(",")[0].trim();})(product.image),
+        price: unitPrice,
+        qty,
+        lineTotal: unitPrice * qty
       };
     }).filter(Boolean);
   },
 
   getTotals() {
     const items = Cart.getDetailedItems();
-    const subtotal = items.reduce((sum, i) => sum + i.lineTotal, 0);
-    let delivery = STORE_CONFIG.deliveryFee;
-    if (STORE_CONFIG.freeDeliveryThreshold && subtotal >= STORE_CONFIG.freeDeliveryThreshold) {
+    const subtotal = items.reduce((sum, i) => sum + Number(i.lineTotal || 0), 0);
+    let delivery = Number(STORE_CONFIG.deliveryFee || 0);
+    if (STORE_CONFIG.freeDeliveryThreshold && subtotal >= Number(STORE_CONFIG.freeDeliveryThreshold)) {
       delivery = 0;
     }
     if (items.length === 0) delivery = 0;
@@ -175,9 +183,9 @@ const Cart = {
 
     container.querySelectorAll("[data-action]").forEach(btn => {
       btn.addEventListener("click", () => {
-        const id = btn.closest(".cart-item").dataset.id;
+        const id = String(btn.closest(".cart-item").dataset.id);
         const action = btn.dataset.action;
-        const current = Cart.read().find(i => i.productId === id);
+        const current = Cart.read().find(i => String(i.productId) === id);
         if (!current) return;
         if (action === "inc") Cart.updateQty(id, current.qty + 1);
         if (action === "dec") Cart.updateQty(id, current.qty - 1);

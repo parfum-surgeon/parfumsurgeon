@@ -336,7 +336,8 @@ function renderProductGrid() {
     );
     card.querySelector('[data-action="add-cart"]').addEventListener("click", () => {
       Cart.add(id, 1);
-      showToast("Added to cart");
+      Cart.openDrawer();
+      if (typeof showToast === "function") showToast("Added to cart");
     });
     card.querySelector('[data-action="buy-now"]').addEventListener("click", () => {
       Cart.buyNow(id, 1);
