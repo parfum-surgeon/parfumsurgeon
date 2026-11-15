@@ -1,0 +1,23 @@
+# Parfum Surgeon — The Science of Signature Scents (2026)
+
+> Pakistani luxury fragrance house based in Lahore, Pakistan, offering ten signature 50ml perfumes for men, women, and unisex wear with nationwide Cash on Delivery (COD) and Meezan Bank transfer.
+
+## Storefront & Key Pages
+- Homepage: https://parfum-surgeon.github.io/parfumsurgeon/
+- Men's Perfumes in Pakistan: https://parfum-surgeon.github.io/parfumsurgeon/pages/mens-perfumes-pakistan.html
+- Women's Perfumes in Pakistan: https://parfum-surgeon.github.io/parfumsurgeon/pages/womens-perfumes-pakistan.html
+- Long Lasting Perfumes in Pakistan: https://parfum-surgeon.github.io/parfumsurgeon/pages/long-lasting-perfumes-pakistan.html
+- Fragrance Guide: https://parfum-surgeon.github.io/parfumsurgeon/pages/fragrance-guide.html
+- Track Order: https://parfum-surgeon.github.io/parfumsurgeon/pages/track-order.html
+
+## Signature 50ml Collection
+- THE ANTIDOTE (Men): Woody Amber — deep resinous evening scent (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-antidote)
+- THE CATALYST (Men): Tobacco Leather — rich executive confidence (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-catalyst)
+- THE COMPOUND (Men): Sweet Oriental Spicy — warm vanilla & spice night blend (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-compound)
+- THE DOSAGE (Men): Fresh Woody — crisp daily & office fragrance (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-dosage)
+- THE ELIXIR (Men): Citrus Aromatic — vibrant bright daytime scent (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-elixir)
+- THE FORMULA (Men): Warm Woody — refined subtle signature (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-formula)
+- THE PRESCRIPTION (Men): Woody Aromatic — clean modern composure (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-prescription)
+- THE REMEDY (Men): Smooth Woody — magnetic late-evening blend (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-remedy)
+- THE PANACEA (Women): Fresh Spicy — energetic modern feminine scent (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-panacea)
+- THE SERUM (Women): Floral Fruity — luminous everyday elegance (https://parfum-surgeon.github.io/parfumsurgeon/product.html?id=the-serum)

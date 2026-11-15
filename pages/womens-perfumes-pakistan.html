@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Best Women's Perfumes in Pakistan (50ml) | Luxury Floral — Parfum Surgeon</title>
+  <meta name="description" content="Explore luxury women's 50ml perfumes in Pakistan at Parfum Surgeon. Luminous floral-fruity & fresh-spicy scents like The Serum and The Panacea with Cash on Delivery.">
+  <meta name="keywords" content="women perfume pakistan, ladies perfume pakistan, floral perfume lahore karachi islamabad, gift perfume for women pakistan">
+  <link rel="canonical" href="https://parfum-surgeon.github.io/parfumsurgeon/pages/womens-perfumes-pakistan.html">
+  <link rel="icon" href="../assets/logo/parfum-surgeon-logo.png">
+  <link rel="stylesheet" href="../css/style.css?v=28">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Women's Perfumes in Pakistan — Parfum Surgeon",
+    "description": "Elegant 50ml women's signature fragrances in Pakistan with Cash on Delivery.",
+    "url": "https://parfum-surgeon.github.io/parfumsurgeon/pages/womens-perfumes-pakistan.html"
+  }
+  </script>
+</head>
+<body>
+  <div class="top-promo-bar"><span class="top-promo-text">Nationwide Cash on Delivery across Pakistan</span></div>
+  <header class="site-header site-header-editorial">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-link" aria-label="Parfum Surgeon Home"><img id="storeLogo" src="../assets/logo/parfum-surgeon-logo.png" alt="Parfum Surgeon logo"></a>
+      <div class="header-actions">
+        <a href="wishlist.html" class="header-icon-link" aria-label="Wishlist">&#9825;<span class="wishlist-count hidden" id="headerWishlistCount">0</span></a>
+        <a href="account.html" class="header-icon-link" aria-label="My Account">&#128100;</a>
+        <a href="../checkout.html" class="cart-btn" aria-label="Cart">&#128722;<span class="cart-count">0</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
+      <nav class="main-nav" id="mainNav">
+        <a href="../index.html">Home</a>
+        <a href="mens-perfumes-pakistan.html">Men's Perfumes</a>
+        <a href="womens-perfumes-pakistan.html" class="active">Women's Perfumes</a>
+        <a href="long-lasting-perfumes-pakistan.html">Long Lasting</a>
+        <a href="fragrance-guide.html">Fragrance Guide</a>
+        <a href="track-order.html">Track Order</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a> / <span>Women's Perfumes Pakistan</span></nav>
+      <div class="section-header">
+        <span class="eyebrow">Women's Collection · 50ml</span>
+        <h1>Best Women's Perfumes in Pakistan</h1>
+        <p>Refined floral, luminous fruity, and confident modern 50ml fragrances in black-and-gold presentation.</p>
+      </div>
+      <div class="product-grid" id="catProductGrid"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><div class="footer-bottom">&copy; <span class="footer-year"></span> Parfum Surgeon. All Rights Reserved.</div></div>
+  </footer>
+  <script src="../config/store-config.js"></script>
+  <script src="../js/wishlist.js?v=1"></script>
+  <script src="../js/cart.js?v=6"></script>
+  <script src="../js/main.js?v=4"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const grid = document.getElementById("catProductGrid");
+      const list = ((window.STORE_CONFIG && window.STORE_CONFIG.products) || []).filter(p => p.gender === "women" || p.gender === "unisex");
+      grid.innerHTML = list.map(p => {
+        const raw = Array.isArray(p.image) ? p.image[0] : String(p.image || "").split(",")[0].trim();
+        const img = raw.startsWith("http") ? raw : `../${raw}`;
+        return `
+          <article class="product-card" style="padding:16px;">
+            <a href="../product.html?id=${encodeURIComponent(p.id)}" class="product-image" style="display:block;"><img src="${img}" alt="${p.name} women's perfume Pakistan" loading="lazy"></a>
+            <div class="product-body" style="padding:12px 0 0;">
+              <h3><a href="../product.html?id=${encodeURIComponent(p.id)}" style="color:inherit;text-decoration:none;">${p.name}</a></h3>
+              <p style="font-size:0.86rem;color:#52525b;">${p.shortDescription || ""}</p>
+              <div class="product-price" style="font-weight:700;margin-bottom:10px;">PKR ${Number(p.price || 0).toLocaleString("en-PK")}</div>
+              <div style="display:flex;gap:8px;">
+                <a href="../product.html?id=${encodeURIComponent(p.id)}" class="btn btn-outline" style="color:#0b0b0c;border-color:#0b0b0c;flex:1;text-align:center;">Notes</a>
+                <button type="button" class="btn btn-gold cat-buy" data-id="${p.id}" style="flex:1;">Buy Now</button>
+              </div>
+            </div>
+          </article>`;
+      }).join("");
+      grid.querySelectorAll(".cat-buy").forEach(b => b.addEventListener("click", () => Cart.buyNow(b.dataset.id, 1)));
+    });
+  </script>
+</body>
+</html>

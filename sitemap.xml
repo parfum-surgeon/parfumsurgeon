@@ -100,4 +100,19 @@
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/pages/mens-perfumes-pakistan.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/pages/womens-perfumes-pakistan.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://parfum-surgeon.github.io/parfumsurgeon/pages/long-lasting-perfumes-pakistan.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
 </urlset>
