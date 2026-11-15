@@ -61,14 +61,47 @@ function normalizeStoreProduct(p, fallback = {}) {
   };
 }
 
+const PRODUCTS_CACHE_KEY = "ps_cached_products_v1";
+
+function readCachedProducts() {
+  try {
+    const raw = localStorage.getItem(PRODUCTS_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length ? parsed : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function writeCachedProducts(products) {
+  try {
+    localStorage.setItem(PRODUCTS_CACHE_KEY, JSON.stringify(products));
+  } catch (e) { /* storage unavailable */ }
+}
+
 async function loadStoreProducts() {
   const localProducts = (STORE_CONFIG.products || []).map(p => normalizeStoreProduct(p));
-  STORE_CONFIG.products = localProducts;
-  renderProductGrid();
-  renderSignatureGrid();
-  updateCatalogStructuredData(STORE_CONFIG.products);
   const cfg = STORE_CONFIG.backend || {};
-  if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) return;
+  const hasBackend = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
+  const cached = hasBackend ? readCachedProducts() : null;
+
+  if (cached) {
+    STORE_CONFIG.products = cached.map(p => normalizeStoreProduct(p));
+    renderProductGrid();
+    renderSignatureGrid();
+    updateCatalogStructuredData(STORE_CONFIG.products);
+  } else if (!hasBackend) {
+    STORE_CONFIG.products = localProducts;
+    renderProductGrid();
+    renderSignatureGrid();
+    updateCatalogStructuredData(STORE_CONFIG.products);
+    return;
+  } else {
+    const grid = document.getElementById("productGrid");
+    if (grid) grid.innerHTML = '<div class="no-results">Loading signature collection...</div>';
+  }
+
   try {
     const response = await fetch(
       `${cfg.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=name.asc`,
@@ -79,12 +112,22 @@ async function loadStoreProducts() {
     if (!Array.isArray(rows)) throw new Error("Invalid products response");
     const localById = new Map(localProducts.map(p => [p.id, p]));
     // Database is authoritative: include newly-added products, and remove hidden products.
-    STORE_CONFIG.products = rows.map(row => normalizeStoreProduct(row, localById.get(String(row.id)) || {}));
-    renderProductGrid();
-    renderSignatureGrid();
-    updateCatalogStructuredData(STORE_CONFIG.products);
+    const nextProducts = rows.map(row => normalizeStoreProduct(row, localById.get(String(row.id)) || {}));
+    writeCachedProducts(nextProducts);
+    if (JSON.stringify(nextProducts) !== JSON.stringify(STORE_CONFIG.products)) {
+      STORE_CONFIG.products = nextProducts;
+      renderProductGrid();
+      renderSignatureGrid();
+      updateCatalogStructuredData(STORE_CONFIG.products);
+    }
   } catch (e) {
     console.error("Product API unavailable; showing built-in catalogue:", e);
+    if (!cached) {
+      STORE_CONFIG.products = localProducts;
+      renderProductGrid();
+      renderSignatureGrid();
+      updateCatalogStructuredData(STORE_CONFIG.products);
+    }
   }
 }
 
