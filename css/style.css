@@ -4160,7 +4160,17 @@ img {
 /* Clean Split Luxury Hero (Text Left, Seamless Bottle Right — zero box edges, zero text overlap) */
 .logo-link img,
 #storeLogo {
-  mix-blend-mode: screen !important;
+  mix-blend-mode: normal !important;
+  background: transparent !important;
+  height: 64px !important;
+  width: auto !important;
+  max-width: min(var(--store-logo-width-desktop, 190px), 210px) !important;
+}
+.footer-logo {
+  mix-blend-mode: normal !important;
+  background: transparent !important;
+  width: 210px !important;
+  height: auto !important;
 }
 .hero {
   position: relative;

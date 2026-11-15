@@ -248,7 +248,7 @@ function renderSignatureGrid() {
       <article class="signature-card" data-signature-id="${p.id}">
         <button class="signature-image-button" type="button" aria-label="View ${p.name}">
           <span class="signature-number">${String(index + 1).padStart(2, "0")}</span>
-          <img src="${image}" alt="${p.name} perfume bottle" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.jpg';">
+          <img src="${image}" alt="${p.name} perfume bottle" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.png';">
         </button>
         <div class="signature-card-body">
           <span class="signature-category">${gender} <i></i> ${p.size || "50ml"}</span>
@@ -271,7 +271,7 @@ function productCardHTML(p, index = 0) {
     <article class="product-card" data-id="${p.id}">
       <div class="img-wrap" data-action="open-modal">
         ${badge}
-        <img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.jpg';">
+        <img src="${resolveAssetPath(getPrimaryProductImage(p.image))}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.png';">
       </div>
       <div class="card-body">
         <div class="tag-row">
@@ -375,7 +375,7 @@ function openProductModal(id) {
   activeModalProduct = product;
   modalQty = 1;
   modalImages = parseProductImages(product.image);
-  if (!modalImages.length) modalImages = ["assets/logo/parfum-surgeon-logo.jpg"];
+  if (!modalImages.length) modalImages = ["assets/logo/parfum-surgeon-logo.png"];
   modalImageIndex = 0;
 
   const hasMultiple = modalImages.length > 1;

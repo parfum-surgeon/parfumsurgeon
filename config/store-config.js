@@ -27,7 +27,7 @@ const STORE_CONFIG = {
     // Leave blank until you have a number. Format: "923001234567" (no + , no spaces).
     // The WhatsApp button automatically hides itself when this is blank.
     whatsappNumber: "",
-    logoImage: "assets/logo/parfum-surgeon-logo.jpg"
+    logoImage: "assets/logo/parfum-surgeon-logo.png"
   },
 
   // ---------------------------------------------------------------
