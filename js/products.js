@@ -147,7 +147,7 @@ function renderSignatureGrid() {
       <article class="signature-card" data-signature-id="${p.id}">
         <button class="signature-image-button" type="button" aria-label="View ${p.name}">
           <span class="signature-number">${String(index + 1).padStart(2, "0")}</span>
-          <img src="${image}" alt="${p.name} perfume bottle" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.svg';">
+          <img src="${image}" alt="${p.name} perfume bottle" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.jpg';">
         </button>
         <div class="signature-card-body">
           <span class="signature-category">${gender} <i></i> ${p.size || "50ml"}</span>
@@ -168,7 +168,7 @@ function productCardHTML(p) {
   return `
     <article class="product-card" data-id="${p.id}">
       <div class="img-wrap" data-action="open-modal">
-        <img src="${resolveAssetPath(p.image)}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.svg';">
+        <img src="${resolveAssetPath(p.image)}" alt="${p.name} - Parfum Surgeon ${genderLabel} perfume" loading="lazy" onerror="this.onerror=null;this.src='assets/logo/parfum-surgeon-logo.jpg';">
       </div>
       <div class="card-body">
         <div class="tag-row">
