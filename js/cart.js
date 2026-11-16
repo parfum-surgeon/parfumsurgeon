@@ -233,7 +233,7 @@ function resolveAssetPath(path) {
   const inPagesFolder = window.location.pathname.includes("/pages/");
   const resolved = inPagesFolder ? "../" + path : path;
   if (/\.(jpg|jpeg|png|webp)$/i.test(resolved) && !resolved.includes("?")) {
-    return resolved + "?v=2";
+    return resolved + "?v=3";
   }
   return resolved;
 }
