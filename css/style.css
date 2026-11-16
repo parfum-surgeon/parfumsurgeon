@@ -4427,7 +4427,7 @@ img {
   padding: 34px 24px 44px !important;
   background:
     linear-gradient(180deg, rgba(9, 9, 11, 0.7) 0%, rgba(9, 9, 11, 0.42) 48%, rgba(9, 9, 11, 0.84) 100%),
-    url("../assets/deals/hero-studio-bg.jpg") center / cover no-repeat !important;
+    url("../assets/deals/hero-studio-bg.jpg?v=2") center / cover no-repeat !important;
   overflow: hidden;
 }
 .hero-content {
